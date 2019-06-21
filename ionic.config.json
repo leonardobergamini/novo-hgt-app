@@ -1,5 +1,7 @@
 {
-    "name": "novo-hgt-app",
-    "integrations": {},
-    "type": "angular"
+  "name": "novo-hgt-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
 }

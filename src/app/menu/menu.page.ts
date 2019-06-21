@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { getInjectableDef } from '@angular/core/src/di/defs';
+import { IonTabs } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -8,11 +9,10 @@ import { getInjectableDef } from '@angular/core/src/di/defs';
 })
 export class MenuPage implements OnInit {
 
+  @ViewChild('menu') menu: IonTabs
   constructor() { }
 
   ngOnInit() {
     
   }
-
-
 }
