@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes, ChildActivationEnd } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { MenuPage } from './menu.page';
+import { MenuPageModule } from './menu.module';
 
 const routes: Routes = [
   {
@@ -29,14 +30,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: './explorar',
+        redirectTo: '123',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: './menu',
+    redirectTo: 'menu/explorar',
     pathMatch: 'full'
   }
 ];
