@@ -13,7 +13,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './explorar/explorar.module#ExplorarPageModule'
+            loadChildren: './menu/explorar/explorar.module#ExplorarPageModule'
           }
         ]
       },

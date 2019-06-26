@@ -8,9 +8,10 @@ import { Component } from '@angular/core';
 })
 export class CardSlideComponent {
 
-  slideOpts = {
-    initialSlide: 1,
-    speed: 400
+  slidesOpts = {
+    spaceBetween: 10,
+    slidesPerView: 1,
+    autoplay: true
   };
 
   constructor() { }
