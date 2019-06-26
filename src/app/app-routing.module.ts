@@ -22,12 +22,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './pesquisar/pesquisar.module#PesquisarPageModule'
+            loadChildren: './menu/pesquisar/pesquisar.module#PesquisarPageModule'
           }
         ]
       },
       {
-        path: '',
+        path: '1232',
         redirectTo: '123',
         pathMatch: 'full'
       }

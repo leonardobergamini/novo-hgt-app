@@ -11,7 +11,7 @@ export class CardSlideComponent {
   slidesOpts = {
     spaceBetween: 10,
     slidesPerView: 1,
-    autoplay: true
+    // autoplay: true,
   };
 
   constructor() { }

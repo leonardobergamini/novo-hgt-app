@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
 import { CardSlideModule } from './card-slide/card-slide.module';
+import { AppImgComponent } from './app-img/app-img.component';
 
 @NgModule({
   declarations: [],
