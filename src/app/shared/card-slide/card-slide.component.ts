@@ -9,8 +9,8 @@ import { Component } from '@angular/core';
 export class CardSlideComponent {
 
   slidesOpts = {
-    spaceBetween: 10,
-    slidesPerView: 1,
+    // spaceBetween: 10,
+    slidesPerView: 1.2,
     // autoplay: true,
   };
 
