@@ -1,2 +1,2 @@
 # novo-hgt-app
-Novo aplicativo para apresentação do StartOne da FIAP.
+Novo aplicativo para apresentação do StartUp One da FIAP.
