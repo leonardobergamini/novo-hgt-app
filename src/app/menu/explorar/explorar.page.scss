@@ -24,3 +24,26 @@ ion-toolbar {
         letter-spacing: 0pt;
     }
 }
+
+.lista-categorias {
+    margin-top: 20px;
+}
+
+ion-slide {
+    color: #A59999;
+    font-weight: 600;
+}
+
+.ativo {
+    color: #fff;
+    font-weight: 600;
+    border-bottom: 4px solid #34AFE6;
+    text-align: left;
+    left: 0;
+    transition: 0.7s;
+}
+
+.desabilitado {
+    color: #A59999;
+    font-weight: 600;
+}

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-explorar',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExplorarPage implements OnInit {
 
+  slidesOpts = {
+    slidesPerView: 4
+  }
+
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {  
+    $('.lista-categorias').find('#shows').addClass('ativo');
+
+    $('.lista-categorias').click(function(event){
+      $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
+      $('.lista-categorias').find('.ativo').toggleClass('ativo');
+
+      $(event.target).removeClass('desabilitado');
+      $(event.target).addClass('ativo');
+    });
+
   }
 
 }

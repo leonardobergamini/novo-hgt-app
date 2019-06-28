@@ -5,4 +5,11 @@
 <ion-content padding>
     <h4 padding>novidades</h4>
     <card-slide></card-slide>
+
+    <ion-slides class="lista-categorias" [options]="slidesOpts">
+        <ion-slide class="ativo" id="shows">shows</ion-slide>
+        <ion-slide class="desabilitado" id="teatro">teatro</ion-slide>
+        <ion-slide class="desabilitado" id="palestra">palestra</ion-slide>
+        <ion-slide class="desabilitado" id="stand-up">stand-up</ion-slide>
+    </ion-slides>
 </ion-content>
