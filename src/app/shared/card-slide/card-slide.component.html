@@ -1,11 +1,7 @@
-<ion-slides [options]="slidesOpts">
-    <ion-slide>
-        <app-img src="../../../assets/events/gabriela-rocha/gabriela-rocha.png" nomeEvento="Gabriela Rocha" localEvento="Natal/RN" dataEvento="24/07/2019"></app-img>
-    </ion-slide>
-    <ion-slide>
-        <app-img src="../../../assets/events/foo-fighters/foo-fighters.png" nomeEvento="Foo Fighters" localEvento="São Paulo/SP" dataEvento="20/11/2019"></app-img>
-    </ion-slide>
-    <ion-slide>
-        <app-img src="../../../assets/events/alok/alok.png" nomeEvento="Alok" localEvento="São Paulo/SP" dataEvento="11/09/2019"></app-img>
-    </ion-slide>
-</ion-slides>
+<ion-row>
+    <ion-slides [options]="slidesOpts">
+        <ion-slide *ngFor="let evento of eventos">
+            <app-img src="{{ evento.imagem }}" nomeEvento="{{ evento.artista }}" nomeEvento="{{ evento.locais.nome }}" dataEvento="{{ evento.data_inicio_evento }}" localEvento="{{ evento.local.cidade }}/{{ evento.local.uf }}"></app-img>
+        </ion-slide>
+    </ion-slides>
+</ion-row>
