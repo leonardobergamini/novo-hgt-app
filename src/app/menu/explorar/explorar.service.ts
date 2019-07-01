@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Eventos } from 'src/app/shared/models/eventos/eventos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExplorarService {
 
-  eventos: any[];
+  eventos: Eventos[];
   constructor() { }
 
-  getAllEventos(){
+  getAllEventos(): Eventos[]{
     return this.eventos = [
       {
         id: 1,
@@ -37,7 +38,20 @@ export class ExplorarService {
           uf: "SP",
           cnpj: "12.234.432/0001-09"
         },
-        categorias: ["show", "gospel", "cristã"]
+        categorias: [
+          {
+            id: 1,
+            nome: "show"
+          },
+          {
+            id: 2,
+            nome: "cristã"
+          },
+          {
+            id: 3,
+            nome: "gospel"
+          }
+        ]
       },
       {
         id: 2,
@@ -66,7 +80,20 @@ export class ExplorarService {
           uf: "SP",
           cnpj: "12.234.432/0001-09"
         },
-        categorias: ["show", "rock", "internacional"]
+        categorias: [
+          {
+            id: 1,
+            nome: "show"
+          },
+          {
+            id: 4,
+            nome: "rock"
+          },
+          {
+            id: 5,
+            nome: "internacional"
+          }
+        ]
       },
       {
         id: 3,
@@ -95,7 +122,16 @@ export class ExplorarService {
           uf: "SP",
           cnpj: "13.180.837/0001-01"
         },
-        categorias: ["stand-up", "infantil"]
+        categorias: [
+        {
+          id: 6,
+          nome: "stand-up"
+        },
+        {
+          id: 7,
+          nome: "infantil"
+        }
+      ]
     },
     {
       id: 4,
@@ -124,37 +160,58 @@ export class ExplorarService {
         uf: "SP",
         cnpj: "12.234.432/0001-09"
       },
-      categorias: ["show", "sertanejo", "universitário"]
-  },
-  {
-    id: 5,
-    imagem: "../../../assets/events/sandy-e-junior/sandy-e-junior.png",
-    artista: "Sandy & Junior",
-    local: {
-      id: 3,
-      nome: "Allianz Parque",
-      uf: "SP",
-      cidade: "São Paulo",
-      endereco: "Av. Francisco Matarazzo, 1705",
-      bairro: "Água Branca",
-      cep: "05001-200",
-      capacidade_max: 50000          
+      categorias: [
+        {
+          id: 1,
+          nome: "show"
+        },
+        {
+          id: 8,
+          nome: "sertanejo"
+        },
+        {
+          id: 9,
+          nome: "universitário"
+        }
+      ]
     },
-    classificacao_etaria: "16",
-    data_inicio_evento: "12/10/2019",
-    data_fim_evento: "12/10/2019",
-    data_inicio_vendas: "01/07/2019",
-    data_publicacao: "29/06/2019",
-    descricao: "Devido ao grande sucesso e procura de fãs, a Live Nation, junto de Sandy e Junior Lima, informam que a cidade de São Paulo irá receber mais dois extras da turnê “Nossa História”.",
-    produtor:{
-      id: 1,
-      nome: "Nome Produtor",
-      cidade: "São Paulo",
-      uf: "SP",
-      cnpj: "12.234.432/0001-09"
-    },
-    categorias: ["show", "pop"]
-  }
-  ]
+    {
+      id: 5,
+      imagem: "../../../assets/events/sandy-e-junior/sandy-e-junior.png",
+      artista: "Sandy & Junior",
+      local: {
+        id: 3,
+        nome: "Allianz Parque",
+        uf: "SP",
+        cidade: "São Paulo",
+        endereco: "Av. Francisco Matarazzo, 1705",
+        bairro: "Água Branca",
+        cep: "05001-200",
+        capacidade_max: 50000          
+      },
+      classificacao_etaria: "16",
+      data_inicio_evento: "12/10/2019",
+      data_fim_evento: "12/10/2019",
+      data_inicio_vendas: "01/07/2019",
+      data_publicacao: "29/06/2019",
+      descricao: "Devido ao grande sucesso e procura de fãs, a Live Nation, junto de Sandy e Junior Lima, informam que a cidade de São Paulo irá receber mais dois extras da turnê “Nossa História”.",
+      produtor:{
+        id: 1,
+        nome: "Nome Produtor",
+        cidade: "São Paulo",
+        uf: "SP",
+        cnpj: "12.234.432/0001-09"
+      },
+      categorias: [
+        {
+          id: 1,
+          nome: "show"
+        },
+        {
+          id: 10,
+          nome: "pop"
+        }
+      ]
+    }]
   }
 }

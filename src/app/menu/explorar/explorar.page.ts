@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+
 import { ExplorarService } from './explorar.service';
+import { Eventos } from 'src/app/shared/models/eventos/eventos';
 
 @Component({
   selector: 'app-explorar',
@@ -10,17 +12,32 @@ import { ExplorarService } from './explorar.service';
 export class ExplorarPage implements OnInit {
 
   explorarService: ExplorarService;
-  eventos: any[];
+  eventos: Eventos[];
+
   constructor() { }
+
+  slidesOpts = {
+    slidesPerView: 4
+  };
 
   ngOnInit() {
     this.msgBoasVindas();
     this.explorarService = new ExplorarService();
     this.eventos = this.explorarService.getAllEventos();
     // console.log(this.eventos);
+
+    $('.lista-categorias').find('#shows').addClass('ativo');
+
+    $('.lista-categorias').click(function(event){
+      $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
+      $('.lista-categorias').find('.ativo').toggleClass('ativo');
+
+      $(event.target).removeClass('desabilitado');
+      $(event.target).addClass('ativo');
+    });
   }
 
-  msgBoasVindas(){
+  msgBoasVindas() {
     var data = new Date();
 
     if(data.getHours() >= 0 || data.getHours() < 12){
@@ -35,9 +52,5 @@ export class ExplorarPage implements OnInit {
       $('.bem-vindo').append(`<h1 class="ion-text-left">boa noite, Leonardo</h1>`);
     }
   }
+}  
 
-
-
-
-
-}

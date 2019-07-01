@@ -5,15 +5,16 @@ import { FormsModule } from '@angular/forms';
 
 import { CardSlideModule } from './card-slide/card-slide.module';
 import { AppImgComponent } from './app-img/app-img.component';
+import { ListaCategoriasComponent } from './lista-categorias/lista-categorias.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ListaCategoriasComponent],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
     CardSlideModule
   ],
-  exports: [CardSlideModule]
+  exports: [CardSlideModule, ListaCategoriasComponent]
 })
 export class SharedModule { }

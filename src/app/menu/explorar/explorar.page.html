@@ -16,6 +16,13 @@
             </ion-col>
         </ion-row>
 
-    </ion-grid>
+        <ion-row>
+            <ion-slides class="lista-categorias" [options]="slidesOpts">
+                <ion-slide class="ativo" id="shows">shows</ion-slide>
+                <ion-slide class="desabilitado" id="teatro">teatro</ion-slide>
+                <ion-slide class="desabilitado" id="palestra">palestra</ion-slide>
+                <ion-slide class="desabilitado" id="stand-up">stand-up</ion-slide>
+            </ion-slides>
+        </ion-row>
 
-</ion-content>
+    </ion-grid>
