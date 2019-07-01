@@ -1,8 +1,18 @@
 ion-icon {
-    font-size: 23px;
+    font-size: 20px;
 }
 
 ion-label {
-    font-size: 12px;
+    font-size: 9px;
     margin-top: 5px;
+    max-width: 80px;
+    text-align: center;
+}
+
+ion-tab-bar {
+    height: 60px;
+}
+
+ion-tab-button {
+    max-width: 80px;
 }

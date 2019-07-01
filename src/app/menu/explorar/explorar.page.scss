@@ -6,23 +6,13 @@ h5 {
     color: #fff;
 }
 
-ion-toolbar {
-    // background-image: url("../../../assets/backgrounds/bg-explorar.png");
-    --background: url("../../../assets/backgrounds/bg-explorar.png");
+.bem-vindo {
+    color: #fff;
 }
 
 ion-content {
     // background-image: url("../../../assets/backgrounds/bg-explorar.png");
     --background: url("../../../assets/backgrounds/bg-explorar.png");
-}
-
-ion-toolbar {
-    padding: 15px;
-    span {
-        font-size: 22pt;
-        color: #fff;
-        letter-spacing: 0pt;
-    }
 }
 
 .lista-categorias {
