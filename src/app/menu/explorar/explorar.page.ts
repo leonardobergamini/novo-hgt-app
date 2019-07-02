@@ -13,28 +13,14 @@ export class ExplorarPage implements OnInit {
 
   explorarService: ExplorarService;
   eventos: Eventos[];
+  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "cristão"];
 
   constructor() { }
-
-  slidesOpts = {
-    slidesPerView: 4
-  };
 
   ngOnInit() {
     this.msgBoasVindas();
     this.explorarService = new ExplorarService();
     this.eventos = this.explorarService.getAllEventos();
-    // console.log(this.eventos);
-
-    $('.lista-categorias').find('#shows').addClass('ativo');
-
-    $('.lista-categorias').click(function(event){
-      $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
-      $('.lista-categorias').find('.ativo').toggleClass('ativo');
-
-      $(event.target).removeClass('desabilitado');
-      $(event.target).addClass('ativo');
-    });
   }
 
   msgBoasVindas() {
