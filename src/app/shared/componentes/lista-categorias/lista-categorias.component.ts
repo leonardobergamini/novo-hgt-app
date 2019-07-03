@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import * as $ from 'jquery';
 import { EventosService } from '../../service/eventos/eventos.service';
+import { Eventos } from '../../models/eventos/eventos';
 
 @Component({
   selector: 'lista-categorias',
@@ -11,30 +12,45 @@ import { EventosService } from '../../service/eventos/eventos.service';
 export class ListaCategoriasComponent implements OnInit {
   
   @Input() categorias: string[];
+  eventos: Eventos[];
+  eventosService: EventosService;
+  erro: string;
   
-  eventoService: EventosService;
   slidesOpts = {
     slidesPerView: 4,  
   }
+
   constructor() { }
   
   ngOnInit() {    
-    this.filtrarCategorias('internacional');
+    var categoriaSelecionada;
     $('.lista-categorias').click(function(event){
+      this.ativarItem(event.target);
+      categoriaSelecionada = $(event.target).text();
       
-      // console.log(event.target);
-      $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
-      $('.lista-categorias').find('.ativo').toggleClass('ativo');
-      
-      $(event.target).removeClass('desabilitado');
-      $(event.target).addClass('ativo');
-      
+
+      //this.filtrarCategorias(categoriaSelecionada);
     });
   }
 
+  ativarItem(item){
+    $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
+    $('.lista-categorias').find('.ativo').toggleClass('ativo');
+    
+    $(item).removeClass('desabilitado');
+    $(item).addClass('ativo');
+  }
   filtrarCategorias(categoria: string){
-    this.eventoService = new EventosService();
-    this.eventoService.getEventoByCategorias(categoria);
+    // this.eventosService = new EventosService();
 
+    // this.eventosService.getEventoByCategorias(categoria)
+    //                   .then((result) => console.log(result))
+    //                   .catch((err) => {
+    //                     console.log(err);
+    //                     this.erro = 'Ops! Nenhum evento encontrado.';
+    //                   });
+
+    console.log(categoria)
+  
   }
 }

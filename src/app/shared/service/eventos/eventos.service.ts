@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
 import { __spreadArrays } from 'tslib';
+import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +12,19 @@ export class EventosService {
   
   constructor() { }
 
-  getEventoByCategorias(categoria): Eventos[]{
-    this.eventos = this.getAllEventos();
-    var eventosFiltrados: Eventos[];
-
-    this.eventos.filter((evento) => {
-      console.log(evento.categorias.forEach((value, i) => {
-        // console.log(value);
-        value.nome == categoria ? eventosFiltrados.push(evento) : console.log('Sem eventos');
-      }));
+  getEventoByCategorias(categoria){
+    return new Promise((resolve, reject) => {
+      this.eventos = this.getAllEventos();
+      var eventosFiltrados: Eventos[];
+      var erro;
+    
+      this.eventos.filter(function(evento){
+        evento.categorias.forEach(function(value, index){
+          value.nome === categoria ? eventosFiltrados = [evento] : erro = true;
+        });
+      });
+      erro === true ? reject('Nenhum evento encontrado') : resolve(eventosFiltrados);
     });
-
-    // console.log(eventosFiltrados);
-    return eventosFiltrados;
   }
 
   getAllEventos(): Eventos[]{
