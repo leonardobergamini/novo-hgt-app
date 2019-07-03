@@ -1,0 +1,3 @@
+<ion-slides class="lista-categorias" [options]="slidesOpts">
+    <ion-slide *ngFor="let categoria of categorias" id="{{ categoria }}" [ngClass]="{'ativo': categoria === 'show'}">{{ categoria }}</ion-slide>
+</ion-slides>

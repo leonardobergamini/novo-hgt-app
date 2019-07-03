@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Eventos } from '../models/eventos/eventos';
 
 @Component({
   selector: 'app-img',

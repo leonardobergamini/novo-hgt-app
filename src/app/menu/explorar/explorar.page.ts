@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
-import { ExplorarService } from './explorar.service';
 import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import { EventosService } from 'src/app/shared/service/eventos/eventos.service';
 
 @Component({
   selector: 'app-explorar',
@@ -11,16 +11,17 @@ import { Eventos } from 'src/app/shared/models/eventos/eventos';
 })
 export class ExplorarPage implements OnInit {
 
-  explorarService: ExplorarService;
+  eventosService: EventosService;
   eventos: Eventos[];
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "cristão"];
 
   constructor() { }
 
   ngOnInit() {
+    
     this.msgBoasVindas();
-    this.explorarService = new ExplorarService();
-    this.eventos = this.explorarService.getAllEventos();
+    this.eventosService = new EventosService();
+    this.eventos = this.eventosService.getAllEventos();
   }
 
   msgBoasVindas() {
@@ -33,7 +34,8 @@ export class ExplorarPage implements OnInit {
     if (data.getHours() >= 12 || data.getHours() < 18){
       $('.bem-vindo').find('h1').remove();
       $('.bem-vindo').append(`<h1 class="ion-text-left">boa tarde, Leonardo</h1>`);
-    }else{
+    }
+    if(data.getHours() >= 18 || data.getHours() <= 23){
       $('.bem-vindo').find('h1').remove();
       $('.bem-vindo').append(`<h1 class="ion-text-left">boa noite, Leonardo</h1>`);
     }

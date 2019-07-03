@@ -1,13 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import { Eventos } from '../../models/eventos/eventos';
+import { __spreadArrays } from 'tslib';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExplorarService {
+export class EventosService {
 
   eventos: Eventos[];
+  
   constructor() { }
+
+  getEventoByCategorias(categoria): Eventos[]{
+    this.eventos = this.getAllEventos();
+    var eventosFiltrados: Eventos[];
+
+    this.eventos.filter((evento) => {
+      console.log(evento.categorias.forEach((value, i) => {
+        // console.log(value);
+        value.nome == categoria ? eventosFiltrados.push(evento) : console.log('Sem eventos');
+      }));
+    });
+
+    // console.log(eventosFiltrados);
+    return eventosFiltrados;
+  }
 
   getAllEventos(): Eventos[]{
     return this.eventos = [
