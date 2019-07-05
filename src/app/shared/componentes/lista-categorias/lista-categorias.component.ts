@@ -14,43 +14,42 @@ export class ListaCategoriasComponent implements OnInit {
   @Input() categorias: string[];
   eventos: Eventos[];
   eventosService: EventosService;
-  erro: string;
+  erro: string = "";
   
   slidesOpts = {
     slidesPerView: 4,  
   }
 
-  constructor() { }
+  constructor() {
+    this.filtrarCategorias('show');
+   }
   
   ngOnInit() {    
-    var categoriaSelecionada;
-    $('.lista-categorias').click(function(event){
-      this.ativarItem(event.target);
-      categoriaSelecionada = $(event.target).text();
-      
-
-      //this.filtrarCategorias(categoriaSelecionada);
-    });
   }
 
-  ativarItem(item){
+  ativarItem(event){
+    
     $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
     $('.lista-categorias').find('.ativo').toggleClass('ativo');
     
-    $(item).removeClass('desabilitado');
-    $(item).addClass('ativo');
+    $(event.target).removeClass('desabilitado');
+    $(event.target).addClass('ativo');
+
+    var categoria = $(event.target).text();
+    this.filtrarCategorias(categoria);
   }
-  filtrarCategorias(categoria: string){
-    // this.eventosService = new EventosService();
 
-    // this.eventosService.getEventoByCategorias(categoria)
-    //                   .then((result) => console.log(result))
-    //                   .catch((err) => {
-    //                     console.log(err);
-    //                     this.erro = 'Ops! Nenhum evento encontrado.';
-    //                   });
+  filtrarCategorias(categoria:string){
+    this.eventosService = new EventosService();
+    this.eventos = this.eventosService.getEventoByCategorias(categoria);
 
-    console.log(categoria)
-  
+    if(this.eventos.length > 0){
+      this.erro = '';
+      console.log(this.eventos);
+    }else{
+      this.erro = `Ops! Sem eventos para essa categoria`;
+    }
+    
+    
   }
 }
