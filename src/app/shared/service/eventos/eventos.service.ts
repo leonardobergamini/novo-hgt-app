@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
-import { __spreadArrays } from 'tslib';
 
 @Injectable({
   providedIn: 'root'
@@ -8,22 +7,20 @@ import { __spreadArrays } from 'tslib';
 export class EventosService {
 
   eventos: Eventos[];
+  eventosFiltrados: Eventos[] = [];
   
   constructor() { }
 
-  getEventoByCategorias(categoria): Eventos[]{
-    this.eventos = this.getAllEventos();
-    var eventosFiltrados: Eventos[];
+  getEventoByCategorias(categoria){
+      this.eventos = this.getAllEventos();
+  
+      this.eventos.filter((evento) =>{
+        evento.categorias.forEach((value, i) =>{
+          value.nome == categoria ? this.eventosFiltrados.push(evento) : null;
+        });
+      });
 
-    this.eventos.filter((evento) => {
-      console.log(evento.categorias.forEach((value, i) => {
-        // console.log(value);
-        value.nome == categoria ? eventosFiltrados.push(evento) : console.log('Sem eventos');
-      }));
-    });
-
-    // console.log(eventosFiltrados);
-    return eventosFiltrados;
+      return this.eventosFiltrados; 
   }
 
   getAllEventos(): Eventos[]{
@@ -62,7 +59,7 @@ export class EventosService {
           },
           {
             id: 2,
-            nome: "cristã"
+            nome: "cristão"
           },
           {
             id: 3,
@@ -231,4 +228,10 @@ export class EventosService {
       ]
     }]
   }
+
+
+  shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
 }

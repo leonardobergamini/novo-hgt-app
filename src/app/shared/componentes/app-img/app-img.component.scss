@@ -1,19 +1,18 @@
 img {
-    height: 348px;
-    width: 241px;
-    border-radius: 20px 20px 20px 20px;
+    height: 323px;
+    width: 323px;
 }
 
 .evento {
-    height: 348px;
-    width: 241px;
+    height: 323px;
+    width: 323px;
     .fundo-img {
         position: absolute;
         top: 230px;
         height: 118px;
-        width: 241px;
+        width: 323px;
         background: #000;
-        opacity: 0.62;
+        opacity: 0.70;
         border-radius: 0 0 20px 20px;
         z-index: 9999;
     }
@@ -25,7 +24,7 @@ img {
         padding: 10px;
     }
     div #nomeEvento {
-        width: 225px;
+        width: 323px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

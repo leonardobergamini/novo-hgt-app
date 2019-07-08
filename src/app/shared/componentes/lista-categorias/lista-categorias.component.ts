@@ -1,40 +1,67 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import * as $ from 'jquery';
 import { EventosService } from '../../service/eventos/eventos.service';
+import { Eventos } from '../../models/eventos/eventos';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'lista-categorias',
   templateUrl: './lista-categorias.component.html',
   styleUrls: ['./lista-categorias.component.scss'],
 })
-export class ListaCategoriasComponent implements OnInit {
+export class ListaCategoriasComponent  {
   
   @Input() categorias: string[];
+  eventos: Eventos[];
+  eventosService: EventosService;
+  erro: string = "";
   
-  eventoService: EventosService;
   slidesOpts = {
-    slidesPerView: 4,  
-  }
-  constructor() { }
-  
-  ngOnInit() {    
-    this.filtrarCategorias('internacional');
-    $('.lista-categorias').click(function(event){
-      
-      // console.log(event.target);
-      $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
-      $('.lista-categorias').find('.ativo').toggleClass('ativo');
-      
-      $(event.target).removeClass('desabilitado');
-      $(event.target).addClass('ativo');
-      
-    });
+    slidesPerView: 4, 
   }
 
-  filtrarCategorias(categoria: string){
-    this.eventoService = new EventosService();
-    this.eventoService.getEventoByCategorias(categoria);
+  constructor(private router: Router) {
+    this.filtrarCategorias('show');
+   }
 
+  ativarItem(event){
+    this.erro = '';
+    this.eventos = [];
+    $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
+    $('.lista-categorias').find('.ativo').toggleClass('ativo');
+    
+    $(event.target).removeClass('desabilitado');
+    $(event.target).addClass('ativo');
+
+    var categoria = $(event.target).text();
+    $('.lds-ripple').removeClass('ion-hide');
+    setTimeout(() =>{
+      this.filtrarCategorias(categoria);
+      $('.lds-ripple').addClass('ion-hide');
+    }, 500);
+  }
+
+  filtrarCategorias(categoria:string){
+    this.eventosService = new EventosService();
+    this.eventos = this.eventosService.getEventoByCategorias(categoria);
+
+    if(this.eventos.length > 0){
+      this.erro = '';
+      // console.log(this.eventos);
+      $('.lista').show();
+    }else{
+      $('.lista').hide();
+      this.erro = `Ops! Sem eventos para essa categoria`;
+    } 
+  }
+
+  exibirDetalhes(evento){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        evento: evento
+      }
+    };
+    this.router.navigate(['menu/evento-detalhe'], navigationExtras);
   }
 }

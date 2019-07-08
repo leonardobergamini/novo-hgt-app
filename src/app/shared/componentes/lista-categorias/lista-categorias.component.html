@@ -1,3 +1,62 @@
 <ion-slides class="lista-categorias" [options]="slidesOpts">
-    <ion-slide *ngFor="let categoria of categorias" id="{{ categoria }}" [ngClass]="{'ativo': categoria === 'show'}">{{ categoria }}</ion-slide>
+    <ion-slide (click)="ativarItem($event)" *ngFor="let categoria of categorias" id="{{ categoria }}" [ngClass]="{'ativo': categoria === 'show'}">{{ categoria }}</ion-slide>
 </ion-slides>
+
+<div class="lista-filtrada">
+    <!-- <card-slide [eventos]="eventos"></card-slide> -->
+    <div class="lista">
+        <ion-slides>
+            <ion-slide *ngFor="let evento of eventos">
+                <ion-card button="true" (click)="exibirDetalhes(evento)">
+                    <ion-col size="12" class="ion-no-margin ion-no-padding">
+                        <div class="fundo"></div>
+                        <div class="infos">
+                            <div class="titulo-evento">
+                                <ion-text>
+                                    {{ evento.artista }}
+                                </ion-text>
+                            </div>
+
+                            <!-- <div class="local-evento">
+                                <ion-text>
+                                    {{ evento.local.nome }} - {{ evento.local.cidade }}/{{ evento.local.uf }}
+                                </ion-text>
+                            </div> -->
+                            <!-- 
+                            <div class="infos-evento">
+                                <div class="dt-inicio">
+                                    <ion-text>
+                                        Data: {{ evento.data_inicio_evento }}
+                                    </ion-text>
+                                </div>
+
+                                <div class="faixa-etaria">
+                                    <ion-text>
+                                        Classificação etária: {{ evento.classificacao_etaria }}
+                                    </ion-text>
+                                </div>
+
+                            </div> -->
+                        </div>
+                        <div class="imagem-evento">
+                            <ion-img src="{{ evento.imagem }}"></ion-img>
+                        </div>
+
+                    </ion-col>
+
+                    <!-- <ion-col size="6">
+                    </ion-col> -->
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <ion-text class="ion-text-center">
+        <p class="mensagem">{{ erro }}</p>
+    </ion-text>
+    <ion-row>
+        <div class="lds-ripple ion-hide">
+            <div></div>
+            <div></div>
+        </div>
+    </ion-row>
+</div>
