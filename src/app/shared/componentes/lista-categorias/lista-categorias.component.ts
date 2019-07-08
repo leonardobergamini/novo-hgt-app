@@ -1,15 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import * as $ from 'jquery';
 import { EventosService } from '../../service/eventos/eventos.service';
 import { Eventos } from '../../models/eventos/eventos';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'lista-categorias',
   templateUrl: './lista-categorias.component.html',
   styleUrls: ['./lista-categorias.component.scss'],
 })
-export class ListaCategoriasComponent implements OnInit {
+export class ListaCategoriasComponent  {
   
   @Input() categorias: string[];
   eventos: Eventos[];
@@ -17,18 +18,16 @@ export class ListaCategoriasComponent implements OnInit {
   erro: string = "";
   
   slidesOpts = {
-    slidesPerView: 4,  
+    slidesPerView: 4, 
   }
 
-  constructor() {
+  constructor(private router: Router) {
     this.filtrarCategorias('show');
    }
-  
-  ngOnInit() {    
-  }
 
   ativarItem(event){
-    
+    this.erro = '';
+    this.eventos = [];
     $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
     $('.lista-categorias').find('.ativo').toggleClass('ativo');
     
@@ -36,7 +35,11 @@ export class ListaCategoriasComponent implements OnInit {
     $(event.target).addClass('ativo');
 
     var categoria = $(event.target).text();
-    this.filtrarCategorias(categoria);
+    $('.lds-ripple').removeClass('ion-hide');
+    setTimeout(() =>{
+      this.filtrarCategorias(categoria);
+      $('.lds-ripple').addClass('ion-hide');
+    }, 500);
   }
 
   filtrarCategorias(categoria:string){
@@ -45,11 +48,20 @@ export class ListaCategoriasComponent implements OnInit {
 
     if(this.eventos.length > 0){
       this.erro = '';
-      console.log(this.eventos);
+      // console.log(this.eventos);
+      $('.lista').show();
     }else{
+      $('.lista').hide();
       this.erro = `Ops! Sem eventos para essa categoria`;
-    }
-    
-    
+    } 
+  }
+
+  exibirDetalhes(evento){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        evento: evento
+      }
+    };
+    this.router.navigate(['menu/evento-detalhe'], navigationExtras);
   }
 }

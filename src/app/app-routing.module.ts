@@ -27,9 +27,13 @@ const routes: Routes = [
         ]
       },
       {
-        path: '1232',
-        redirectTo: '123',
-        pathMatch: 'full'
+        path: 'evento-detalhe',
+        children: [
+          {
+            path: '',
+            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
+          }
+        ]
       }
     ]
   },

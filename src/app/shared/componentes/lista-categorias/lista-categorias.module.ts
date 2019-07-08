@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppImgComponent } from '../app-img/app-img.component';
 
-import { CardSlideModule } from '../card-slide/card-slide.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [AppImgComponent],
   imports: [
     CommonModule,
-    CardSlideModule
+    
   ]
 })
 export class ListaCategoriasModule { }
