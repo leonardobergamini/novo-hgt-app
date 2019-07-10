@@ -5,6 +5,7 @@
                 <app-img src="{{ evento.imagem }}" nomeEvento="{{ evento.artista }}" nomeEvento="{{ evento.locais.nome }}" dataEvento="{{ evento.data_inicio_evento }}" localEvento="{{ evento.local.cidade }}/{{ evento.local.uf }}"></app-img>
             </ion-card>
         </ion-slide>
+        <ion-slide *ngIf="erro"></ion-slide>
     </ion-slides>
 </ion-row>
 
@@ -15,5 +16,6 @@
                 <app-img src="{{ eventoNovo.imagem }}" nomeEvento="{{ eventoNovo.artista }}" nomeEvento="{{ eventoNovo.locais.nome }}" dataEvento="{{ eventoNovo.data_inicio_evento }}" localEvento="{{ eventoNovo.local.cidade }}/{{ eventoNovo.local.uf }}"></app-img>
             </ion-card>
         </ion-slide>
+        <ion-slide *ngIf="erro"></ion-slide>
     </ion-slides>
 </ion-row>

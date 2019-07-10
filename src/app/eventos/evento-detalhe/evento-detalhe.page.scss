@@ -32,7 +32,7 @@
 }
 
 .infos-header {
-    background-color: #EBEBEB;
+    background-color: #e67e22;
     min-height: 200px;
     max-height: auto;
     border-radius: 20px 20px 0 0;
@@ -42,6 +42,7 @@
 }
 
 .infos-header-content {
+    color: white;
     display: flex;
     justify-content: space-between;
     .nome-evento {
@@ -54,6 +55,7 @@
 }
 
 .infos-complementar-content {
+    color: white;
     margin-top: 15px;
     padding: 10px;
     // margin-left: 4%;

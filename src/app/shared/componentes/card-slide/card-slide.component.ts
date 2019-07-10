@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Eventos } from '../../models/eventos/eventos';
@@ -10,11 +10,12 @@ import { EventosService } from '../../services/eventos/eventos.service';
   styleUrls: ['./card-slide.component.scss'],
 
 })
-export class CardSlideComponent {
+export class CardSlideComponent implements OnInit{
 
   @Input() eventos: Eventos[];
   @Input() novidades: boolean;
   eventosNovos: Eventos[] = [];
+  erro:string;
 
   slidesOpts = {
     slidesPerView: 1,
@@ -56,8 +57,15 @@ export class CardSlideComponent {
     }
   };
 
-  constructor(private router: Router, private eventoService: EventosService) { 
-    this.getNovosEventos()
+  constructor(private router: Router, private eventoService: EventosService) {}
+
+  ngOnInit(){
+    console.log(this.novidades);
+    if(!this.novidades){
+      return;
+    }else{
+      this.getNovosEventos();
+    }
   }
 
   exibirDetalhes(evento){

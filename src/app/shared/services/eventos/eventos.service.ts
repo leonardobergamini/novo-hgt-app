@@ -38,13 +38,8 @@ export class EventosService {
     this.eventos.filter((evento: Eventos) =>{
       let hoje = moment().locale('pt-br');
       let dataPublicacao = moment(this.formatarData(evento.data_publicacao)).locale('pt-br');
-      // let diaPublicacao = dataEvento.format('DD');
-      // console.log(`Publi: ${diaPublicacao} --- Data M: ${dataEvento.add(1, 'day').format('DD/MM')} --- Data futura: ${hoje.add(1, 'day').format('DD/MM')} `)
       hoje.isBetween(dataPublicacao.format(), dataPublicacao.add(15, 'day').format())
-      ? this.eventoNovos.push(evento) : console.log('Erro');
-      
-      //console.log(`P: ${dataPublicacao.format('DD')} -- F:${dataPublicacao.add(5, 'day').format('DD')}`)
-      
+      ? this.eventoNovos.push(evento) : null;   
     });
     
     return this.eventoNovos;
@@ -74,7 +69,7 @@ export class EventosService {
         data_fim_evento_formatada: 'quarta-feira, 24 de julho de 2019',
         hora_inicio_evento: '19h',
         hora_fim_evento: '22h',
-        data_publicacao: "10/07/2019",
+        data_publicacao: "10/06/2019",
         descricao: "É uma cantora brasileira de música cristã contemporânea.",
         produtor:{
           id: 1,
