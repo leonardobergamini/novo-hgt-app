@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Eventos } from 'src/app/shared/models/eventos/eventos';
 import * as $ from 'jquery';
-var moment = require('moment');
-
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -24,5 +22,8 @@ export class EventoDetalhePage implements OnInit {
   }
 
   ngOnInit() {
+    $('#favorito').click(() => {
+      $('#favorito').toggleClass('favoritoClicado');
+    });
   }
 }

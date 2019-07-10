@@ -1,3 +1,24 @@
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.1);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+        color: #f00;
+    }
+    100% {
+        transform: scale(1);
+        color: #f00;
+    }
+}
+
+.favoritoClicado {
+    animation: bounceIn 1s;
+    color: #f00;
+}
+
 .imagem-evento-fixa {
     position: absolute;
     top: 0;
@@ -70,7 +91,7 @@
     height: auto;
     position: relative;
     padding: 10px;
-    top: 200px;
+    top: 199px;
     ion-text {
         p {
             color: #707070;

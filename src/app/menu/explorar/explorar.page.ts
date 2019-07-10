@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
-import { Eventos } from 'src/app/shared/models/eventos/eventos';
-import { EventosService } from 'src/app/shared/service/eventos/eventos.service';
+import { Eventos } from '../../shared/models/eventos/eventos';
+import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-explorar',
@@ -13,7 +13,7 @@ export class ExplorarPage implements OnInit {
 
   eventosService: EventosService;
   eventos: Eventos[];
-  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "cristão"];
+  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
 
   constructor() { }
 

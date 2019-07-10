@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 import * as $ from 'jquery';
-import { EventosService } from '../../service/eventos/eventos.service';
-import { Eventos } from '../../models/eventos/eventos';
 import { Router, NavigationExtras } from '@angular/router';
+import { Eventos } from '../../models/eventos/eventos';
+import { EventosService } from '../../services/eventos/eventos.service';
 
 @Component({
   selector: 'lista-categorias',
