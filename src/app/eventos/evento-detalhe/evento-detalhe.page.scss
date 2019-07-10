@@ -12,12 +12,57 @@
 
 .infos-header {
     background-color: #EBEBEB;
-    height: 200px;
+    min-height: 200px;
+    max-height: auto;
     border-radius: 20px 20px 0 0;
     position: relative;
     top: 200px;
-    padding: 10px;
+    padding: 20px;
+}
+
+.infos-header-content {
     display: flex;
+    justify-content: space-between;
+    .nome-evento {
+        width: calc(100% - 50px);
+    }
+    #favorito {
+        margin-right: 5px;
+        font-size: 28px;
+    }
+}
+
+.infos-complementar-content {
+    margin-top: 15px;
+    padding: 10px;
+    // margin-left: 4%;
+    // margin-right: 4%;
+    font-size: 16px;
+    width: 100%;
+    line-height: 1.5rem;
+    #calendario {
+        vertical-align: text-bottom;
+        margin-right: 10px;
+        font-size: 23px;
+    }
+    #relogio {
+        vertical-align: text-bottom;
+        margin-right: 10px;
+        font-size: 23px;
+    }
+    #gps {
+        vertical-align: text-bottom;
+        margin-right: 10px;
+        font-size: 23px;
+    }
+    .endereco {
+        margin-left: 32px;
+    }
+    .cidade-uf {
+        margin-top: 15px;
+        font-weight: bold;
+        text-align: center;
+    }
 }
 
 .infos-content {
@@ -26,4 +71,10 @@
     position: relative;
     padding: 10px;
     top: 200px;
+    ion-text {
+        p {
+            color: #707070;
+            font-size: 16px;
+        }
+    }
 }
