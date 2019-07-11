@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { Eventos } from '../../models/eventos/eventos';
-import { NavController } from '@ionic/angular';
-import { EventoDetalhePage } from 'src/app/eventos/evento-detalhe/evento-detalhe.page';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+
+import { Eventos } from '../../models/eventos/eventos';
+import { EventosService } from '../../services/eventos/eventos.service';
 
 @Component({
   selector: 'card-slide',
@@ -10,9 +10,12 @@ import { NavigationExtras, Router } from '@angular/router';
   styleUrls: ['./card-slide.component.scss'],
 
 })
-export class CardSlideComponent {
+export class CardSlideComponent implements OnInit{
 
   @Input() eventos: Eventos[];
+  @Input() novidades: boolean;
+  eventosNovos: Eventos[] = [];
+  erro:string;
 
   slidesOpts = {
     slidesPerView: 1,
@@ -26,7 +29,6 @@ export class CardSlideComponent {
         autoplay: {
           delay: 5000
         }
-        // spaceBetween: 10
       },
       // <= 480px
       480: {
@@ -35,7 +37,6 @@ export class CardSlideComponent {
         autoplay: {
           delay: 5000
         }
-        // spaceBetween: 10
       },
       // <= 640px
       640: {
@@ -44,7 +45,6 @@ export class CardSlideComponent {
         autoplay: {
           delay: 5000
         }
-        // spaceBetween: 10
       },
       // <= 768px
       768: {
@@ -53,19 +53,33 @@ export class CardSlideComponent {
         autoplay: {
           delay: 5000
         }
-        // spaceBetween: 0,
       }
     }
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private eventoService: EventosService) {}
+
+  ngOnInit(){
+    if(!this.novidades){
+      return;
+    }else{
+      this.getNovosEventos();
+    }
+  }
 
   exibirDetalhes(evento){
     let navigationExtras: NavigationExtras = {
       state: {
-        evento: evento
+        evento: evento,
+        ativarBtn: true
       }
     };
     this.router.navigate(['menu/evento-detalhe'], navigationExtras);
   }
+
+  getNovosEventos(){
+    this.eventoService = new EventosService();
+    this.eventosNovos = this.eventoService.getNovosEventos();
+  }
+
 }

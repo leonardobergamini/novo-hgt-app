@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { getInjectableDef } from '@angular/core/src/di/defs';
 import { IonTabs } from '@ionic/angular';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-menu',
@@ -9,10 +10,11 @@ import { IonTabs } from '@ionic/angular';
 })
 export class MenuPage implements OnInit {
 
-  @ViewChild('menu') menu: IonTabs
   constructor() { }
 
-  ngOnInit() {
-    
+  ngOnInit() { }
+
+  addBtnComprar(){
+    $('ion-tabs').find('ion-button').addClass('ion-hide');
   }
 }

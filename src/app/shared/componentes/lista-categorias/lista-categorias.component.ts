@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 import * as $ from 'jquery';
-import { EventosService } from '../../service/eventos/eventos.service';
-import { Eventos } from '../../models/eventos/eventos';
 import { Router, NavigationExtras } from '@angular/router';
+import { Eventos } from '../../models/eventos/eventos';
+import { EventosService } from '../../services/eventos/eventos.service';
 
 @Component({
   selector: 'lista-categorias',
@@ -59,7 +59,8 @@ export class ListaCategoriasComponent  {
   exibirDetalhes(evento){
     let navigationExtras: NavigationExtras = {
       state: {
-        evento: evento
+        evento: evento,
+        ativarBtn: true
       }
     };
     this.router.navigate(['menu/evento-detalhe'], navigationExtras);
