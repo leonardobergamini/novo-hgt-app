@@ -12,18 +12,31 @@ import * as $ from 'jquery';
 export class EventoDetalhePage implements OnInit {
 
   evento: Eventos;
+  ativarBtn: boolean = false;
 
   constructor(private activeRoute: ActivatedRoute, private router: Router){
     this.activeRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state){
-        this.evento = this.router.getCurrentNavigation().extras.state.evento;        
+        this.evento = this.router.getCurrentNavigation().extras.state.evento;      
+
+        this.router.getCurrentNavigation().extras.state.ativarBtn ? this.adicionaBotaoComprar() : this.ativarBtn = false;
       }
-    });
+      this.reset();
+    });  
   }
 
   ngOnInit() {
     $('#favorito').click(() => {
       $('#favorito').toggleClass('favoritoClicado');
     });
+  }
+
+  reset(){
+    $('#favorito').removeClass('favoritoClicado');
+  }
+
+  adicionaBotaoComprar(){
+    $('ion-tabs').find('ion-button').removeClass('ion-hide');
+    
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
-
-var moment = require ('moment');
+import moment from 'moment';
 
 @Injectable({
   providedIn: 'root'

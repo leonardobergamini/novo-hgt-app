@@ -16,3 +16,10 @@ ion-tab-bar {
 ion-tab-button {
     max-width: 80px;
 }
+
+ion-button {
+    margin: 0;
+    min-height: 55px;
+    text-transform: lowercase;
+    font-size: 16px;
+}

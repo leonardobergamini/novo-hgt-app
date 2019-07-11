@@ -60,7 +60,6 @@ export class CardSlideComponent implements OnInit{
   constructor(private router: Router, private eventoService: EventosService) {}
 
   ngOnInit(){
-    console.log(this.novidades);
     if(!this.novidades){
       return;
     }else{
@@ -71,7 +70,8 @@ export class CardSlideComponent implements OnInit{
   exibirDetalhes(evento){
     let navigationExtras: NavigationExtras = {
       state: {
-        evento: evento
+        evento: evento,
+        ativarBtn: true
       }
     };
     this.router.navigate(['menu/evento-detalhe'], navigationExtras);

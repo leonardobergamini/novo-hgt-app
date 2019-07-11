@@ -59,7 +59,8 @@ export class ListaCategoriasComponent  {
   exibirDetalhes(evento){
     let navigationExtras: NavigationExtras = {
       state: {
-        evento: evento
+        evento: evento,
+        ativarBtn: true
       }
     };
     this.router.navigate(['menu/evento-detalhe'], navigationExtras);
