@@ -1,0 +1,20 @@
+ion-header,
+ion-toolbar,
+ion-content {
+    --background: #2d3436;
+}
+
+ion-content {
+    --color: #fff;
+}
+
+ion-searchbar {
+    --background: #d7d8da;
+}
+
+.descricao-busca {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
+}
