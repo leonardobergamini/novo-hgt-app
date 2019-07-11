@@ -1,23 +1,22 @@
 <ion-header>
     <ion-toolbar>
-        <ion-searchbar autocomplete="on" placeholder="Busque por evento, categoria..." showCancelButton="focus" cancelButtonText="fechar"></ion-searchbar>
+        <ion-searchbar (ionInput)="verificarInput($event)" (ionBlur)="verificarBlur($event)" mode="md" autocomplete="on" placeholder="Busque por evento, categoria..." showCancelButton="focus" cancelButtonText="fechar"></ion-searchbar>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding fullscreen>
     <div class="descricao-busca">
         <ion-text class="ion-text-center">
-            <h3>O que você está procurando?</h3>
-            <p>Encontre seus artistas, seu estilo, sua diversão.</p>
+            <h3 class="animated zoomIn">O que você está procurando?</h3>
+            <p class="animated slideInUp">Encontre seus artistas favoritos, seu estilo, sua diversão.</p>
         </ion-text>
     </div>
-    <div class="melhor-resultado ion-hide">
+    <div class="melhor-resultado animated bounceInLeft ion-hide">
         <ion-text class="ion-text-center">
-            <h1>melhor resultado</h1>
+            <h1>melhor resultado para: <span id="busca"></span></h1>
         </ion-text>
         <ion-card>
             <ion-card-header>
-                <ion-card-subtitle>Destination</ion-card-subtitle>
                 <ion-card-title>Madison, WI</ion-card-title>
             </ion-card-header>
             <ion-card-content>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
-import moment from 'moment';
+// import moment from 'moment';
+var moment = require('moment');
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class EventosService {
     let _d: string[] = data.split('/');
     return `${_d[1]}-${_d[0]}-${_d[2]}`;
   }
+  
 
   getEventoByCategorias(categoria){
       this.eventos = this.getAllEventos();
