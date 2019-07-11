@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
-// import moment from 'moment';
-var moment = require('moment');
+import moment from 'moment';
+// var moment = require('moment');
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,19 @@ export class EventosService {
     let _d: string[] = data.split('/');
     return `${_d[1]}-${_d[0]}-${_d[2]}`;
   }
+  getEventoByArtista(artista:string){
+    this.eventos = this.getAllEventos();
+    let e: Eventos[] = [];
   
-
-  getEventoByCategorias(categoria){
+    if(artista){
+      return this.eventos.filter((evento: Eventos) =>{
+          return evento.artista.trim().toLowerCase().includes(artista.trim().toLowerCase());
+      });
+    }else{
+      return new Error('Sem correspondências');
+    }
+  }
+  getEventoByCategorias(categoria:string){
       this.eventos = this.getAllEventos();
   
       this.eventos.filter((evento: Eventos) =>{

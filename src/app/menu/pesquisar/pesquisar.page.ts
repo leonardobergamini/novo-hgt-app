@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import * as $ from 'jquery';
+import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
+import { Eventos } from 'src/app/shared/models/eventos/eventos';
 
 @Component({
   selector: 'app-pesquisar',
@@ -9,24 +11,24 @@ import * as $ from 'jquery';
 })
 export class PesquisarPage implements OnInit {
 
-  constructor() { }
+  constructor(private _eventoService:EventosService) { }
 
   ngOnInit() {
   }
 
   verificarInput(event){
-    console.log(event.target.value);
+    let _eventosFiltrados;
     if(event.target.value == "")
     {
       $('.melhor-resultado').addClass('ion-hide');
       $('.descricao-busca').show() 
     }else{
+      this._eventoService = new EventosService();
+      _eventosFiltrados = this._eventoService.getEventoByArtista(event.target.value);
       $('.descricao-busca').hide();
-      setTimeout(() => {
-        $('.descricao-busca').hide();
-        $('.melhor-resultado').removeClass('ion-hide');
-        $('#busca').text(event.target.value);
-      }, 1000);
+      $('.melhor-resultado').removeClass('ion-hide');
+      $('#busca').text(event.target.value);
+      
     } 
 
   }
@@ -37,6 +39,7 @@ export class PesquisarPage implements OnInit {
       $('.melhor-resultado').addClass('ion-hide');
       $('.descricao-busca').show() 
     }else{
+      
       $('.descricao-busca').hide();
     } 
   }
