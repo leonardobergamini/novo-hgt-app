@@ -20,9 +20,8 @@ export class EventosService {
     return `${_d[1]}-${_d[0]}-${_d[2]}`;
   }
 
-  getEventoByArtista(artista:string){
+  getEventoByArtista(artista: string){
     this.eventos = this.getAllEventos();
-    let e: Eventos[] = [];
   
     if(artista){
       return this.eventos.filter((evento: Eventos) =>{
@@ -37,8 +36,8 @@ export class EventosService {
     this.eventos = this.getAllEventos();
 
     if(query){
-      return this.eventos.filter((evento: Eventos) =>{ 
-        return  JSON.stringify(evento).trim().toLowerCase().includes(query.trim().toLowerCase())
+      return this.eventos.filter((evento) =>{ 
+        return  JSON.stringify(evento.artista + JSON.stringify(evento.categorias) + evento.descricao).trim().toLowerCase().includes(query.trim().toLowerCase())
       });
     }else{
       throw new Error('Informe um termo para pesquisar.');
