@@ -10,14 +10,17 @@ import { Eventos } from 'src/app/shared/models/eventos/eventos';
   styleUrls: ['./pesquisar.page.scss'],
 })
 export class PesquisarPage implements OnInit {
-
+  _eventosVistos: Eventos[] = [];
   _eventosFiltrados: Eventos[] = [];
   erro: boolean;
-
 
   constructor(private _eventoService:EventosService) { }
 
   ngOnInit() {
+  }
+
+  eventoClicadoEmit(event){
+    // console.log(event);
   }
 
   verificarInput(event){
@@ -35,11 +38,11 @@ export class PesquisarPage implements OnInit {
   }
 
   melhorResultado(event){
-    this._eventosFiltrados = [];
+
     $('.melhor-resultado').removeClass('ion-hide');
     $('.melhor-resultado-card').removeClass('ion-hide');
     this._eventoService = new EventosService();
-    // console.log(this._eventosFiltrados = this._eventoService.getEventoByQuery(event.target.value));
+
     if(this._eventoService.getEventoByQuery(event.target.value).length == 0){
       this.erro = true;
       $('.melhor-resultado-card').addClass('ion-hide');
@@ -47,7 +50,6 @@ export class PesquisarPage implements OnInit {
       this._eventosFiltrados = this._eventoService.getEventoByQuery(event.target.value);
       this.erro = false;
     }
-
   }
   
   verificarBlur(event){
