@@ -11,25 +11,42 @@ import { Eventos } from 'src/app/shared/models/eventos/eventos';
 })
 export class PesquisarPage implements OnInit {
 
+  _eventosFiltrados: Eventos[] = [];
+  erro: boolean;
+
+
   constructor(private _eventoService:EventosService) { }
 
   ngOnInit() {
   }
 
   verificarInput(event){
-    let _eventosFiltrados;
+    
     if(event.target.value == "")
     {
       $('.melhor-resultado').addClass('ion-hide');
+      $('.melhor-resultado-card').addClass('ion-hide');
       $('.descricao-busca').show() 
     }else{
-      this._eventoService = new EventosService();
-      _eventosFiltrados = this._eventoService.getEventoByArtista(event.target.value);
       $('.descricao-busca').hide();
-      $('.melhor-resultado').removeClass('ion-hide');
+      this.melhorResultado(event);
       $('#busca').text(event.target.value);
-      
     } 
+  }
+
+  melhorResultado(event){
+    this._eventosFiltrados = [];
+    $('.melhor-resultado').removeClass('ion-hide');
+    $('.melhor-resultado-card').removeClass('ion-hide');
+    this._eventoService = new EventosService();
+    // console.log(this._eventosFiltrados = this._eventoService.getEventoByQuery(event.target.value));
+    if(this._eventoService.getEventoByQuery(event.target.value).length == 0){
+      this.erro = true;
+      $('.melhor-resultado-card').addClass('ion-hide');
+    }else{
+      this._eventosFiltrados = this._eventoService.getEventoByQuery(event.target.value);
+      this.erro = false;
+    }
 
   }
   
@@ -43,9 +60,4 @@ export class PesquisarPage implements OnInit {
       $('.descricao-busca').hide();
     } 
   }
-
-  // verificarClear(){
-  //   $('.descricao-busca').show();
-  // }
-
 }

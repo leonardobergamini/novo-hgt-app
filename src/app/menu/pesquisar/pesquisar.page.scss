@@ -15,6 +15,11 @@ ion-searchbar {
 .descricao-busca {
     display: flex;
     justify-content: center;
-    // align-items: center;
     flex-direction: column;
+}
+
+#busca {
+    color: #e17055;
+    font-size: 18px;
+    font-weight: bold;
 }
