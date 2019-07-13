@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
 import moment from 'moment';
+import { empty } from 'rxjs';
+// var moment = require('moment');
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,31 @@ export class EventosService {
     return `${_d[1]}-${_d[0]}-${_d[2]}`;
   }
 
-  getEventoByCategorias(categoria){
+  getEventoByArtista(artista: string){
+    this.eventos = this.getAllEventos();
+  
+    if(artista){
+      return this.eventos.filter((evento: Eventos) =>{
+          return evento.artista.trim().toLowerCase().includes(artista.trim().toLowerCase());
+      });
+    }else{
+      throw new Error('Informe um artista para pesquisar.');
+    }
+  }
+
+  getEventoByQuery(query: string): Eventos[]{
+    this.eventos = this.getAllEventos();
+
+    if(query){
+      return this.eventos.filter((evento) =>{ 
+        return  JSON.stringify(evento.artista + JSON.stringify(evento.categorias) + evento.descricao).trim().toLowerCase().includes(query.trim().toLowerCase())
+      });
+    }else{
+      throw new Error('Informe um termo para pesquisar.');
+    }
+  }
+
+  getEventoByCategorias(categoria:string){
       this.eventos = this.getAllEventos();
   
       this.eventos.filter((evento: Eventos) =>{

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'card-slide',
@@ -14,6 +15,8 @@ export class CardSlideComponent implements OnInit{
 
   @Input() eventos: Eventos[];
   @Input() novidades: boolean;
+  @Input() opcoes;
+  @Output() eventoClicado = new EventEmitter();
   eventosNovos: Eventos[] = [];
   erro:string;
 
@@ -65,6 +68,11 @@ export class CardSlideComponent implements OnInit{
     }else{
       this.getNovosEventos();
     }
+  }
+
+  eventoClick(evento){
+    this.eventoClicado.emit(evento);
+    this.exibirDetalhes(evento);
   }
 
   exibirDetalhes(evento){

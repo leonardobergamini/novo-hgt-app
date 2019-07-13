@@ -26,11 +26,11 @@ export class ExplorarPage implements OnInit {
 
   msgBoasVindas() {
     var data = new Date();
-    if(data.getHours() >= 0 || data.getHours() < 12){
+    if(data.getHours() < 12){
       $('.bem-vindo').find('h1').remove();
       $('.bem-vindo').append(`<h1 class="ion-text-left">bom dia, Leonardo</h1>`);
     }
-    if (data.getHours() >= 12 || data.getHours() < 18){
+    if (data.getHours() >= 12){
       $('.bem-vindo').find('h1').remove();
       $('.bem-vindo').append(`<h1 class="ion-text-left">boa tarde, Leonardo</h1>`);
     }
