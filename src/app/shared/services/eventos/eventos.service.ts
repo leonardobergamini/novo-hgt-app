@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
-import moment from 'moment';
-import { empty } from 'rxjs';
+import * as moment from 'moment';
 // var moment = require('moment');
 
 @Injectable({

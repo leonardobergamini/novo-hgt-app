@@ -27,11 +27,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'evento-detalhe',
+        path: 'login', 
         children: [
           {
             path: '',
-            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
+            loadChildren: './menu/login/login.module#LoginPageModule'
           }
         ]
       }
