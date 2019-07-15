@@ -34,6 +34,15 @@ const routes: Routes = [
             loadChildren: './menu/login/login.module#LoginPageModule'
           }
         ]
+      },
+      {
+        path: 'evento-detalhe', 
+        children: [
+          {
+            path: '',
+            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
+          }
+        ]
       }
     ]
   },

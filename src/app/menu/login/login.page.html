@@ -1,16 +1,44 @@
 <ion-content>
     <div class="header" padding>
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>Login</ion-card-title>
-            </ion-card-header>
+        <div class="box-login">
+            <ion-card mode="ios">
+                <ion-card-header>
+                    <ion-card-title>Login</ion-card-title>
+                </ion-card-header>
 
-            <ion-card-content>
-                <input type="text" class="custom-input">
-                <input type="password" class="custom-input">
-            </ion-card-content>
-        </ion-card>
-        <ion-button size="large" slot="end" expand="full">Entrar</ion-button>
+                <ion-card-content>
+                    <hgt-input [type]=" 'text' " [label]=" 'usuário' " id=" 'usuário' "></hgt-input>
+
+                    <hgt-input [type]=" 'password' " [label]=" 'senha' " id=" 'senha' "></hgt-input>
+
+                    <div class="links ">
+                        <div class="link ">
+                            <a (click)="novaConta()">criar conta</a>
+                        </div>
+                        <div class="link ">
+                            <a href="#! ">esqueceu a senha?</a>
+                        </div>
+                    </div>
+                </ion-card-content>
+            </ion-card>
+            <ion-button size="large " shape="round " expand="full ">Entrar</ion-button>
+        </div>
+
+        <div class="box-cadastrar ion-hide">
+            <ion-card mode="ios">
+                <ion-card-header>
+                    <ion-card-title>Cadastrar</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                    <hgt-input [type]=" 'text' " [label]=" 'usuário' " id=" 'usuário' "></hgt-input>
+
+                    <hgt-input [type]=" 'password' " [label]=" 'senha' " id=" 'senha' "></hgt-input>
+
+                </ion-card-content>
+            </ion-card>
+            <ion-button size="large " shape="round " expand="full ">Cadastrar</ion-button>
+        </div>
     </div>
 
 </ion-content>

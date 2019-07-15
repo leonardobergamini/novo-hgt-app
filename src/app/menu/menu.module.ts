@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { MenuPage } from './menu.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [

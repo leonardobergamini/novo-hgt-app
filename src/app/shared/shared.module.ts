@@ -4,17 +4,17 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
 import { CardSlideModule } from './componentes/card-slide/card-slide.module';
-import { ListaCategoriasComponent } from './componentes/lista-categorias/lista-categorias.component';
-import { DivisorComponent } from './componentes/divisor/divisor.component';
+import { ComponentesModule } from './componentes/componentes.module';
 
 @NgModule({
-  declarations: [ListaCategoriasComponent, DivisorComponent],
+  declarations: [],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule,
-    CardSlideModule
+    CardSlideModule,
+    ComponentesModule
   ],
-  exports: [CardSlideModule, ListaCategoriasComponent, DivisorComponent]
+  exports: [ComponentesModule]
 })
 export class SharedModule { }
