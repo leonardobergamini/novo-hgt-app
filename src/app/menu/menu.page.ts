@@ -15,6 +15,6 @@ export class MenuPage implements OnInit {
   ngOnInit() { }
 
   removeBtnComprar(){
-    $('ion-tabs').find('ion-button').addClass('ion-hide');
+    $('ion-tabs').find('#btnComprar').addClass('ion-hide');
   }
 }

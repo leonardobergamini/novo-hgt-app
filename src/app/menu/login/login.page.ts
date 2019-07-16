@@ -4,6 +4,8 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { ToastController } from '@ionic/angular';
 
 import * as $ from 'jquery';
+import { LoginService } from './login.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -27,33 +29,44 @@ export class LoginPage implements OnInit {
 
   toast: any;
 
-  constructor(public afAuth: AngularFireAuth, public toastController: ToastController) { }
+  constructor(private afAuth: AngularFireAuth, private toastController: ToastController, private loginService: LoginService ) { }
 
   ngOnInit() { }
 
   onSubmitLogin(){
-
     console.log(this.formularioLogin.value);
+  }
 
+  onSubmitCadastro(){
+    // console.log(this.formularioCadastro.value);
+    this.loginService.createUser(this.formularioCadastro.value)
+    .then(resp => {
+      console.log(resp);
+      this.exibirToast('Usuário criado com sucesso.');
+      $('#formularioCadastro').trigger('reset');
+      this.voltar();
+    })
+    .catch(err => {
+      console.log(err);
+      this.exibirToast('Algo deu errado. Tente novamente.');
+    })
+  }
+
+  async novaConta(){
+    // const novoUser = this.afAuth.auth.sign(this.formularioCadastro.value);
+    // console.log(novoUser);
+  }
+
+  exibirToast(mensagem){
     this.toast = this.toastController.create({
       color: 'dark',
       duration: 3000,
-      message: `Usuário logado`,
+      message: `${mensagem}`,
       closeButtonText: 'fechar',
       showCloseButton: true
     }).then(toastData => {
       toastData.present();
     });    
-
-  }
-
-  onSubmitCadastro(){
-    console.log(this.formularioCadastro.value);
-  }
-
-  async novaConta(){
-    // const novoUser = this.afAuth.auth.createUserWithEmailAndPassword('leonardo@gmail.com', 'leonardo123');
-    // console.log(novoUser);
   }
 
   abrirNovaConta(){

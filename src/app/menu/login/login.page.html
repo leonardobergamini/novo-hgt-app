@@ -40,7 +40,7 @@
                 </ion-card-header>
 
                 <ion-card-content>
-                    <form [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
+                    <form id="formularioCadastro" [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
                         <div class="input-group">
                             <label for="primeiroNome">primeiro nome</label>
                             <input type="text" class="custom-input" id="primeiroNome" formControlName="primeiroNome">
