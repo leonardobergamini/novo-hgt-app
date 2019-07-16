@@ -10,7 +10,9 @@ import * as $ from 'jquery';
 })
 export class MenuPage implements OnInit {
 
-  constructor() { }
+  TOKEN: string = localStorage['token'];
+  
+  constructor() { console.log(this.TOKEN) }
 
   ngOnInit() { }
 

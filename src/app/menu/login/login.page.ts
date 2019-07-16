@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
   });
 
   formularioLogin = new FormGroup({
-    usuario: new FormControl(''),
+    email: new FormControl(''),
     senha: new FormControl('')
   });
 
@@ -34,14 +34,22 @@ export class LoginPage implements OnInit {
   ngOnInit() { }
 
   onSubmitLogin(){
-    console.log(this.formularioLogin.value);
+    let formValues = this.formularioLogin.value;
+
+    const loginUser = this.afAuth.auth.signInWithEmailAndPassword(formValues.email, formValues.senha);
+    loginUser.then(resp => {
+      resp.user.getIdToken(true).then(token => localStorage['token'] = token).catch(err => console.log(err));
+    }).catch(err => console.log(err));
+    
   }
 
   onSubmitCadastro(){
-    // console.log(this.formularioCadastro.value);
+    let formValues = this.formularioCadastro.value;    
+    const novoUser = this.afAuth.auth.createUserWithEmailAndPassword(formValues.email, formValues.senha);
     this.loginService.createUser(this.formularioCadastro.value)
     .then(resp => {
       console.log(resp);
+      console.log(novoUser);
       this.exibirToast('Usuário criado com sucesso.');
       $('#formularioCadastro').trigger('reset');
       this.voltar();
@@ -49,7 +57,12 @@ export class LoginPage implements OnInit {
     .catch(err => {
       console.log(err);
       this.exibirToast('Algo deu errado. Tente novamente.');
-    })
+    });
+  }
+
+  logOut(){
+    this.afAuth.auth.signOut();
+    localStorage['token'] = null;
   }
 
   async novaConta(){
