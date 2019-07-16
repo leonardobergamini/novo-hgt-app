@@ -5,6 +5,8 @@ import { RouteReuseStrategy } from '@angular/router';
 import { AngularFireModule  } from '@angular/fire';
 import { AngularFireAuthModule  } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { AngularFirestoreModule, FirestoreSettingsToken} from '@angular/fire/firestore';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -22,11 +24,14 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFirestoreModule,
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: FirestoreSettingsToken, useValue: {} }
   ],
   bootstrap: [AppComponent]
 })
