@@ -5,7 +5,7 @@ import { ToastController } from '@ionic/angular';
 
 import * as $ from 'jquery';
 import { LoginService } from './login.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,9 @@ export class LoginPage implements OnInit {
 
   toast: any;
 
-  constructor(private afAuth: AngularFireAuth, private toastController: ToastController, private loginService: LoginService ) { }
+  constructor(private router: Router, private afAuth: AngularFireAuth, private toastController: ToastController, private loginService: LoginService ) {
+    // this.logOut();  
+  }
 
   ngOnInit() { }
 
@@ -38,8 +40,20 @@ export class LoginPage implements OnInit {
 
     const loginUser = this.afAuth.auth.signInWithEmailAndPassword(formValues.email, formValues.senha);
     loginUser.then(resp => {
-      resp.user.getIdToken(true).then(token => localStorage['token'] = token).catch(err => console.log(err));
-    }).catch(err => console.log(err));
+      let token: string;
+      resp.user.getIdToken(true).then(t => token = t).catch(err => console.log(err));
+      $('ion-progress-bar').removeClass('ion-hide');
+
+      let navigationExtras: NavigationExtras = {
+        state: {
+          token: token,
+          ativo: true
+        }
+      };
+      this.router.navigate(['/'], navigationExtras);
+    })
+    .catch(err => console.log(err))
+    .finally(() => $('ion-progress-bar').addClass('ion-hide'));
     
   }
 
@@ -48,8 +62,7 @@ export class LoginPage implements OnInit {
     const novoUser = this.afAuth.auth.createUserWithEmailAndPassword(formValues.email, formValues.senha);
     this.loginService.createUser(this.formularioCadastro.value)
     .then(resp => {
-      console.log(resp);
-      console.log(novoUser);
+      $('ion-progress-bar').removeClass('ion-hide')
       this.exibirToast('Usuário criado com sucesso.');
       $('#formularioCadastro').trigger('reset');
       this.voltar();
@@ -57,7 +70,8 @@ export class LoginPage implements OnInit {
     .catch(err => {
       console.log(err);
       this.exibirToast('Algo deu errado. Tente novamente.');
-    });
+    })
+    .finally(() => $('ion-progress-bar').addClass('ion-hide'));
   }
 
   logOut(){
