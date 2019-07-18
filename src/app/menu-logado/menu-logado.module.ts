@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { MenuPage } from './menu.page';
+import { MenuLogadoPage } from './menu-logado.page';
 
 @NgModule({
   imports: [
@@ -11,7 +11,7 @@ import { MenuPage } from './menu.page';
     FormsModule,
     IonicModule
   ],
-  exports: [MenuPage],
-  declarations: [MenuPage]
+  exports: [MenuLogadoPage],
+  declarations: [MenuLogadoPage]
 })
-export class MenuPageModule {}
+export class MenuLogadoPageModule {}
