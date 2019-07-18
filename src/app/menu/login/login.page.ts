@@ -4,8 +4,9 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { ToastController } from '@ionic/angular';
 
 import * as $ from 'jquery';
-import { LoginService } from './login.service';
+import { LoginService } from '../../shared/services/login/login.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { AuthGuardService } from 'src/app/auth/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -29,31 +30,29 @@ export class LoginPage implements OnInit {
 
   toast: any;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private toastController: ToastController, private loginService: LoginService ) {
-    // this.logOut();  
+  constructor(private router: Router, 
+    private afAuth: AngularFireAuth, 
+    private toastController: ToastController, 
+    private loginService: LoginService,
+    private authService: AuthGuardService ) {
   }
 
   ngOnInit() { }
 
   onSubmitLogin(){
     let formValues = this.formularioLogin.value;
-
-    const loginUser = this.afAuth.auth.signInWithEmailAndPassword(formValues.email, formValues.senha);
-    loginUser.then(resp => {
-      let token: string;
-      resp.user.getIdToken(true).then(t => token = t).catch(err => console.log(err));
+    this.authService.login(formValues.email, formValues.senha)
+    .then(resp => {
       $('ion-progress-bar').removeClass('ion-hide');
-
-      let navigationExtras: NavigationExtras = {
-        state: {
-          token: token,
-          ativo: true
-        }
-      };
-      this.router.navigate(['/'], navigationExtras);
+      console.log(resp);
     })
-    .catch(err => console.log(err))
-    .finally(() => $('ion-progress-bar').addClass('ion-hide'));
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      $('ion-progress-bar').addClass('ion-hide');
+    });
+
     
   }
 
