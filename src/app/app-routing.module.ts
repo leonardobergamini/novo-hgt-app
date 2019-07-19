@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+
 import { MenuPage } from './menu/menu.page';
 import { MenuPageModule } from './menu/menu.module';
-import { MenuLogadoPage } from './menu-logado/menu-logado.page';
-import { AuthGuardService } from './auth/auth-guard.service';
 import { MenuLogadoPageModule } from './menu-logado/menu-logado.module';
 
 
@@ -53,25 +52,8 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'menu-logado/explorar',
-    canActivate: [AuthGuardService]
-  },
-  { 
-    path: 'menu-logado', 
-    component: MenuLogadoPage,
-    children: [
-      {
-        path: 'explorar',
-        children: [
-          {
-            path: '',
-            loadChildren: './menu-logado/menu-logado.module#MenuLogadoPageModule'
-          }
-        ]
-      }
-    ]
+    redirectTo: 'menu/explorar',
   }
-
 ];
 
 @NgModule({
