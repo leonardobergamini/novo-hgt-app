@@ -13,17 +13,34 @@ export class MenuPage implements OnInit {
 
   constructor(){ }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isAutenticado();
+  }
 
   removeBtnComprar(){
     $('ion-tabs').find('#btnComprar').addClass('ion-hide');
   }
 
-  isAutenticado(): boolean{
+  isAutenticado(){
     if(localStorage.getItem('loginValido') == 'true'){
-      return this.autenticado = true;
+      // this.trocaLoginParaPerfil();
+      this.autenticado = true;
     }else{
-      return this.autenticado = false;
+      this.autenticado = false;
     }
+  }
+
+  trocaLoginParaPerfil(){
+    $('#tabLogin').remove();    
+
+    let novaAba = 
+    `
+    <ion-tab-button id="tabPerfil" tab="perfil" (click)="removeBtnComprar()">
+      <ion-label>Perfil</ion-label>
+      <ion-icon src="../../assets/menu-icons/perfil.svg"></ion-icon>
+    </ion-tab-button>
+    `;
+
+    $('ion-tab-bar').append(novaAba);
   }
 }

@@ -11,18 +11,18 @@
             <ion-icon src="../../assets/menu-icons/lupa.svg"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button *ngIf="isAutenticado();">
+        <ion-tab-button *ngIf="autenticado">
             <ion-label>Carteira</ion-label>
             <ion-icon src="../../assets/menu-icons/carteira.svg"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button *ngIf="isAutenticado();">
+        <ion-tab-button id="tabMeusIngressos" *ngIf="autenticado">
             <ion-label>Meus ingressos</ion-label>
             <ion-icon src="../../assets/menu-icons/ticket.svg"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button tab="login" (click)="removeBtnComprar()">
-            <ion-label>Perfil</ion-label>
+        <ion-tab-button id="tabLogin" tab="login" (click)="removeBtnComprar()">
+            <ion-label>Login</ion-label>
             <ion-icon src="../../assets/menu-icons/perfil.svg"></ion-icon>
         </ion-tab-button>
 
