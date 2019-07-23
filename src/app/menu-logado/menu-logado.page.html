@@ -11,9 +11,20 @@
             <ion-icon src="../../assets/menu-icons/lupa.svg"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button id="tabLogin" tab="login" (click)="removeBtnComprar()">
-            <ion-label>Login</ion-label>
-            <ion-icon src="../../assets/menu-icons/perfil.svg"></ion-icon>
+        <ion-tab-button>
+            <ion-label>Carteira</ion-label>
+            <ion-icon src="../../assets/menu-icons/carteira.svg"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button>
+            <ion-label>Meus ingressos</ion-label>
+            <ion-icon src="../../assets/menu-icons/ticket.svg"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button id="tabPerfil" tab="perfil" (click)="removeBtnComprar()">
+            <ion-avatar>
+                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            </ion-avatar>
         </ion-tab-button>
 
     </ion-tab-bar>

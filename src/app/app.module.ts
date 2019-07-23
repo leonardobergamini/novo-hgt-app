@@ -5,7 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { AngularFireModule  } from '@angular/fire';
 import { AngularFireAuthModule  } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
-import { AngularFirestoreModule, FirestoreSettingsToken} from '@angular/fire/firestore';
+import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
 

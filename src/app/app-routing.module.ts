@@ -3,6 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { MenuPage } from './menu/menu.page';
 import { MenuPageModule } from './menu/menu.module';
+import { MenuLogadoPage } from './menu-logado/menu-logado.page';
+import { MenuLogadoPageModule } from './menu-logado/menu-logado.module';
 
 const routes: Routes = [
   {
@@ -44,23 +46,29 @@ const routes: Routes = [
             loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
           }
         ]
-      },
-      { 
-        path: 'perfil', 
+      }
+    ]
+  },
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'menu/explorar',
+  // },
+  { 
+    path: 'menu-logado', 
+    component: MenuLogadoPage,
+    children: [
+      {
+        path: 'perfil',
         children: [
           {
             path: '',
-            loadChildren: './menu/perfil/perfil.module#PerfilPageModule' 
+            loadChildren: './menu-logado/perfil/perfil.module#PerfilPageModule' 
           }
         ]
       }
 
     ]
-  },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'menu/explorar',
   },
 
 ];
@@ -68,6 +76,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     MenuPageModule,
+    MenuLogadoPageModule,
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]

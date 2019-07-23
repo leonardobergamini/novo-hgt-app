@@ -1,15 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthGuardService } from 'src/app/auth/auth-guard.service';
+import { MenuPage } from 'src/app/menu/menu.page';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+  @ViewChild('MenuPage') menuPage: MenuPage;
 
   constructor(private firestore: AngularFirestore, 
-              private authService: AuthGuardService) { }
+              private authService: AuthGuardService,
+              private afAuth: AngularFireAuth,
+              private router: Router) { }
 
   createUser(user){
     return this.firestore.collection('/usuarios').add(user);
@@ -30,19 +35,20 @@ export class LoginService {
         resolve(resp);
       })
       .catch(err => {
-        console.log(err);
-        reject('Erro a logar. Tente novamente.');
+        reject(err);
       });
     });
   }
-  
-        // let navigationExtras: NavigationExtras = {
-        //   state: {
-        //     token: token,
-        //     ativo: true
-        //   }
-        // };
-        // this.router.navigate(['/'], navigationExtras);
 
-
+  sair(): Promise<any>{
+    return new Promise((resolve, reject) => {
+      
+      this.afAuth.auth.signOut()
+          .then(resp => {
+            resolve('logout feito com sucesso');
+            this.router.navigate(['menu/explorar']);
+          })
+          .catch(err => reject('erro ao fazer logout'));
+    })
+  }
 }

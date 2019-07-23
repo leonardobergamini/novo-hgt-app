@@ -1,16 +1,16 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, ViewChild, ViewChildren } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router, CanActivate, ActivatedRouteSnapshot, UrlTree, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+
+import { MenuPage } from '../menu/menu.page';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService {
 
   public usuarioLogado: any;
-  public isAtivado: boolean = false;
 
   constructor(
     private afAuth: AngularFireAuth, 
@@ -19,23 +19,24 @@ export class AuthGuardService implements CanActivate {
 
     this.afAuth.authState.subscribe(user => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        JSON.parse(localStorage.getItem('user'));
         this.findUser(user.email)
-            .then(resp => {
-              this.usuarioLogado = resp.docs[0].data();
-              localStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado));
-              localStorage.setItem('loginValido', 'true');
-              this.isAtivado = true;
-              this.router.navigate(['menu-logado'])
-            })
-            .catch(err => console.log(err));
+        .then(resp => {
+          
+          this.usuarioLogado = {
+            usuario: resp.docs[0].data(),
+            uid: user.uid,
+            refreshToken: user.refreshToken
+          }
+          
+          localStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado));
+          localStorage.setItem('loginValido', 'true');
+          this.router.navigate(['menu-logado/perfil']);
+
+        })
+        .catch(err => console.log(err));
       } else {
-        localStorage.setItem('user', null);
         localStorage.setItem('usuarioLogado', null);
-        localStorage.setItem('loginValido', null);
-        this.isAtivado = false;
-        this.router.navigate(['menu'])
+        localStorage.setItem('loginValido', 'false');
       }
     })
   } 
@@ -54,17 +55,6 @@ export class AuthGuardService implements CanActivate {
 
   findUser(email: string){
     return this.firestore.collection('/usuarios', ref => ref.where('email', '==', email)).get().toPromise();
-  }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    console.log(this.isAtivado);
-    if(this.isAtivado ==  true) {
-      this.router.navigate(['menu-logado']);
-      return true;
-    } else{
-      this.router.navigate(['menu']);
-      return false;
-    }
   }
 
 }
