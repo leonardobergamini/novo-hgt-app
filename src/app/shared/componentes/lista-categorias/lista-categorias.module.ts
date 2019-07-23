@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppImgComponent } from '../app-img/app-img.component';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+
+import { CardSlideModule } from '../card-slide/card-slide.module';
+import { ListaCategoriasComponent } from './lista-categorias.component';
 
 
 @NgModule({
-  declarations: [AppImgComponent],
+  declarations: [ListaCategoriasComponent],
   imports: [
     CommonModule,
-    
-  ]
+    IonicModule,
+    FormsModule,
+    CardSlideModule
+  ],
+  exports: [ListaCategoriasComponent]
 })
 export class ListaCategoriasModule { }

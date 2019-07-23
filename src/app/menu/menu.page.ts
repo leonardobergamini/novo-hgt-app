@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonTabs } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 
 import * as $ from 'jquery';
+import { Router } from '@angular/router';
+import { LoginService } from '../shared/services/login/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,11 +11,11 @@ import * as $ from 'jquery';
 })
 export class MenuPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private loginService: LoginService){ }
 
   ngOnInit() { }
-
-  removeBtnComprar(){
-    $('ion-tabs').find('ion-button').addClass('ion-hide');
+  
+  private removeBtnComprar(){
+    $('ion-tabs').find('#btnComprar').addClass('ion-hide');
   }
 }
