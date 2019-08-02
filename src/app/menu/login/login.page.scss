@@ -4,15 +4,15 @@
     // background: #e84393;
     // position: absolute;
     // top: 0;
-    background: url('C:/Users/leonardobergamini/Downloads/bg_login.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+    // background: url('../../../assets/backgrounds/bg_login.png');
+    // background-position: center;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // height: auto;
 }
 
 .header {
-    background: url('C:/Users/leonardobergamini/Downloads/logo-hgt.png');
+    background: url('../../../assets/logo/logo-hgt.png');
     width: 100px;
     height: 100px;
     margin: 0 auto;
@@ -64,7 +64,24 @@ ion-button {
     display: block;
 }
 
-.custom-input:focus {
-    border: 1px solid #16a085;
-    border-radius: 10px;
-}
+// .custom-input:focus {
+//     border: 1px solid #8212dfbd;
+//     border-radius: 10px;
+//     box-shadow: #666666;
+// }
+// .valido {
+//     border: 1px solid #16a085;
+//     border-radius: 10px;
+// }
+// .valido:focus {
+//     border: 1px solid #16a085;
+//     border-radius: 10px;
+// }
+// .invalido {
+//     border: 1px solid #f00;
+//     border-radius: 10px;
+// }
+// .invalido:focus {
+//     border: 1px solid #f00;
+//     border-radius: 10px;
+// }

@@ -40,25 +40,28 @@ export class LoginPage implements OnInit {
 
   onSubmitLogin(){
     let formValues = this.formularioLogin.value;
-    // $('ion-progress-bar').removeClass('ion-hide');
-    this.exibirAlert();
-    this.loginService.login(formValues.email, formValues.senha)
-        .then(resp => {
-          console.log(('entrando'));
 
-          
-        })
-        .catch(err => {
-          console.log(err);
-          if(err.code == 'auth/wrong-password') this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
-          if(err.code == 'auth/user-not-found') this.exibirToast('Usuário não encontrado. Faça seu cadastro.');
-          
-        })
-        .finally(() => {
-          this.fecharAlert();
-
-          // $('ion-progress-bar').addClass('ion-hide');
-        })
+    if(!formValues.senha){
+      $('#senha').focus();
+      this.exibirToast('Informe a senha');
+    }else{
+      // $('ion-progress-bar').removeClass('ion-hide');
+      this.exibirAlert();
+      this.loginService.login(formValues.email, formValues.senha)
+          .then(resp => {
+            console.log(('entrando'));          
+          })
+          .catch(err => {
+            console.log(err);
+            if(err.code == 'auth/wrong-password') this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
+            if(err.code == 'auth/user-not-found') this.exibirToast('Usuário não encontrado. Faça seu cadastro.');
+          })
+          .finally(() => {
+            this.fecharAlert();
+  
+            // $('ion-progress-bar').addClass('ion-hide');
+          });
+    }
   }
 
   onSubmitCadastro(){
@@ -125,5 +128,21 @@ export class LoginPage implements OnInit {
     $('.box-cadastrar').addClass('ion-hide');
     $('#btnEntrar').removeClass('ion-hide');
     $('#btnCadastrar').addClass('ion-hide');
+  }
+
+  onKey(event){
+    let regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
+    // console.log(regex.test(event.target.value));
+    
+    
+    if(!regex.test(event.target.value)){
+      console.log('inválido');  
+      $('#btnEntrar').prop('disabled', 'true');
+    }else{
+      console.log('válido');
+      $('#btnEntrar').prop('disabled', 'false');
+    }
+  
+    
   }
 }

@@ -1,8 +1,6 @@
 <ion-content>
     <div class="conteudo" padding>
-        <div class="header">
-
-        </div>
+        <div class="header"></div>
         <div class="box-login">
             <!-- <ion-alert-controller></ion-alert-controller> -->
             <ion-card mode="ios">
@@ -15,13 +13,13 @@
                     <form [formGroup]="formularioLogin" (ngSubmit)="onSubmitLogin()">
                         <div class="input-group">
                             <label for="email">email</label>
-                            <input type="email" class="custom-input" id="email" formControlName="email">
+                            <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKey($event)">
                         </div>
                         <div class="input-group">
                             <label for="senha">senha</label>
                             <input type="password" class="custom-input" id="senha" formControlName="senha">
                         </div>
-                        <ion-button type="submit" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
+                        <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
                     </form>
 
                     <div class="links ">
@@ -59,10 +57,10 @@
                             <label for="email">email</label>
                             <input type="email" class="custom-input" id="email" formControlName="email">
                         </div>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <label for="usuario">usuário</label>
                             <input type="text" class="custom-input" id="usuario" formControlName="usuario">
-                        </div>
+                        </div> -->
                         <div class="input-group">
                             <label for="senha">senha</label>
                             <input type="password" class="custom-input" id="senha" formControlName="senha">
