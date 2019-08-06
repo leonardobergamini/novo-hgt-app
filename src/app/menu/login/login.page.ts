@@ -64,9 +64,7 @@ export class LoginPage implements OnInit {
     }
   }
 
-  onSubmitCadastro(){
-    let formValues = this.formularioCadastro.value;    
-    this.afAuth.auth.createUserWithEmailAndPassword(formValues.email, formValues.senha);
+  onSubmitCadastro(){  
     this.loginService.createUser(this.formularioCadastro.value)
     .then(resp => {
       // $('ion-progress-bar').removeClass('ion-hide');
