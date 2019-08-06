@@ -46,14 +46,23 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'evento-detalhe', 
+        path: 'evento-detalhe/:id',
         children: [
           {
             path: '',
-            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
+            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
           }
         ]
       }
+      // {
+      //   path: 'evento-detalhe', 
+      //   children: [
+      //     {
+      //       path: '',
+      //       loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
+      //     }
+      //   ]
+      // }
     ],
   },
   { 

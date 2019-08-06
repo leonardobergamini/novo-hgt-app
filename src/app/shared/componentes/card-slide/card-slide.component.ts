@@ -4,6 +4,8 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
 import { EventEmitter } from 'events';
+import { ModalController } from '@ionic/angular';
+import { EventoDetalhePage } from 'src/app/eventos/evento-detalhe/evento-detalhe.page';
 
 @Component({
   selector: 'card-slide',
@@ -60,7 +62,8 @@ export class CardSlideComponent implements OnInit{
     }
   };
 
-  constructor(private router: Router, private eventoService: EventosService) {}
+  constructor(private eventoService: EventosService,
+              private modalController: ModalController) {}
 
   ngOnInit(){
     if(!this.novidades){
@@ -75,14 +78,14 @@ export class CardSlideComponent implements OnInit{
     this.exibirDetalhes(evento);
   }
 
-  exibirDetalhes(evento){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        evento: evento,
-        ativarBtn: true
+  async exibirDetalhes(evento){
+    const modal = await this.modalController.create({
+      component: EventoDetalhePage,
+      componentProps: {
+        'eventoSelecionado': evento
       }
-    };
-    this.router.navigate(['menu/evento-detalhe'], navigationExtras);
+    });
+    return await modal.present();
   }
 
   getNovosEventos(){

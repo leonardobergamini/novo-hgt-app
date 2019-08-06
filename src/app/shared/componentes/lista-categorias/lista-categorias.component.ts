@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 import * as $ from 'jquery';
-import { Router, NavigationExtras } from '@angular/router';
 import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
+import { ModalController } from '@ionic/angular';
+import { EventoDetalhePage } from 'src/app/eventos/evento-detalhe/evento-detalhe.page';
 
 @Component({
   selector: 'lista-categorias',
@@ -21,7 +22,7 @@ export class ListaCategoriasComponent  {
     slidesPerView: 4, 
   }
 
-  constructor(private router: Router) {
+  constructor(private modalController: ModalController) {
     this.filtrarCategorias('show');
    }
 
@@ -56,13 +57,13 @@ export class ListaCategoriasComponent  {
     } 
   }
 
-  exibirDetalhes(evento){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        evento: evento,
-        ativarBtn: true
+  async exibirDetalhes(evento){
+    const modal = await this.modalController.create({
+      component: EventoDetalhePage,
+      componentProps: {
+        'eventoSelecionado': evento
       }
-    };
-    this.router.navigate(['menu/evento-detalhe'], navigationExtras);
+    });
+    return await modal.present();
   }
 }
