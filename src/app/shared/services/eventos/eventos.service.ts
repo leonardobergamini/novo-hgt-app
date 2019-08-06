@@ -36,7 +36,7 @@ export class EventosService {
 
     if(query){
       return this.eventos.filter((evento) =>{ 
-        return  JSON.stringify(evento.artista + JSON.stringify(evento.categorias) + evento.descricao).trim().toLowerCase().includes(query.trim().toLowerCase())
+        return  JSON.stringify(evento.artista + JSON.stringify(evento.categorias)).trim().toLowerCase().includes(query.trim().toLowerCase())
       });
     }else{
       throw new Error('Informe um termo para pesquisar.');
