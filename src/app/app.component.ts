@@ -13,18 +13,7 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private router: Router
-  ) {
-    if(localStorage.getItem('loginAtivo') == null ){
-      this.initializeApp();
-      this.router.navigate(['menu/explorar']);
-
-    }else{
-      this.initializeApp();
-      this.router.navigate(['menu-logado/perfil']);
-    }
-  }
+    private statusBar: StatusBar) { }
 
   initializeApp() {
     this.platform.ready().then(() => {
