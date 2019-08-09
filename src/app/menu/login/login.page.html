@@ -1,24 +1,25 @@
 <ion-content>
-    <div class="header" padding>
+    <div class="conteudo" padding>
+        <div class="header"></div>
         <div class="box-login">
             <!-- <ion-alert-controller></ion-alert-controller> -->
             <ion-card mode="ios">
                 <ion-progress-bar class="ion-hide" type="indeterminate"></ion-progress-bar>
                 <ion-card-header>
-                    <ion-card-title>Login</ion-card-title>
+                    <ion-card-title class="ion-text-right">Login</ion-card-title>
                 </ion-card-header>
 
                 <ion-card-content>
                     <form [formGroup]="formularioLogin" (ngSubmit)="onSubmitLogin()">
                         <div class="input-group">
                             <label for="email">email</label>
-                            <input type="email" class="custom-input" id="email" formControlName="email">
+                            <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyLogin($event)">
                         </div>
                         <div class="input-group">
                             <label for="senha">senha</label>
                             <input type="password" class="custom-input" id="senha" formControlName="senha">
                         </div>
-                        <ion-button type="submit" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
+                        <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
                     </form>
 
                     <div class="links ">
@@ -37,7 +38,7 @@
         <div class="box-cadastrar ion-hide">
             <ion-card mode="ios">
                 <ion-progress-bar class="ion-hide" type="indeterminate"></ion-progress-bar>
-                <ion-card-header>
+                <ion-card-header class="card-header">
                     <ion-icon name="arrow-back" size="large" (click)="voltar()"></ion-icon>
                     <ion-card-title>Cadastrar</ion-card-title>
                 </ion-card-header>
@@ -45,8 +46,8 @@
                 <ion-card-content>
                     <form id="formularioCadastro" [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
                         <div class="input-group">
-                            <label for="primeiroNome">primeiro nome</label>
-                            <input type="text" class="custom-input" id="primeiroNome" formControlName="primeiroNome">
+                            <label for="primeiro_nome">primeiro nome</label>
+                            <input type="text" class="custom-input" id="primeiro_nome" formControlName="primeiro_nome">
                         </div>
                         <div class="input-group">
                             <label for="sobrenome">sobrenome</label>
@@ -56,10 +57,10 @@
                             <label for="email">email</label>
                             <input type="email" class="custom-input" id="email" formControlName="email">
                         </div>
-                        <div class="input-group">
+                        <!-- <div class="input-group">
                             <label for="usuario">usuário</label>
                             <input type="text" class="custom-input" id="usuario" formControlName="usuario">
-                        </div>
+                        </div> -->
                         <div class="input-group">
                             <label for="senha">senha</label>
                             <input type="password" class="custom-input" id="senha" formControlName="senha">

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import * as $ from 'jquery';
+
 @Component({
   selector: 'app-menu-logado',
   templateUrl: './menu-logado.page.html',
@@ -10,6 +12,10 @@ export class MenuLogadoPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  private removeBtnComprar(){
+    $('ion-tabs').find('#btnComprar').addClass('ion-hide');
   }
 
 }

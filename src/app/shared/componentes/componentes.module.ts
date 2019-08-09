@@ -4,10 +4,9 @@ import { CommonModule } from '@angular/common';
 import { DivisorComponent } from './divisor/divisor.component';
 import { CardSlideModule } from './card-slide/card-slide.module';
 import { ListaCategoriasModule } from './lista-categorias/lista-categorias.module';
-import { HgtAlertComponent } from './hgt-alert/hgt-alert.component';
 
 @NgModule({
-  declarations: [DivisorComponent, HgtAlertComponent],
+  declarations: [DivisorComponent],
   imports: [
     CommonModule,
     CardSlideModule,
@@ -15,7 +14,6 @@ import { HgtAlertComponent } from './hgt-alert/hgt-alert.component';
   ],
   exports: [CardSlideModule, 
             DivisorComponent, 
-            ListaCategoriasModule, 
-            HgtAlertComponent]
+            ListaCategoriasModule]
 })
 export class ComponentesModule { }

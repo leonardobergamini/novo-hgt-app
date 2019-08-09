@@ -1,16 +1,40 @@
+ion-content {
+    --background: #ecf0f1;
+}
+
+.conteudo {
+    // height: 300px;
+    // width: 100%;
+    // background: #e84393;
+    // position: absolute;
+    // top: 0;
+    // background: url('../../../assets/backgrounds/bg_login.png');
+    // background-position: center;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    // height: auto;
+}
+
 .header {
-    height: 300px;
-    width: 100%;
-    background: #f9ca24;
-    position: absolute;
-    top: 0;
+    background: url('../../../assets/logo/logo-hgt.png');
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 ion-card {
     background: #fff;
     min-height: 300px;
-    position: relative;
-    top: 200px;
+    // position: relative;
+    // top: 200px;
 }
 
 ion-button {
@@ -49,7 +73,29 @@ ion-button {
     display: block;
 }
 
-.custom-input:focus {
-    border: 1px solid #16a085;
+input:invalid {
+    border: 1px solid #f00;
     border-radius: 10px;
 }
+
+// .custom-input:focus {
+//     border: 1px solid #8212dfbd;
+//     border-radius: 10px;
+//     box-shadow: #666666;
+// }
+// .valido {
+//     border: 1px solid #16a085;
+//     border-radius: 10px;
+// }
+// .valido:focus {
+//     border: 1px solid #16a085;
+//     border-radius: 10px;
+// }
+// .invalido {
+//     border: 1px solid #f00;
+//     border-radius: 10px;
+// }
+// .invalido:focus {
+//     border: 1px solid #f00;
+//     border-radius: 10px;
+// }

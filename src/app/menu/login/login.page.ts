@@ -6,7 +6,7 @@ import { ToastController, AlertController } from '@ionic/angular';
 import * as $ from 'jquery';
 import { LoginService } from '../../shared/services/login/login.service';
 import { Router, NavigationExtras } from '@angular/router';
-import { MenuPage } from '../menu.page';
+import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +15,11 @@ import { MenuPage } from '../menu.page';
 })
 export class LoginPage implements OnInit {
 
+  usuario: Usuarios = new Usuarios;
   private toast: any;
 
   formularioCadastro = new FormGroup({
-    primeiroNome: new FormControl(),
+    primeiro_nome: new FormControl(),
     sobrenome: new FormControl(),
     email: new FormControl(),
     usuario: new FormControl(),
@@ -31,7 +32,6 @@ export class LoginPage implements OnInit {
   });
 
   constructor(private router: Router, 
-    private afAuth: AngularFireAuth, 
     private toastController: ToastController, 
     private loginService: LoginService,
     private alertController: AlertController) {}
@@ -40,45 +40,48 @@ export class LoginPage implements OnInit {
 
   onSubmitLogin(){
     let formValues = this.formularioLogin.value;
-    // $('ion-progress-bar').removeClass('ion-hide');
-    this.exibirAlert();
-    this.loginService.login(formValues.email, formValues.senha)
-        .then(resp => {
-          console.log(('entrando'));
 
-          
-        })
-        .catch(err => {
-          console.log(err);
-          if(err.code == 'auth/wrong-password') this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
-          if(err.code == 'auth/user-not-found') this.exibirToast('Usuário não encontrado. Faça seu cadastro.');
-          
-        })
-        .finally(() => {
-          this.fecharAlert();
-
-          // $('ion-progress-bar').addClass('ion-hide');
-        })
-  }
-
-  onSubmitCadastro(){
-    let formValues = this.formularioCadastro.value;    
-    this.afAuth.auth.createUserWithEmailAndPassword(formValues.email, formValues.senha);
-    this.loginService.createUser(this.formularioCadastro.value)
-    .then(resp => {
+    if(!formValues.senha){
+      $('#senha').focus();
+      this.exibirToast('Informe a senha');
+    }else{
       // $('ion-progress-bar').removeClass('ion-hide');
       this.exibirAlert();
-      this.exibirToast('Usuário criado com sucesso.');
+      this.loginService.login(formValues.email, formValues.senha)
+          .then(resp => {
+            console.log(('entrando'));          
+          })
+          .catch(err => {
+            console.log(err);
+            if(err.code) this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
+          })
+          .finally(() => {
+            this.fecharAlert();
+  
+            // $('ion-progress-bar').addClass('ion-hide');
+          });
+    }
+  }
+
+  onSubmitCadastro(){      
+    let usuarioForm = this.formularioCadastro.value;
+
+    this.usuario.primeiro_nome = usuarioForm.primeiro_nome;
+    this.usuario.sobrenome = usuarioForm.sobrenome;
+    this.usuario.email = usuarioForm.email;
+    this.usuario.senha = usuarioForm.senha;
+    
+    console.log(this.usuario);
+    
+    this.loginService.createUser(this.usuario)
+    .then(resp => {
+      this.exibirToast(resp);
       $('#formularioCadastro').trigger('reset');
       this.voltar();
     })
     .catch(err => {
       console.log(err);
       this.exibirToast('Algo deu errado. Tente novamente.');
-    })
-    .finally(() => {
-      this.fecharAlert();
-      // $('ion-progress-bar').addClass('ion-hide');
     });
   }
 
@@ -125,5 +128,21 @@ export class LoginPage implements OnInit {
     $('.box-cadastrar').addClass('ion-hide');
     $('#btnEntrar').removeClass('ion-hide');
     $('#btnCadastrar').addClass('ion-hide');
+  }
+
+  onKeyLogin(event){
+    let regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
+
+    if(!regex.test(event.target.value)){
+      console.log('inválido');  
+      $('#btnEntrar').prop('disabled', 'true');
+    }else{
+      console.log('válido');
+      $('#btnEntrar').prop('disabled', 'false');
+    }
+  }
+
+  onKeyCadastro(){
+
   }
 }

@@ -6,7 +6,14 @@ import { MenuPageModule } from './menu/menu.module';
 import { MenuLogadoPage } from './menu-logado/menu-logado.page';
 import { MenuLogadoPageModule } from './menu-logado/menu-logado.module';
 
+let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
 const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: usuarioLogado ? 'menu-logado/explorar' : 'menu/explorar'
+  },
   {
     path: 'menu',
     component: MenuPage,
@@ -16,7 +23,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/explorar/explorar.module#ExplorarPageModule'
+            loadChildren: './menu/explorar/explorar.module#ExplorarPageModule',
           }
         ]
       },
@@ -25,7 +32,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/pesquisar/pesquisar.module#PesquisarPageModule'
+            loadChildren: './menu/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
       },
@@ -34,12 +41,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/login/login.module#LoginPageModule'
+            loadChildren: './menu/login/login.module#LoginPageModule',
           }
         ]
       },
       {
-        path: 'evento-detalhe', 
+        path: 'evento-detalhe/:id',
         children: [
           {
             path: '',
@@ -47,13 +54,17 @@ const routes: Routes = [
           }
         ]
       }
-    ]
+      // {
+      //   path: 'evento-detalhe', 
+      //   children: [
+      //     {
+      //       path: '',
+      //       loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
+      //     }
+      //   ]
+      // }
+    ],
   },
-  // {
-  //   path: '',
-  //   pathMatch: 'full',
-  //   redirectTo: 'menu/explorar',
-  // },
   { 
     path: 'menu-logado', 
     component: MenuLogadoPage,
@@ -63,13 +74,22 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu-logado/perfil/perfil.module#PerfilPageModule' 
+            loadChildren: './menu-logado/perfil/perfil.module#PerfilPageModule'
+          }
+        ]
+      },
+      {
+        path: 'explorar',
+        children: [
+          {
+            path: '',
+            loadChildren: './menu-logado/explorar/explorar.module#ExplorarPageModule',
+
           }
         ]
       }
-
     ]
-  },
+  }
 
 ];
 

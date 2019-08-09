@@ -4,14 +4,28 @@ h3,
 h4,
 h5 {
     color: #FF6700;
+    // color: #FFF;
+}
+
+.bem-vindo {
+    // color: #ED4C79;
+    color: #FFF;
+    text-align: center;
 }
 
 ion-content {
     // background-image: url("../../../assets/backgrounds/bg-explorar.png");
     // --background: url("../../../assets/backgrounds/bg-explorar.png");
     --background: #ecf0f1;
+    // --background: linear-gradient(to top, #ff0084, #0f0008);
 }
 
 .lista-categorias {
     margin-top: 20px;
+}
+
+.header {
+    height: 130px;
+    width: 100%;
+    background: #ED4C79;
 }
