@@ -1,3 +1,7 @@
+ion-content {
+    --background: #ecf0f1;
+}
+
 .conteudo {
     // height: 300px;
     // width: 100%;
@@ -19,6 +23,11 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 ion-card {
@@ -62,6 +71,11 @@ ion-button {
     outline: none;
     text-transform: lowercase;
     display: block;
+}
+
+input:invalid {
+    border: 1px solid #f00;
+    border-radius: 10px;
 }
 
 // .custom-input:focus {

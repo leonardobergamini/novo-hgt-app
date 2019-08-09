@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 
 import { Eventos } from '../../shared/models/eventos/eventos';
@@ -9,7 +9,7 @@ import { EventosService } from 'src/app/shared/services/eventos/eventos.service'
   templateUrl: './explorar.page.html',
   styleUrls: ['./explorar.page.scss'],
 })
-export class ExplorarPage implements OnInit {
+export class ExplorarPage implements OnInit, OnDestroy {
 
   eventosService: EventosService;
   eventos: Eventos[];
@@ -28,17 +28,23 @@ export class ExplorarPage implements OnInit {
   msgBoasVindas() {
     var data = new Date();
     if(data.getHours() < 12 ){
-      $('.bem-vindo').find('h1').remove();
-      $('.bem-vindo').append(`<h1 class="ion-text-left">bom dia, ${this.usuarioLogado.usuario.primeiroNome}</h1>`);
+      $('.bem-vindo').find('h2').remove();
+      $('.bem-vindo').append(`<h2>bom dia, ${this.usuarioLogado.primeiro_nome}</h2>`);
     }
     if (data.getHours() >= 12){
-      $('.bem-vindo').find('h1').remove();
-      $('.bem-vindo').append(`<h1 class="ion-text-left">boa tarde, ${this.usuarioLogado.usuario.primeiroNome}</h1>`);
+      $('.bem-vindo').find('h2').remove();
+      $('.bem-vindo').append(`<h2>boa tarde, ${this.usuarioLogado.primeiro_nome}</h2>`);
     }
     if(data.getHours() >= 18 ){
-      $('.bem-vindo').find('h1').remove();
-      $('.bem-vindo').append(`<h1 class="ion-text-left">boa noite, ${this.usuarioLogado.usuario.primeiroNome}</h1>`);
+      $('.bem-vindo').find('h2').remove();
+      $('.bem-vindo').append(`<h2>boa noite, ${this.usuarioLogado.primeiro_nome}</h2>`);
     }
   }
+
+  ngOnDestroy(): void {
+    this.usuarioLogado = null;
+
+  }
+
 }  
 

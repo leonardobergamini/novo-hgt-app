@@ -3,19 +3,29 @@ h2,
 h3,
 h4,
 h5 {
-    color: #fff;
+    color: #FF6700;
+    // color: #FFF;
 }
 
 .bem-vindo {
-    color: #fff;
+    // color: #ED4C79;
+    color: #FFF;
+    text-align: center;
 }
 
 ion-content {
     // background-image: url("../../../assets/backgrounds/bg-explorar.png");
     // --background: url("../../../assets/backgrounds/bg-explorar.png");
-    --background: #382D4D;
+    --background: #ecf0f1;
+    // --background: linear-gradient(to top, #ff0084, #0f0008);
 }
 
 .lista-categorias {
     margin-top: 20px;
+}
+
+.header {
+    height: 130px;
+    width: 100%;
+    background: #ED4C79;
 }

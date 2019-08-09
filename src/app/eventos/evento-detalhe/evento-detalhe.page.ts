@@ -23,7 +23,8 @@ export class EventoDetalhePage implements OnInit {
               private modalCtrl: ModalController){
 
     this.evento = navParams.get('eventoSelecionado');
-    console.log(this.evento);
+    this.evento.visualizações++;
+    
 
     // this.activeRoute.queryParams.subscribe(params => {
     //   if (this.router.getCurrentNavigation().extras.state){

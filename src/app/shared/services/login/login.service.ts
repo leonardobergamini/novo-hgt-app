@@ -2,6 +2,7 @@ import { Injectable, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Usuarios } from '../../models/usuarios/usuarios';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,27 @@ export class LoginService {
               private afAuth: AngularFireAuth,
               private router: Router) { }
 
-  createUser(user){
-    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.senha);
-    return this.firestore.collection('/usuarios').add(user);
+  createUser(usuario: Usuarios): Promise<string>{
+    
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
+          .then(resp => {
+            usuario.id_usuario = resp.user.uid;
+            this.firestore.collection('/usuarios').add({...usuario});
+            resolve('Usuário cadastrado com sucesso');
+          })
+          .catch(err => reject(err));
+      
+      console.log(usuario);
+      
+    }); 
   }
 
   readUsers(){
     return this.firestore.collection('/usuarios').snapshotChanges();
   }
   
-  findUser(email: string){
+  findUser(email: string){    
     return this.firestore.collection('/usuarios', ref => ref.where('email', '==', email)).get().toPromise();
   }
 
@@ -37,12 +49,7 @@ export class LoginService {
           if (user) {
             this.findUser(user.email)
             .then(resp => {
-              
-              this.usuarioLogado = {
-                usuario: resp.docs[0].data(),
-                uid: user.uid,
-                refreshToken: user.refreshToken
-              }
+              this.usuarioLogado = resp.docs[0].data();
               
               localStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado));
               localStorage.setItem('loginValido', 'true');
@@ -80,6 +87,10 @@ export class LoginService {
   getAuth(){
     return this.afAuth.auth;
   }
+
+  ID = function () {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
 
   
 }

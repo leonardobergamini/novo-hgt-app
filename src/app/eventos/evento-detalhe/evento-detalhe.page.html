@@ -1,7 +1,9 @@
-<ion-header padding mode="ios">
-    <ion-icon name="ios-arrow-back" (click)="fecharModal()" class="fechar ion-left"></ion-icon>
-</ion-header>
 <ion-content>
+    <ion-row padding>
+        <div class="sair">
+            <ion-icon name="ios-arrow-back" (click)="fecharModal()" class="fechar ion-left"></ion-icon>
+        </div>
+    </ion-row>
     <ion-row>
         <div class="imagem-evento-fixa">
             <img src="{{ evento.imagem }}" />
@@ -12,14 +14,14 @@
             <div class="infos-header">
                 <div class="infos-header-content">
                     <div class="nome-evento">
-                        <h1 class="ion-no-padding ion-no-margin"> {{ evento.artista }} </h1>
+                        <h1 class="ion-no-padding ion-no-margin"> {{ evento.atracao.nome }} </h1>
                     </div>
                     <ion-icon id="favorito" name="heart"></ion-icon>
                 </div>
                 <div class="infos-complementar-content">
                     <div class="data">
                         <ion-icon id="calendario" name="calendar"></ion-icon>
-                        <ion-text>{{ evento.data_inicio_evento_formatada }}</ion-text>
+                        <ion-text>{{ evento.dt_inicio_evento_formatada }}</ion-text>
                     </div>
                     <div class="hora">
                         <ion-icon id="relogio" name="time"></ion-icon>
@@ -54,4 +56,7 @@
         </div>
     </ion-row>
 
+    <ion-row>
+        <ion-button id="btnComprar" class="ion-no-margin" expand="full">garanta seu ingresso</ion-button>
+    </ion-row>
 </ion-content>
