@@ -10,14 +10,18 @@
                 </ion-card-header>
 
                 <ion-card-content>
-                    <form [formGroup]="formularioLogin" (ngSubmit)="onSubmitLogin()">
+                    <form id="formularioLogin" [formGroup]="formularioLogin" (ngSubmit)="onSubmitLogin()">
                         <div class="input-group">
                             <label for="email">email</label>
-                            <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyLogin($event)">
+                            <div class="input">
+                                <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyLogin($event)">
+                            </div>
                         </div>
                         <div class="input-group">
                             <label for="senha">senha</label>
-                            <input type="password" class="custom-input" id="senha" formControlName="senha">
+                            <div class="input">
+                                <input type="password" class="custom-input" id="senha" formControlName="senha">
+                            </div>
                         </div>
                         <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
                     </form>
@@ -45,29 +49,47 @@
 
                 <ion-card-content>
                     <form id="formularioCadastro" [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
-                        <div class="input-group">
-                            <label for="primeiro_nome">primeiro nome</label>
-                            <input type="text" class="custom-input" id="primeiro_nome" formControlName="primeiro_nome">
+                        <div class="input-group primeiro_nome">
+                            <div class="input-item">
+                                <label for="primeiro_nome">primeiro nome</label>
+                                <div class="input">
+                                    <input type="text" class="custom-input" id="primeiro_nome" formControlName="primeiro_nome" (blur)="verificarValidacao($event)">
+                                    <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                                </div>
+                                <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+                            </div>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group sobrenome">
                             <label for="sobrenome">sobrenome</label>
-                            <input type="text" class="custom-input" id="sobrenome" formControlName="sobrenome">
+                            <div class="input">
+                                <input type="text" class="custom-input" id="sobrenome" formControlName="sobrenome" (blur)="verificarValidacao($event)">
+                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                            </div>
+                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group email">
                             <label for="email">email</label>
-                            <input type="email" class="custom-input" id="email" formControlName="email">
+                            <div class="input">
+                                <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyCadastro($event)">
+                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                            </div>
+                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
                         </div>
-                        <!-- <div class="input-group">
-                            <label for="usuario">usuário</label>
-                            <input type="text" class="custom-input" id="usuario" formControlName="usuario">
-                        </div> -->
-                        <div class="input-group">
+                        <div class="input-group senha">
                             <label for="senha">senha</label>
-                            <input type="password" class="custom-input" id="senha" formControlName="senha">
+                            <div class="input">
+                                <input type="password" class="custom-input" id="senha" formControlName="senha" (keyup)="verificarSenha($event)">
+                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                            </div>
+                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group senhaConf">
                             <label for="senhaConf">confirme sua senha</label>
-                            <input type="password" class="custom-input" id="senhaConf">
+                            <div class="input">
+                                <input type="password" class="custom-input" id="senhaConf" (keyup)="verificarSenhaIgual($event)">
+                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                            </div>
+                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
                         </div>
                         <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar">Cadastrar</ion-button>
                     </form>
