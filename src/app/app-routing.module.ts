@@ -3,8 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { MenuPage } from './menu/menu.page';
 import { MenuPageModule } from './menu/menu.module';
-import { MenuLogadoPage } from './menu-logado/menu-logado.page';
-import { MenuLogadoPageModule } from './menu-logado/menu-logado.module';
+import { MenuLogadoPage } from './logado/menu-logado/menu-logado.page';
+import { MenuLogadoPageModule } from './logado/menu-logado/menu-logado.module';
 
 let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
@@ -74,7 +74,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu-logado/perfil/perfil.module#PerfilPageModule'
+            loadChildren: './logado/menu-logado/perfil/perfil.module#PerfilPageModule'
+          },
+          { 
+            path: 'meus-favoritos', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' 
           }
         ]
       },
@@ -83,13 +87,15 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu-logado/explorar/explorar.module#ExplorarPageModule',
+            loadChildren: './logado/menu-logado/explorar/explorar.module#ExplorarPageModule',
 
           }
         ]
       }
     ]
-  }
+  },
+  // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
+  // { path: 'meus-favoritos', loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' }
 
 ];
 

@@ -10,7 +10,8 @@ h5 {
 .bem-vindo {
     // color: #ED4C79;
     color: #FFF;
-    text-align: center;
+    text-align: left;
+    width: 40%;
 }
 
 ion-content {
@@ -27,5 +28,6 @@ ion-content {
 .header {
     height: 130px;
     width: 100%;
-    background: #ED4C79;
+    // background: #ee609c;
+    background: url("../../../../assets/backgrounds/background.png");
 }

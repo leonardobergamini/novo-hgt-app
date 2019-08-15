@@ -1,0 +1,25 @@
+.perfil {
+    height: 200px;
+    background-color: rgb(243, 240, 240);
+}
+
+.foto-perfil {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.foto-perfil>img {
+    width: 80px;
+    height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 50%;
+}
+
+.dados-perfil {
+    margin-bottom: 5px;
+}
+
+ion-icon {
+    font-size: 28px;
+}

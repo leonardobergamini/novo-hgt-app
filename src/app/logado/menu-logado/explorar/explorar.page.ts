@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 
-import { Eventos } from '../../shared/models/eventos/eventos';
+import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ExplorarPage implements OnInit, OnDestroy {
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
   usuarioLogado: any;
 
-  constructor() { }
+  constructor(private statusBar: StatusBar) { }
 
   ngOnInit() {
     this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
