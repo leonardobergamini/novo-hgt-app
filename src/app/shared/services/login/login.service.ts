@@ -10,6 +10,8 @@ import { Usuarios } from '../../models/usuarios/usuarios';
 export class LoginService {
 
   public usuarioLogado: any;
+  private usuarioFormatado: Usuarios;
+  private usuarioSemFormatacao: any;
 
   constructor(private firestore: AngularFirestore, 
               private afAuth: AngularFireAuth,
@@ -49,7 +51,7 @@ export class LoginService {
           if (user) {
             this.findUser(user.email)
             .then(resp => {
-              this.usuarioLogado = resp.docs[0].data();
+              this.usuarioLogado = this.inicializaUsuario(resp.docs[0].data());
               
               localStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado));
               localStorage.setItem('loginValido', 'true');
@@ -88,9 +90,25 @@ export class LoginService {
     return this.afAuth.auth;
   }
 
-  ID = function () {
-    return '_' + Math.random().toString(36).substr(2, 9);
-  };
-
+  inicializaUsuario(user: any): Usuarios{
+    return this.usuarioFormatado = {
+      id_usuario: user.id_usuario,
+      primeiro_nome: user.primeiro_nome,
+      sobrenome: user.sobrenome,
+      email: user.email,
+      senha: user.senha,
+      cep: null,
+      cidade: null,
+      complemento: null,
+      cpf: null,
+      dt_nascimento: null,
+      img_perfil: null,
+      logradouro: null,
+      numero: null,
+      telefone: null,
+      uf: null,
+      usuario: null
+    }
+  }
   
 }

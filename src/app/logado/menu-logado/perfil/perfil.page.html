@@ -1,0 +1,52 @@
+<ion-content>
+    <div class="perfil" padding>
+        <div *ngIf="temFoto else naoTemFoto" class="foto-perfil">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="Foto do perfil">
+        </div>
+
+        <ng-template #naoTemFoto>
+            <div class="foto-perfil">
+                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" alt="Foto do perfil">
+            </div>
+        </ng-template>
+
+        <div class="dados-perfil">
+            <div class="nome-completo" class="ion-text-center">
+                <p class="ion-no-margin" *ngIf="usuarioLogado.primeiro_nome else semNome">{{ usuarioLogado.primeiro_nome + ' ' +usuarioLogado.sobrenome }}</p>
+                <ng-template #semNome>
+                    <p class="ion-no-margin">sem nome</p>
+                </ng-template>
+            </div>
+
+            <div class="nome-usuario" class="ion-text-center">
+                <p class="ion-no-margin" *ngIf="usuarioLogado.usuario else semUsuario">@{{ usuarioLogado.usuario }}</p>
+                <ng-template #semUsuario>
+                    <p class="ion-no-margin">@sem nome de usuário</p>
+                </ng-template>
+            </div>
+
+        </div>
+        <div class="btn-editar" class="ion-text-center">
+            <ion-button size="small" (click)="editarPerfil()">editar perfil</ion-button>
+        </div>
+    </div>
+
+    <div class="lista-opcoes">
+        <ion-list>
+            <div *ngFor="let item of itens">
+                <ion-item button lines="full" routerLink="{{ item.rota }}" routerDirection="forward">
+                    <ion-icon slot="start" name="{{ item.icone }}"></ion-icon>
+                    <ion-label>
+                        <h3>{{ item.titulo }}</h3>
+                    </ion-label>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+
+
+</ion-content>
+
+<ion-footer padding class="ion-text-center" mode="ios">
+    <ion-button shape="round" (click)="sair()" color="danger" class="">sair</ion-button>
+</ion-footer>

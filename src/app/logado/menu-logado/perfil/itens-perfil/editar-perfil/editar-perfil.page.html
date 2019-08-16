@@ -1,0 +1,57 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>editar perfil</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button (click)="fecharModal()" text="" icon="ios-arrow-back" defaultHref="/menu-logado/perfil"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form id="formularioCadastro" [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
+        <div class="input-group primeiro_nome">
+            <div class="input-item">
+                <label for="primeiro_nome">primeiro nome</label>
+                <div class="input">
+                    <input type="text" class="custom-input" id="primeiro_nome" formControlName="primeiro_nome" (blur)="verificarValidacao($event)">
+                    <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+                </div>
+                <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+            </div>
+        </div>
+        <div class="input-group sobrenome">
+            <label for="sobrenome">sobrenome</label>
+            <div class="input">
+                <input type="text" class="custom-input" id="sobrenome" formControlName="sobrenome" (blur)="verificarValidacao($event)">
+                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+            </div>
+            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+        </div>
+        <div class="input-group email">
+            <label for="email">email</label>
+            <div class="input">
+                <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyCadastro($event)">
+                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+            </div>
+            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+        </div>
+        <div class="input-group senha">
+            <label for="senha">senha</label>
+            <div class="input">
+                <input type="password" class="custom-input" id="senha" formControlName="senha" (keyup)="verificarSenha($event)">
+                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+            </div>
+            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+        </div>
+        <div class="input-group senhaConf">
+            <label for="senhaConf">confirme sua senha</label>
+            <div class="input">
+                <input type="password" class="custom-input" id="senhaConf" (keyup)="verificarSenhaIgual($event)">
+                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
+            </div>
+            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
+        </div>
+        <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar">Cadastrar</ion-button>
+    </form>
+
+</ion-content>

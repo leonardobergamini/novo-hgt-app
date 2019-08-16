@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { MenuPage } from './menu/menu.page';
-import { MenuPageModule } from './menu/menu.module';
-import { MenuLogadoPage } from './menu-logado/menu-logado.page';
-import { MenuLogadoPageModule } from './menu-logado/menu-logado.module';
+import { MenuPage } from './deslogado/menu/menu.page';
+import { MenuPageModule } from './deslogado/menu/menu.module';
+import { MenuLogadoPage } from './logado/menu-logado/menu-logado.page';
+import { MenuLogadoPageModule } from './logado/menu-logado/menu-logado.module';
 
 let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
@@ -23,7 +23,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/explorar/explorar.module#ExplorarPageModule',
+            loadChildren: './deslogado/menu/explorar/explorar.module#ExplorarPageModule',
           }
         ]
       },
@@ -32,7 +32,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/pesquisar/pesquisar.module#PesquisarPageModule',
+            loadChildren: './deslogado/menu/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
       },
@@ -41,28 +41,10 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/login/login.module#LoginPageModule',
-          }
-        ]
-      },
-      {
-        path: 'evento-detalhe/:id',
-        children: [
-          {
-            path: '',
-            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
+            loadChildren: './deslogado/menu/login/login.module#LoginPageModule',
           }
         ]
       }
-      // {
-      //   path: 'evento-detalhe', 
-      //   children: [
-      //     {
-      //       path: '',
-      //       loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
-      //     }
-      //   ]
-      // }
     ],
   },
   { 
@@ -74,7 +56,11 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu-logado/perfil/perfil.module#PerfilPageModule'
+            loadChildren: './logado/menu-logado/perfil/perfil.module#PerfilPageModule'
+          },
+          { 
+            path: 'meus-favoritos', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' 
           }
         ]
       },
@@ -83,13 +69,24 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu-logado/explorar/explorar.module#ExplorarPageModule',
+            loadChildren: './logado/menu-logado/explorar/explorar.module#ExplorarPageModule',
 
+          }
+        ]
+      },
+      {
+        path: 'pesquisar',
+        children: [
+          {
+            path: '',
+            loadChildren: './logado/menu-logado/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
       }
     ]
-  }
+  },
+  // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
+  // { path: 'meus-favoritos', loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' }
 
 ];
 
