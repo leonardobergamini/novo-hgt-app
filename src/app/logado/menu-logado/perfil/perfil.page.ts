@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from 'src/app/shared/services/login/login.service';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import * as $ from 'jquery';
+import { ModalController, NavController } from '@ionic/angular';
+import { EditarPerfilPage } from './itens-perfil/editar-perfil/editar-perfil.page';
 
 @Component({
   selector: 'app-perfil',
@@ -18,36 +20,40 @@ export class PerfilPage implements OnInit {
     {
       titulo: 'meus favoritos',
       icone: 'md-heart',
-      tela: 'meus-favoritos'
+      rota: 'meus-favoritos'
     },
     {
       titulo: 'formas de pagamento',
       icone: 'ios-card',
-      tela: ''
+      rota: 'formas-pagamento'
     },
     {
       titulo: 'atendimento',
       icone: 'ios-chatbubbles',
-      tela: ''
+      rota: 'atendimento'
     },
     {
       titulo: 'termos de uso',
       icone: 'ios-document',
-      tela: ''
+      rota: 'termos-uso'
     },
     {
       titulo: 'políticas de privacidade',
       icone: 'ios-paper',
-      tela: ''
+      rota: 'politicas-privacidade'
     }
   ];
 
-  constructor(private loginService: LoginService) { }
+  constructor(
+    private loginService: LoginService, 
+    private modalController: ModalController) { }
 
   ngOnInit() {
-    this.usuarioLogado.usuario = null;
     this.temFoto = this.usuarioLogado.img_perfil == undefined || this.usuarioLogado.img_perfil == null || this.usuarioLogado.img_perfil == '';
-    console.log(this.usuarioLogado);
+  }
+
+  ionViewDidEnter(){
+    this.usuarioLogado = {...JSON.parse(localStorage.getItem('usuarioLogado'))};
   }
 
   sair(){
@@ -57,8 +63,14 @@ export class PerfilPage implements OnInit {
         });
   }
 
-  abrirPagina(){
-    console.log();
+  async editarPerfil(){
+    const modal = await this.modalController.create({
+      component: EditarPerfilPage,
+      componentProps: {
+        'usuario': this.usuarioLogado
+      }
+    });
+    return await modal.present();
   }
 
 }

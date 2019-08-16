@@ -27,14 +27,14 @@
 
         </div>
         <div class="btn-editar" class="ion-text-center">
-            <ion-button size="small">editar perfil</ion-button>
+            <ion-button size="small" (click)="editarPerfil()">editar perfil</ion-button>
         </div>
     </div>
 
     <div class="lista-opcoes">
         <ion-list>
             <div *ngFor="let item of itens">
-                <ion-item button lines="full" routerLink="{{ item.tela }}" routerDirection="forward">
+                <ion-item button lines="full" routerLink="{{ item.rota }}" routerDirection="forward">
                     <ion-icon slot="start" name="{{ item.icone }}"></ion-icon>
                     <ion-label>
                         <h3>{{ item.titulo }}</h3>

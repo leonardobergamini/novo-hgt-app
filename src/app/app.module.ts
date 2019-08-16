@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { EventoDetalhePage } from './eventos/evento-detalhe/evento-detalhe.page';
 import { EventoDetalhePageModule } from './eventos/evento-detalhe/evento-detalhe.module';
+import { EditarPerfilPageModule } from './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { EventoDetalhePageModule } from './eventos/evento-detalhe/evento-detalhe
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
-    EventoDetalhePageModule
+    EventoDetalhePageModule,
+    EditarPerfilPageModule
   ],
   providers: [
     StatusBar,
