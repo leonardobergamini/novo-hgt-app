@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { ToastController, AlertController } from '@ionic/angular';
 
 import * as $ from 'jquery';
-import { LoginService } from '../../shared/services/login/login.service';
+import { LoginService } from '../../../shared/services/login/login.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 

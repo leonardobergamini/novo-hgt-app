@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { MenuPage } from './menu/menu.page';
-import { MenuPageModule } from './menu/menu.module';
+import { MenuPage } from './deslogado/menu/menu.page';
+import { MenuPageModule } from './deslogado/menu/menu.module';
 import { MenuLogadoPage } from './logado/menu-logado/menu-logado.page';
 import { MenuLogadoPageModule } from './logado/menu-logado/menu-logado.module';
 
@@ -23,7 +23,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/explorar/explorar.module#ExplorarPageModule',
+            loadChildren: './deslogado/menu/explorar/explorar.module#ExplorarPageModule',
           }
         ]
       },
@@ -32,7 +32,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/pesquisar/pesquisar.module#PesquisarPageModule',
+            loadChildren: './deslogado/menu/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
       },
@@ -41,7 +41,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './menu/login/login.module#LoginPageModule',
+            loadChildren: './deslogado/menu/login/login.module#LoginPageModule',
           }
         ]
       },
@@ -50,7 +50,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
+            loadChildren: './deslogado/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
           }
         ]
       }

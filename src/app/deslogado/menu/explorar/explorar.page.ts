@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
-import { Eventos } from '../../shared/models/eventos/eventos';
+import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 
 @Component({
