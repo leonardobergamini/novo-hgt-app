@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 
 import { Eventos } from '../../../shared/models/eventos/eventos';
@@ -15,10 +16,10 @@ export class ExplorarPage implements OnInit {
   eventos: Eventos[];
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
 
-  constructor() { }
+  constructor(private statusBar: StatusBar) { }
 
   ngOnInit() {
-  
+    this.statusBar.backgroundColorByHexString('#E4E8E8');
     this.eventosService = new EventosService();
     this.eventos = this.eventosService.getAllEventos();
   }

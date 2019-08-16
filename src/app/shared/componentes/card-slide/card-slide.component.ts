@@ -5,7 +5,7 @@ import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
 import { EventEmitter } from 'events';
 import { ModalController } from '@ionic/angular';
-import { EventoDetalhePage } from 'src/app/eventos/evento-detalhe/evento-detalhe.page';
+import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 
 @Component({
   selector: 'card-slide',

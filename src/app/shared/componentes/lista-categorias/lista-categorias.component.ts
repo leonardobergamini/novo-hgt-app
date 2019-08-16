@@ -4,7 +4,7 @@ import * as $ from 'jquery';
 import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
 import { ModalController } from '@ionic/angular';
-import { EventoDetalhePage } from 'src/app/eventos/evento-detalhe/evento-detalhe.page';
+import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 
 @Component({
   selector: 'lista-categorias',
