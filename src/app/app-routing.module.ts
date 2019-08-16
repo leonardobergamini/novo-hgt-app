@@ -54,15 +54,6 @@ const routes: Routes = [
           }
         ]
       }
-      // {
-      //   path: 'evento-detalhe', 
-      //   children: [
-      //     {
-      //       path: '',
-      //       loadChildren: './eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule',
-      //     }
-      //   ]
-      // }
     ],
   },
   { 
@@ -91,7 +82,16 @@ const routes: Routes = [
 
           }
         ]
-      }
+      },
+      {
+        path: 'pesquisar',
+        children: [
+          {
+            path: '',
+            loadChildren: './logado/menu-logado/pesquisar/pesquisar.module#PesquisarPageModule',
+          }
+        ]
+      },
     ]
   },
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },

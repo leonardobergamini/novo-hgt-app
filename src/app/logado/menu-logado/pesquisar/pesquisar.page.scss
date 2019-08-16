@@ -1,0 +1,25 @@
+ion-header,
+ion-toolbar,
+ion-content {
+    --background: #2d3436;
+}
+
+ion-content {
+    --color: #fff;
+}
+
+ion-searchbar {
+    --background: #d7d8da;
+}
+
+.descricao-busca {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#busca {
+    color: #e17055;
+    font-size: 18px;
+    font-weight: bold;
+}
