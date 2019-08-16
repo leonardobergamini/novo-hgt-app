@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import { Eventos } from '../../../models/eventos/eventos';
 import * as $ from 'jquery';
 import { ModalController, NavParams } from '@ionic/angular';
 

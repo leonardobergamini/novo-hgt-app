@@ -44,15 +44,6 @@ const routes: Routes = [
             loadChildren: './deslogado/menu/login/login.module#LoginPageModule',
           }
         ]
-      },
-      {
-        path: 'evento-detalhe/:id',
-        children: [
-          {
-            path: '',
-            loadChildren: './deslogado/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'
-          }
-        ]
       }
     ],
   },
@@ -91,7 +82,7 @@ const routes: Routes = [
             loadChildren: './logado/menu-logado/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
-      },
+      }
     ]
   },
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
