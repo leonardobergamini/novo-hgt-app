@@ -41,6 +41,16 @@ export class PerfilPage implements OnInit {
       titulo: 'políticas de privacidade',
       icone: 'ios-paper',
       rota: 'politicas-privacidade'
+    },
+    {
+      titulo: 'alterar senha',
+      icone: 'ios-key',
+      rota: 'alterar-senha'
+    },
+    {
+      titulo: 'editar perfil',
+      icone: 'md-create',
+      rota: 'editar-perfil'
     }
   ];
 
@@ -49,11 +59,14 @@ export class PerfilPage implements OnInit {
     private modalController: ModalController) { }
 
   ngOnInit() {
-    this.temFoto = this.usuarioLogado.img_perfil == undefined || this.usuarioLogado.img_perfil == null || this.usuarioLogado.img_perfil == '';
+    this.temFoto = this.usuarioLogado.imgPerfil == undefined || this.usuarioLogado.imgPerfil == null || this.usuarioLogado.imgPerfil == '';
   }
 
   ionViewDidEnter(){
     this.usuarioLogado = {...JSON.parse(localStorage.getItem('usuarioLogado'))};
+  }
+
+  ionViewCanLeave(){
   }
 
   sair(){
@@ -62,15 +75,4 @@ export class PerfilPage implements OnInit {
           console.log(resp);
         });
   }
-
-  async editarPerfil(){
-    const modal = await this.modalController.create({
-      component: EditarPerfilPage,
-      componentProps: {
-        'usuario': this.usuarioLogado
-      }
-    });
-    return await modal.present();
-  }
-
 }

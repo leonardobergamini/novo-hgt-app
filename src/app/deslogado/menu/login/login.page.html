@@ -20,7 +20,7 @@
                                 <ion-label position="stacked">senha</ion-label>
                                 <ion-input formControlName="senha" type="password"></ion-input>
                             </div>
-                            <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar" [ngClass]="{'button-disabled': !formLoginIsValid()}">Entrar</ion-button>
+                            <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar" color="primary" [disabled]="!formLogin.valid">Entrar</ion-button>
                         </form>
 
                         <div class="links ">
@@ -38,7 +38,6 @@
 
             <ion-slide>
                 <ion-card mode="ios">
-                    <ion-progress-bar id="progressoCadastro" class="ion-hide" type="indeterminate"></ion-progress-bar>
                     <ion-card-header class="card-header">
                         <ion-icon name="arrow-back" size="large" (click)="prev()"></ion-icon>
                         <ion-card-title>Cadastrar</ion-card-title>
@@ -96,7 +95,7 @@
                                 </ng-container>
                             </div>
 
-                            <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar" [ngClass]="{'button-disabled': !formCadastroIsValid()}">Cadastrar</ion-button>
+                            <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar" [disabled]="!formCadastro.valid">Cadastrar</ion-button>
                         </form>
 
                     </ion-card-content>

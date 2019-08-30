@@ -42,7 +42,11 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './deslogado/menu/login/login.module#LoginPageModule',
-          }
+          },
+          // { 
+          //   path: 'cadastrar', 
+          //   loadChildren: './deslogado/menu/login/cadastrar/cadastrar.module#CadastrarPageModule' 
+          // }
         ]
       }
     ],
@@ -61,6 +65,10 @@ const routes: Routes = [
           { 
             path: 'meus-favoritos', 
             loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' 
+          },
+          { 
+            path: 'editar-perfil', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' 
           }
         ]
       },
@@ -86,7 +94,6 @@ const routes: Routes = [
     ]
   },
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
-  // { path: 'meus-favoritos', loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' }
 
 ];
 

@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
-import { ToastController, AlertController, NavController } from '@ionic/angular';
-import { Router, NavigationExtras } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { ToastController, AlertController, NavController, LoadingController } from '@ionic/angular';
 
 import * as $ from 'jquery';
 import { LoginService } from '../../../shared/services/login/login.service';
-import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import { EmailValidator } from '../../../shared/validators/email-validator/email-validator'
 import { SenhaValidator } from '../../../shared/validators/senha-validator/senha-validator'
+import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +18,10 @@ export class LoginPage implements OnInit {
 
   @ViewChild('formSlides') formSlides;
 
-  usuario: Usuarios = new Usuarios;
   private toast: any;
-  private erro: boolean;
-
-  public formLogin: FormGroup;
-  public formCadastro: FormGroup;
+  private loading: any;
+  private formLogin: FormGroup;
+  private formCadastro: FormGroup;
 
   mensagensValidacao = {
     'primeiro_nome': [
@@ -53,7 +51,7 @@ export class LoginPage implements OnInit {
       {type: 'minlength', message: 'Sua senha deve ser maior que 6 caracteres.'},
       {type: 'senhasdiferentes', message: 'As senhas devem ser iguais.'}
     ]
-  }
+  };
 
   sliderOpts = {
     initialSlide: 0,
@@ -63,19 +61,21 @@ export class LoginPage implements OnInit {
     preventInteractionOnTransition: true,
   }
 
-  constructor(private router: Router, 
+  constructor(
     private toastController: ToastController, 
     private loginService: LoginService,
     private alertController: AlertController,
     public formBuilder: FormBuilder,
-    public navCtrl: NavController) {
-
+    public navCtrl: NavController,
+    public usuarioService: UsuarioService,
+    private loadingController: LoadingController
+    ) {
       this.formCadastro = formBuilder.group({
         primeiro_nome: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
         sobrenome: ['', Validators.compose([Validators.maxLength(50), Validators.pattern('[a-zA-z ]*'), Validators.required])],
         email: ['', Validators.required, EmailValidator.verificarEmail],
         senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-        senhaConfirmacao: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+        senhaConfirmacao: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       }, {validator: SenhaValidator.areSenhasIguais});
 
       this.formLogin = formBuilder.group({
@@ -88,8 +88,7 @@ export class LoginPage implements OnInit {
   ngOnInit() { }
 
   ionViewDidLeave(){
-    $('#progressoLogin').addClass('ion-hide');
-    $('#progressoCadastro').addClass('ion-hide');
+    this.loadingController.dismiss().then(() => console.log('fechando loading')).catch(err => console.log(err));
   }
 
   next(){
@@ -100,22 +99,13 @@ export class LoginPage implements OnInit {
     this.formSlides.slidePrev();
   }
 
-  formLoginIsValid(){
-    return this.formLogin.valid;
-  }
-
-  formCadastroIsValid(){
-    return this.formCadastro.valid;
-  }
-
   onSubmitLogin(){
-
     if(!this.formLogin.valid){
       console.log('Há erros no form de login');
-      this.exibirToast('Há erros no formulário. Verique-o e tente novamente.');
+      this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
       this.formSlides.slideTo(0);
     }else{
-      $('#progressoLogin').removeClass('ion-hide');
+      this.exibirLoading();
       this.loginService.login(this.formLogin.get('email').value, this.formLogin.get('senha').value)
           .then(resp => {
             console.log(('entrando'));          
@@ -123,68 +113,39 @@ export class LoginPage implements OnInit {
           .catch(err => {
             console.log(err);
             $('#progressoLogin').addClass('ion-hide');
-            if(err.code) this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
-          })
+            if(err.code) this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
+          });
     }
   }
 
   onSubmitCadastro(){      
+    console.log(this.formCadastro.value);
     if(!this.formCadastro.valid){
-      console.log('Há erros no form cadastro');
-      this.exibirToast('Há erros no formulário. Verique-o e tente novamente.');
+      this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
       this.formSlides.slideTo(1);
     }else{
-      $('#progressoCadastro').removeClass('ion-hide');
-      this.usuario = this.formCadastro.value;      
-      this.loginService.createUser(this.usuario)
+      this.exibirLoading();
+      this.usuarioService.createUser(Utils.inicializaUsuario(this.formCadastro.value))
       .then(resp => {
-        this.exibirToast(resp);
-        $('#formularioCadastro').trigger('reset');
-        this.prev();
+        if(resp.status == 200 || resp.status == 201){
+          this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark-circle');
+          $('#formularioCadastro').trigger('reset');
+          this.prev();
+        }else{
+          this.exibirErro('Algo deu errado. Tente novamente.', 'md-close-circle');
+          return;
+        }
       })
       .catch(err => {
-        $('#progressoCadastro').addClass('ion-hide');
-        console.log(err.code);
-        if(err.code == 'auth/email-already-in-use'){
-          this.exibirAlert();
+        if(err){
+          this.exibirErro('Algo deu errado. Tente novamente.', 'md-close-circle');
           return;
-        }else{
-          this.exibirToast('Algo deu errado. Tente novamente.');
         }
+      })
+      .finally(() => {
+        this.fecharLoading();
       });
     }
-  }
-
-  verificarValidacao(event){
-    let campo = event.target;
-
-    if($(campo).val() == '' || $(campo).val() == null){
-      console.log(event.target);
-      $(campo).parent().addClass('invalido');
-      $(campo).parent().parent().find('.validacao').removeClass('ion-hide');
-      $(campo).parent().removeClass('valido');
-      $(campo).parent().find('.icone-ok').addClass('ion-hide');
-      this.erro = true;
-    }else{
-      console.log(event.target);
-      $(campo).parent().removeClass('invalido');
-      $(campo).parent().parent().find('.validacao').addClass('ion-hide');
-      $(campo).parent().addClass('valido');
-      $(campo).parent().find('.icone-ok').removeClass('ion-hide');
-      this.erro = false;
-    }
-  }
-
-  exibirToast(mensagem){
-    this.toast = this.toastController.create({
-      color: 'dark',
-      duration: 3000,
-      message: `${mensagem}`,
-      closeButtonText: 'fechar',
-      showCloseButton: true
-    }).then(toastData => {
-      toastData.present();
-    });    
   }
 
   exibirAlert(){
@@ -213,12 +174,43 @@ export class LoginPage implements OnInit {
       alert.present();
     }).catch(err => {
       console.log(err);
-      this.exibirToast('Erro');
     });
   }
 
   fecharAlert(){
     this.alertController.dismiss();
+  }
+
+  async exibirLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Carregando...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+    await this.loading.present();
+  }
+
+  async fecharLoading(){
+    await this.loadingController.dismiss();
+  }
+
+  exibirErro(msg: string, icone: string){
+    this.toast = this.toastController.create({
+      color: 'dark',
+      duration: 3000,
+      message: msg,
+      closeButtonText: 'fechar',
+      showCloseButton: true,
+      buttons: [
+        {
+          side: 'start',
+          icon: icone
+        }
+      ]
+    }).then(toastData => {
+      toastData.present();
+    });  
   }
 
 }

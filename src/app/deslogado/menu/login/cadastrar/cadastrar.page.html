@@ -1,26 +1,27 @@
-<ion-header translucent>
+<ion-header>
     <ion-toolbar>
-        <ion-title>Editar Perfil</ion-title>
-        <ion-buttons slot="start">
-            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="/menu-logado/perfil"></ion-back-button>
-        </ion-buttons>
+        <ion-title>cadastrar</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<!-- <ion-content>
     <ion-card mode="ios">
         <ion-progress-bar id="progressoCadastro" class="ion-hide" type="indeterminate"></ion-progress-bar>
+        <ion-card-header class="card-header">
+            <ion-icon name="arrow-back" size="large" (click)="prev()"></ion-icon>
+            <ion-card-title>Cadastrar</ion-card-title>
+        </ion-card-header>
+
         <ion-card-content>
-            <form id="formEditar" [formGroup]="formEditar" (ngSubmit)="onSubmitEditar()">
-                <ion-input formControlName="id_usuario" class="ion-hide" readonly></ion-input>
+            <form id="formularioCadastro" [formGroup]="formCadastro" (ngSubmit)="onSubmitCadastro()">
                 <ion-grid>
                     <ion-row>
                         <ion-col>
                             <div id="primeiro_nome" class="ion-text-start input-group">
                                 <ion-label position="stacked">primeiro nome</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('primeiro_nome').valid  && (formEditar.get('primeiro_nome').dirty || formEditar.get('primeiro_nome').touched)}" formControlName="primeiro_nome" type="text"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('primeiro_nome').valid  && (formCadastro.get('primeiro_nome').dirty || formCadastro.get('primeiro_nome').touched)}" formControlName="primeiro_nome" type="text"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.primeiro_nome">
-                                    <div *ngIf="formEditar.get('primeiro_nome').hasError(validacao.type) && (formEditar.get('primeiro_nome').dirty || formEditar.get('primeiro_nome').touched)">
+                                    <div *ngIf="formCadastro.get('primeiro_nome').hasError(validacao.type) && (formCadastro.get('primeiro_nome').dirty || formCadastro.get('primeiro_nome').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -32,9 +33,9 @@
                         <ion-col>
                             <div id="sobrenome" class="ion-text-start input-group">
                                 <ion-label position="stacked">sobrenome</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('sobrenome').valid  && (formEditar.get('sobrenome').dirty || formEditar.get('sobrenome').touched)}" formControlName="sobrenome" type="text"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('sobrenome').valid  && (formCadastro.get('sobrenome').dirty || formCadastro.get('sobrenome').touched)}" formControlName="sobrenome" type="text"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.sobrenome">
-                                    <div *ngIf="formEditar.get('sobrenome').hasError(validacao.type) && (formEditar.get('sobrenome').dirty || formEditar.get('sobrenome').touched)">
+                                    <div *ngIf="formCadastro.get('sobrenome').hasError(validacao.type) && (formCadastro.get('sobrenome').dirty || formCadastro.get('sobrenome').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -46,9 +47,37 @@
                         <ion-col>
                             <div id="email" class="ion-text-start input-group">
                                 <ion-label position="stacked">e-mail</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('email').valid  && (formEditar.get('email').dirty || formEditar.get('email').touched)}" formControlName="email" type="email" readonly></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('email').valid  && (formCadastro.get('email').dirty || formCadastro.get('email').touched)}" formControlName="email" type="email"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.email">
-                                    <div *ngIf="formEditar.get('email').hasError(validacao.type) && (formEditar.get('email').dirty || formEditar.get('email').touched)">
+                                    <div *ngIf="formCadastro.get('email').hasError(validacao.type) && (formCadastro.get('email').dirty || formCadastro.get('email').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <div id="senha" class="ion-text-start">
+                                <ion-label position="stacked">senha</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('senha').valid  && (formCadastro.get('senha').dirty || formCadastro.get('senha').touched)}" formControlName="senha" type="password"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.senha">
+                                    <div *ngIf="formCadastro.get('senha').hasError(validacao.type) && (formCadastro.get('senha').dirty || formCadastro.get('senha').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <div id="confirmacao_senha" class="ion-text-start">
+                                <ion-label position="stacked">confirme sua senha</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('senhaConfirmacao').valid  && (formCadastro.get('senhaConfirmacao').dirty || formCadastro.get('senhaConfirmacao').touched)}" formControlName="senhaConfirmacao" type="password"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.senhaConfirmacao">
+                                    <div *ngIf="formCadastro.get('senhaConfirmacao').hasError(validacao.type) && (formCadastro.get('senhaConfirmacao').dirty || formCadastro.get('senhaConfirmacao').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -64,7 +93,7 @@
                                 <ion-datetime displayFormat="DD/MM/YYYY" min="1940" max="2019-08-19" [value]="getData()" cancelText="cancelar" doneText="pronto" (ionChange)="setData($event)"></ion-datetime>
 
                                 <ng-container *ngFor="let validacao of mensagensValidacao.dt_nascimento">
-                                    <div *ngIf="formEditar.get('dt_nascimento').hasError(validacao.type) && (formEditar.get('dt_nascimento').dirty || formEditar.get('dt_nascimento').touched)">
+                                    <div *ngIf="formCadastro.get('dt_nascimento').hasError(validacao.type) && (formCadastro.get('dt_nascimento').dirty || formCadastro.get('dt_nascimento').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -76,10 +105,10 @@
                         <ion-col>
                             <div id="cpf" class="ion-text-start input-group">
                                 <ion-label position="stacked">cpf</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('cpf').valid  && (formEditar.get('cpf').dirty || formEditar.get('cpf').touched)}" formControlName="cpf" inputmode="numeric" name="cpf" [brmasker]="{form: formEditar.get('cpf'), mask: '999.999.999-99'}"
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('cpf').valid  && (formCadastro.get('cpf').dirty || formCadastro.get('cpf').touched)}" formControlName="cpf" inputmode="numeric" name="cpf" [brmasker]="{form: formCadastro.get('cpf'), mask: '999.999.999-99'}"
                                     maxlength="14"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.cpf">
-                                    <div *ngIf="formEditar.get('cpf').hasError(validacao.type) && (formEditar.get('cpf').dirty || formEditar.get('cpf').touched)">
+                                    <div *ngIf="formCadastro.get('cpf').hasError(validacao.type) && (formCadastro.get('cpf').dirty || formCadastro.get('cpf').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -91,9 +120,9 @@
                         <ion-col>
                             <div id="telefone" class="ion-text-start input-group">
                                 <ion-label position="stacked">telefone</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('telefone').valid  && (formEditar.get('telefone').dirty || formEditar.get('telefone').touched)}" formControlName="telefone" inputmode="tel" name="phone" [brmasker]="{form: formEditar.get('numero'), phone: true}"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('telefone').valid  && (formCadastro.get('telefone').dirty || formCadastro.get('telefone').touched)}" formControlName="telefone" inputmode="tel" name="phone" [brmasker]="{form: formCadastro.get('numero'), phone: true}"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.telefone">
-                                    <div *ngIf="formEditar.get('telefone').hasError(validacao.type) && (formEditar.get('telefone').dirty || formEditar.get('telefone').touched)">
+                                    <div *ngIf="formCadastro.get('telefone').hasError(validacao.type) && (formCadastro.get('telefone').dirty || formCadastro.get('telefone').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -105,9 +134,9 @@
                         <ion-col>
                             <div id="usuario" class="ion-text-start input-group">
                                 <ion-label position="stacked">usuário</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('usuario').valid  && (formEditar.get('usuario').dirty || formEditar.get('usuario').touched)}" formControlName="usuario" type="text"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('usuario').valid  && (formCadastro.get('usuario').dirty || formCadastro.get('usuario').touched)}" formControlName="usuario" type="text"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.usuario">
-                                    <div *ngIf="formEditar.get('usuario').hasError(validacao.type) && (formEditar.get('usuario').dirty || formEditar.get('usuario').touched)">
+                                    <div *ngIf="formCadastro.get('usuario').hasError(validacao.type) && (formCadastro.get('usuario').dirty || formCadastro.get('usuario').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -119,13 +148,12 @@
                         <ion-col>
                             <div id="cep" class="ion-text-start input-group">
                                 <ion-label position="stacked">cep</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('cep').valid  && (formEditar.get('cep').dirty || formEditar.get('cep').touched)}" formControlName="cep" inputmode="numeric" [brmasker]="{form: formEditar.get('cep'), mask: '00000-000'}" maxlength="9"
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('cep').valid  && (formCadastro.get('cep').dirty || formCadastro.get('cep').touched)}" formControlName="cep" inputmode="numeric" [brmasker]="{form: formCadastro.get('cep'), mask: '00000-000'}" maxlength="9"
                                     (ionBlur)="getEndereco($event)"></ion-input>
-                                <!-- <ion-progress-bar type="indeterminate" class="progressoCep ion-hide"></ion-progress-bar> -->
                                 <ion-spinner name="dots" color="primary" class="loading ion-hide"></ion-spinner>
 
                                 <ng-container *ngFor="let validacao of mensagensValidacao.cep">
-                                    <div *ngIf="formEditar.get('cep').hasError(validacao.type) && (formEditar.get('cep').dirty || formEditar.get('cep').touched)">
+                                    <div *ngIf="formCadastro.get('cep').hasError(validacao.type) && (formCadastro.get('cep').dirty || formCadastro.get('cep').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -140,7 +168,7 @@
                                 <ion-label position="stacked">logradouro</ion-label>
                                 <ion-input formControlName="logradouro" type="text" maxlength="30" readonly></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.logradouro">
-                                    <div *ngIf="formEditar.get('logradouro').hasError(validacao.type) && (formEditar.get('logradouro').dirty || formEditar.get('logradouro').touched)">
+                                    <div *ngIf="formCadastro.get('logradouro').hasError(validacao.type) && (formCadastro.get('logradouro').dirty || formCadastro.get('logradouro').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -150,9 +178,9 @@
                         <ion-col>
                             <div id="numero" class="ion-text-start input-group">
                                 <ion-label position="stacked">número</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('numero').valid  && (formEditar.get('numero').dirty || formEditar.get('numero').touched)}" formControlName="numero" inputmode="numeric" type="number"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('numero').valid  && (formCadastro.get('numero').dirty || formCadastro.get('numero').touched)}" formControlName="numero" inputmode="numeric" type="number"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.numero">
-                                    <div *ngIf="formEditar.get('numero').hasError(validacao.type) && (formEditar.get('numero').dirty || formEditar.get('numero').touched)">
+                                    <div *ngIf="formCadastro.get('numero').hasError(validacao.type) && (formCadastro.get('numero').dirty || formCadastro.get('numero').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -164,9 +192,9 @@
                         <ion-col>
                             <div id="complemento" class="ion-text-start input-group">
                                 <ion-label position="stacked">complemento</ion-label>
-                                <ion-input [ngClass]="{'invalido': !formEditar.get('complemento').valid  && (formEditar.get('complemento').dirty || formEditar.get('complemento').touched)}" formControlName="complemento" type="text" maxlength="20"></ion-input>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('complemento').valid  && (formCadastro.get('complemento').dirty || formCadastro.get('complemento').touched)}" formControlName="complemento" type="text" maxlength="20"></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.complemento">
-                                    <div *ngIf="formEditar.get('complemento').hasError(validacao.type) && (formEditar.get('complemento').dirty || formEditar.get('complemento').touched)">
+                                    <div *ngIf="formCadastro.get('complemento').hasError(validacao.type) && (formCadastro.get('complemento').dirty || formCadastro.get('complemento').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -180,7 +208,7 @@
                                 <ion-label position="stacked">cidade</ion-label>
                                 <ion-input formControlName="cidade" type="text" max="20" readonly></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.cidade">
-                                    <div *ngIf="formEditar.get('cidade').hasError(validacao.type) && (formEditar.get('cidade').dirty || formEditar.get('cidade').touched)">
+                                    <div *ngIf="formCadastro.get('cidade').hasError(validacao.type) && (formCadastro.get('cidade').dirty || formCadastro.get('cidade').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
@@ -191,22 +219,18 @@
                                 <ion-label position="stacked">uf</ion-label>
                                 <ion-input formControlName="uf" inputmode="text" maxlength="2" readonly></ion-input>
                                 <ng-container *ngFor="let validacao of mensagensValidacao.uf">
-                                    <div *ngIf="formEditar.get('uf').hasError(validacao.type) && (formEditar.get('uf').dirty || formEditar.get('uf').touched)">
+                                    <div *ngIf="formCadastro.get('uf').hasError(validacao.type) && (formCadastro.get('uf').dirty || formCadastro.get('uf').touched)">
                                         <span>{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>
                             </div>
                         </ion-col>
                     </ion-row>
-
-                    <div class="ion-text-center botao-confirmar">
-                        <ion-button color="success" type="submit" [disabled]="!formEditar.valid">
-                            <ion-icon size="large" name="md-checkmark"></ion-icon>
-                        </ion-button>
-                    </div>
-
                 </ion-grid>
+                <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar" [disabled]="!formCadastro.valid">Cadastrar</ion-button>
             </form>
+
         </ion-card-content>
     </ion-card>
-</ion-content>
+
+</ion-content> -->
