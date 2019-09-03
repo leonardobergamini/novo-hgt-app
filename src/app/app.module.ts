@@ -12,6 +12,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,14 +24,17 @@ import { EventoDetalhePageModule } from './shared/telas/eventos/evento-detalhe/e
   entryComponents: [EventoDetalhePage],
   imports: [
     BrowserModule, 
-    IonicModule.forRoot(), 
+    IonicModule.forRoot({
+      swipeBackEnabled: false,
+      hardwareBackButton: false
+    }), 
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireDatabaseModule,
     ReactiveFormsModule,
     EventoDetalhePageModule,
+    IonicStorageModule.forRoot({
+      name: '___hgtdb',
+      driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+    })
   ],
   providers: [
     StatusBar,

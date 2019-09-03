@@ -1,5 +1,5 @@
 export class Usuarios {
-    id: string;
+    id: number;
     primeiroNome: string;
     sobrenome: string;
     dtNascimento: string;

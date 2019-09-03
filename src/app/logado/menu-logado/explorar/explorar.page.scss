@@ -3,7 +3,7 @@ h2,
 h3,
 h4,
 h5 {
-    color: #FF6700;
+    color: #ED4C79;
     // color: #FFF;
 }
 
@@ -11,7 +11,7 @@ h5 {
     // color: #ED4C79;
     color: #FFF;
     text-align: left;
-    width: 40%;
+    width: 50%;
 }
 
 ion-content {
@@ -28,6 +28,7 @@ ion-content {
 .header {
     height: 130px;
     width: 100%;
-    // background: #ee609c;
-    background: url("../../../../assets/backgrounds/background.png");
+    background: #FF6700;
+    border-radius: 0px 0px 10px 10px;
+    // background: url("../../../../assets/backgrounds/background.png");
 }

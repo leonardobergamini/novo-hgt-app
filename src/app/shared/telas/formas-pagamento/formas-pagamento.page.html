@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Formas de pagamento</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <ion-list>
+        <ion-list-header>
+            cartões cadastrados
+        </ion-list-header>
+
+        <ion-item-sliding>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img src="../../../../assets/icons/mastercard.svg">
+                </ion-avatar>
+                <ion-label>
+                    <h3>MASTERCARD **** 9752</h3>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="danger">Excluir</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+
+        <ion-item-sliding>
+            <ion-item>
+                <ion-avatar slot="start">
+                    <img src="../../../../assets/icons/visa.svg">
+                </ion-avatar>
+                <ion-label>
+                    <h3>VISA **** 3478</h3>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="danger">Excluir</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+
+    </ion-list>
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="success" routerLink="adicionar-forma-pagamento" routerDirection="forward">
+            <ion-icon name="add-circle-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

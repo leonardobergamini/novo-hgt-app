@@ -69,7 +69,20 @@ const routes: Routes = [
           { 
             path: 'editar-perfil', 
             loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' 
-          }
+          },
+          { 
+            path: 'formas-pagamento', 
+            children: [
+              {
+                path: '',
+                loadChildren: './shared/telas/formas-pagamento/formas-pagamento.module#FormasPagamentoPageModule' 
+              },
+              {
+                path: 'adicionar-forma-pagamento', 
+                loadChildren: './shared/telas/formas-pagamento/adicionar-forma-pagamento/adicionar-forma-pagamento.module#AdicionarFormaPagamentoPageModule'                 
+              }
+            ]
+          },
         ]
       },
       {

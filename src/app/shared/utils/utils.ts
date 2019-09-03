@@ -19,6 +19,7 @@ export class Utils {
   static inicializaUsuario(user: any){
     let usuarioFormatado: any;
     return usuarioFormatado = {
+      id: 0,
       primeiroNome: user.primeiro_nome,
       sobrenome: user.sobrenome,
       email: user.email,

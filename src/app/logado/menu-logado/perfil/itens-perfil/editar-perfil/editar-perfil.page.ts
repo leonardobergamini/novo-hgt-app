@@ -3,7 +3,6 @@ import { NavParams, ModalController, ToastController, AlertController, LoadingCo
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
-import { LoginService } from 'src/app/shared/services/login/login.service';
 import { Utils } from '../../../../../shared/utils/utils';
 import { CpfValidator } from 'src/app/shared/validators/cpf-validator/cpf-validator';
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
@@ -77,7 +76,6 @@ export class EditarPerfilPage implements OnInit, OnDestroy {
 
   constructor(
     private toastController: ToastController, 
-    private loginService: LoginService,
     private alertController: AlertController,
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,

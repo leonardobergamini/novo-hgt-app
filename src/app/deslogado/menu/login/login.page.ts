@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { ToastController, AlertController, NavController, LoadingController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 import * as $ from 'jquery';
-import { LoginService } from '../../../shared/services/login/login.service';
 import { EmailValidator } from '../../../shared/validators/email-validator/email-validator'
 import { SenhaValidator } from '../../../shared/validators/senha-validator/senha-validator'
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
@@ -63,12 +63,12 @@ export class LoginPage implements OnInit {
 
   constructor(
     private toastController: ToastController, 
-    private loginService: LoginService,
     private alertController: AlertController,
-    public formBuilder: FormBuilder,
-    public navCtrl: NavController,
-    public usuarioService: UsuarioService,
-    private loadingController: LoadingController
+    private formBuilder: FormBuilder,
+    private navCtrl: NavController,
+    private usuarioService: UsuarioService,
+    private loadingController: LoadingController,
+    private storage: Storage
     ) {
       this.formCadastro = formBuilder.group({
         primeiro_nome: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
@@ -88,7 +88,6 @@ export class LoginPage implements OnInit {
   ngOnInit() { }
 
   ionViewDidLeave(){
-    this.loadingController.dismiss().then(() => console.log('fechando loading')).catch(err => console.log(err));
   }
 
   next(){
@@ -99,22 +98,20 @@ export class LoginPage implements OnInit {
     this.formSlides.slidePrev();
   }
 
-  onSubmitLogin(){
+  async onSubmitLogin(){
     if(!this.formLogin.valid){
       console.log('Há erros no form de login');
       this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
       this.formSlides.slideTo(0);
     }else{
-      this.exibirLoading();
-      this.loginService.login(this.formLogin.get('email').value, this.formLogin.get('senha').value)
-          .then(resp => {
-            console.log(('entrando'));          
-          })
-          .catch(err => {
-            console.log(err);
-            $('#progressoLogin').addClass('ion-hide');
-            if(err.code) this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
-          });
+      this.usuarioService.login(this.formLogin.get('email').value, this.formLogin.get('senha').value)
+      .then(resp => {
+        console.log(resp);     
+      })
+      .catch(err => {
+        console.log(err);
+        if(err.code) this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
+      });
     }
   }
 
@@ -124,10 +121,10 @@ export class LoginPage implements OnInit {
       this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
       this.formSlides.slideTo(1);
     }else{
-      this.exibirLoading();
       this.usuarioService.createUser(Utils.inicializaUsuario(this.formCadastro.value))
       .then(resp => {
         if(resp.status == 200 || resp.status == 201){
+          this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.formCadastro.value)));
           this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark-circle');
           $('#formularioCadastro').trigger('reset');
           this.prev();
@@ -141,9 +138,6 @@ export class LoginPage implements OnInit {
           this.exibirErro('Algo deu errado. Tente novamente.', 'md-close-circle');
           return;
         }
-      })
-      .finally(() => {
-        this.fecharLoading();
       });
     }
   }
@@ -179,20 +173,6 @@ export class LoginPage implements OnInit {
 
   fecharAlert(){
     this.alertController.dismiss();
-  }
-
-  async exibirLoading() {
-    this.loading = await this.loadingController.create({
-      message: 'Carregando...',
-      keyboardClose: true,
-      showBackdrop: true,
-      animated: true
-    });
-    await this.loading.present();
-  }
-
-  async fecharLoading(){
-    await this.loadingController.dismiss();
   }
 
   exibirErro(msg: string, icone: string){

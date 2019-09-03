@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
-import { LoginService } from 'src/app/shared/services/login/login.service';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import * as $ from 'jquery';
-import { ModalController, NavController } from '@ionic/angular';
 import { EditarPerfilPage } from './itens-perfil/editar-perfil/editar-perfil.page';
+import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,18 +15,23 @@ import { EditarPerfilPage } from './itens-perfil/editar-perfil/editar-perfil.pag
 export class PerfilPage implements OnInit {
 
   temFoto: boolean = false;
-  user = JSON.parse(localStorage.getItem('usuarioLogado'));
-  usuarioLogado: Usuarios = {...this.user};
+  // user = JSON.parse(localStorage.getItem('usuarioLogado'));
+  usuarioLogado: any;
   itens =[
-    {
-      titulo: 'meus favoritos',
-      icone: 'md-heart',
-      rota: 'meus-favoritos'
-    },
     {
       titulo: 'formas de pagamento',
       icone: 'ios-card',
       rota: 'formas-pagamento'
+    },
+    {
+      titulo: 'alterar senha',
+      icone: 'ios-key',
+      rota: 'alterar-senha'
+    },
+    {
+      titulo: 'editar perfil',
+      icone: 'md-create',
+      rota: 'editar-perfil'
     },
     {
       titulo: 'atendimento',
@@ -41,38 +47,34 @@ export class PerfilPage implements OnInit {
       titulo: 'políticas de privacidade',
       icone: 'ios-paper',
       rota: 'politicas-privacidade'
-    },
-    {
-      titulo: 'alterar senha',
-      icone: 'ios-key',
-      rota: 'alterar-senha'
-    },
-    {
-      titulo: 'editar perfil',
-      icone: 'md-create',
-      rota: 'editar-perfil'
-    }
+    }    
   ];
 
   constructor(
-    private loginService: LoginService, 
-    private modalController: ModalController) { }
+    private modalController: ModalController,
+    private storage: Storage,
+    private usuarioService: UsuarioService
+    ) { }
 
   ngOnInit() {
-    this.temFoto = this.usuarioLogado.imgPerfil == undefined || this.usuarioLogado.imgPerfil == null || this.usuarioLogado.imgPerfil == '';
+    this.usuarioLogado = {
+      primeiroNome: 'leonardo',
+      sobrenome: 'bergamini',
+      email: 'leonardo@gmail.com',
+      imgPerfil: 'null'
+    };
+    this.temFoto = this.usuarioLogado.imgPerfil == undefined || 
+    this.usuarioLogado.imgPerfil == null || 
+    this.usuarioLogado.imgPerfil == '' ||
+    this.usuarioLogado.imgPerfil == 'null';
   }
 
-  ionViewDidEnter(){
-    this.usuarioLogado = {...JSON.parse(localStorage.getItem('usuarioLogado'))};
-  }
+  ionViewDidEnter(){}
 
   ionViewCanLeave(){
   }
 
   sair(){
-    this.loginService.sair()
-        .then(resp => {
-          console.log(resp);
-        });
+    this.usuarioService.sair();
   }
 }

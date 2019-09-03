@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, AlertController, NavController, LoadingController, ModalController } from '@ionic/angular';
-import { LoginService } from 'src/app/shared/services/login/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
@@ -90,7 +89,6 @@ export class CadastrarPage implements OnInit {
 
   constructor(
     private toastController: ToastController, 
-    private loginService: LoginService,
     private alertController: AlertController,
     public formBuilder: FormBuilder,
     public navCtrl: NavController,
