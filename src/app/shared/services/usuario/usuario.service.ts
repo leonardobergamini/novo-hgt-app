@@ -16,13 +16,13 @@ export class UsuarioService {
     private loadingController: LoadingController
     ) { }
 
-  readUsers(): Promise<any>{
+  readUsers(): Promise<Usuarios[]>{
     return new Promise((resolve, reject) => {
-      fetch('https://hgt-events.herokuapp.com/api/usuarios')
+      fetch('https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios')
       .then(resp => resp.json())
       .then(json => {
-        let usuario: Usuarios = json;
-        resolve(usuario);
+        let usuarios: Usuarios[] = (json['hydra:member']);
+        resolve(usuarios);
       })
       .catch(err => reject(err));
     });

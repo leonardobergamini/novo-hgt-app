@@ -11,16 +11,16 @@ import { EventosService } from 'src/app/shared/services/eventos/eventos.service'
   styleUrls: ['./explorar.page.scss'],
 })
 export class ExplorarPage implements OnInit {
-
-  eventosService: EventosService;
   eventos: Eventos[];
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
 
-  constructor(private statusBar: StatusBar) { }
+  constructor(
+    private statusBar: StatusBar,
+    private eventosService: EventosService
+    ) { }
 
   ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#E4E8E8');
-    this.eventosService = new EventosService();
+    this.statusBar.styleDefault();
     this.eventos = this.eventosService.getAllEventos();
   }
 

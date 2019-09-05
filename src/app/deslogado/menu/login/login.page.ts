@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
       this.formLogin = formBuilder.group({
         email: ['', Validators.required, EmailValidator.verificarEmail],
         senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
-      })
+      });
 
     }
 
