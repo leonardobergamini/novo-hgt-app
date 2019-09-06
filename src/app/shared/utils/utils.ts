@@ -16,6 +16,11 @@ export class Utils {
     return `${_d[2]}/${_d[1]}/${_d[0]}`;
   }
 
+  static formatarDataDiaMes(data: string): string{
+    let _d = this.formatarDataBR(data).split('/');
+    return `${_d[1]}/${_d[2]}`;
+  }
+
   static inicializaUsuario(user: any){
     let usuarioFormatado: any;
     return usuarioFormatado = {

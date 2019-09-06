@@ -18,6 +18,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { EventoDetalhePage } from './shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 import { EventoDetalhePageModule } from './shared/telas/eventos/evento-detalhe/evento-detalhe.module';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,7 +41,9 @@ import { EventoDetalhePageModule } from './shared/telas/eventos/evento-detalhe/e
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Keyboard,
+    DatePicker
   ],
   bootstrap: [AppComponent]
 })

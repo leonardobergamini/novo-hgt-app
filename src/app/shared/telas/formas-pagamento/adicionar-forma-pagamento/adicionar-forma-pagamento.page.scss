@@ -12,6 +12,7 @@ label {
     background: linear-gradient(to right, #2193b0, #6dd5ed);
     height: 200px;
     width: 343px;
+    margin: 0 auto;
 }
 
 ion-input {
@@ -41,4 +42,20 @@ ion-col {
     font-size: 20px;
     color: #d2d2d2;
     text-transform: uppercase;
+}
+
+.erro {
+    color: #f00;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.invalido {
+    border: 2px solid #f00;
+    border-radius: 10px;
+}
+
+ion-datetime {
+    border: 1px solid #d2d2d2;
+    border-radius: 10px;
 }

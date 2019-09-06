@@ -1,4 +1,4 @@
-<ion-header translucent>
+<ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-back-button text="" icon="ios-arrow-back" color="primary"></ion-back-button>
@@ -7,14 +7,14 @@
         <ion-title class="ion-text-center">Forma de pagamento</ion-title>
 
         <ion-buttons slot="end">
-            <ion-button>
-                <ion-icon slot="icon-only" name="checkmark" color="success" size="large" (click)="onSubmit()"></ion-icon>
+            <ion-button (click)="onSubmit()" type="submit">
+                <ion-icon slot="icon-only" name="checkmark" color="success" size="large"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
+<ion-content padding>
     <div>
         <ion-card class="cartao" padding>
             <ion-grid>
@@ -50,7 +50,12 @@
                         <ion-col>
                             <div class="ion-text-start">
                                 <ion-label position="stacked">nro. cartão</ion-label>
-                                <ion-input id="nrCartao" formControlName="nroCartao" type="tel" maxlength="16" (keyup)="setDadosNroCartao($event)"></ion-input>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('nroCartao').valid  && (formCadastrarFormaPg.get('nroCartao').dirty || formCadastrarFormaPg.get('nroCartao').touched)}" id="nrCartao" formControlName="nroCartao" type="tel" maxlength="16" (keyup)="setDadosNroCartao($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.nroCartao">
+                                    <div *ngIf="formCadastrarFormaPg.get('nroCartao').hasError(validacao.type) && (formCadastrarFormaPg.get('nroCartao').dirty || formCadastrarFormaPg.get('nroCartao').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
                             </div>
                         </ion-col>
                     </ion-row>
@@ -59,13 +64,25 @@
                         <ion-col size="6">
                             <div class="ion-text-start">
                                 <ion-label position="stacked">data de vencimento</ion-label>
-                                <ion-input formControlName="dtValidade" type="text" id="dtValidade" (keyup)="setDadosDtValidade($event)"></ion-input>
+                                <ion-datetime [ngClass]="{invalido : !formCadastrarFormaPg.get('dtValidade').valid  && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)}" placeholder="MM/AAAA" formControlName="dtValidade" displayFormat="MM/YYYY"
+                                    min="2019" max="2030" cancelText="cancelar" doneText="pronto" (ionChange)="setDadosDtValidade($event)"></ion-datetime>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.dtValidade">
+                                    <div *ngIf="formCadastrarFormaPg.get('dtValidade').hasError(validacao.type) && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
                             </div>
                         </ion-col>
                         <ion-col size="6">
                             <div class="ion-text-start">
                                 <ion-label position="stacked">cod. seguranca (cvv)</ion-label>
-                                <ion-input id="codSeguranca" formControlName="codSeguranca" type="tel" maxlength="3" (keyup)="setDadosCodSeguranca($event)"></ion-input>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('codSeguranca').valid  && (formCadastrarFormaPg.get('codSeguranca').dirty || formCadastrarFormaPg.get('codSeguranca').touched)}" id="codSeguranca" formControlName="codSeguranca" type="tel" maxlength="3"
+                                    (keyup)="setDadosCodSeguranca($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.codSeguranca">
+                                    <div *ngIf="formCadastrarFormaPg.get('codSeguranca').hasError(validacao.type) && (formCadastrarFormaPg.get('codSeguranca').dirty || formCadastrarFormaPg.get('codSeguranca').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
                             </div>
                         </ion-col>
                     </ion-row>
@@ -74,7 +91,13 @@
                         <ion-col>
                             <div class="ion-text-start">
                                 <ion-label position="stacked">nome titular</ion-label>
-                                <ion-input id="nomeTitular" formControlName="nomeTitular" type="text" maxlength="20" (keyup)="setDadosNomeTitular($event)"></ion-input>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('nomeTitular').valid  && (formCadastrarFormaPg.get('nomeTitular').dirty || formCadastrarFormaPg.get('nomeTitular').touched)}" id="nomeTitular" formControlName="nomeTitular" type="text" maxlength="20"
+                                    (keyup)="setDadosNomeTitular($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.nomeTitular">
+                                    <div *ngIf="formCadastrarFormaPg.get('nomeTitular').hasError(validacao.type) && (formCadastrarFormaPg.get('nomeTitular').dirty || formCadastrarFormaPg.get('nomeTitular').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
                             </div>
                         </ion-col>
                     </ion-row>

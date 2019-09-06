@@ -55,7 +55,7 @@ export class AdicionarFormasPagamentoService {
           cartao: cartaoCredito,
           carteira: carteira,
           idFormaPg: this.id++,
-          usuario: usuario
+          usuario: this.usuario
         });
         resolve(this.formasPagamento[this.formasPagamento.length-1])
       }catch(err){
