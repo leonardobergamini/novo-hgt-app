@@ -8,4 +8,5 @@ export class CartoesCredito {
     codSegurancao: number;
     usuario: Usuarios;
     bandeiraCartao: string;
+    cartaoFormatado: number;
 }
