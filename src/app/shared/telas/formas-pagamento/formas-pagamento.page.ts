@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormaPagamentoService } from '../../services/formas-pagamento/forma-pagamento.service';
+import { FormasPagamento } from '../../models/formas-pagamento/formas-pagamento';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-formas-pagamento',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FormasPagamentoPage implements OnInit {
 
-  constructor() { }
+  public formasPagamento: FormasPagamento[] = [];
 
-  ngOnInit() {
+  constructor(
+    private formaPagamentoService: FormaPagamentoService,
+    private navCtrl: NavController
+  ) { }
+
+  ngOnInit() {}
+
+  ionViewDidEnter(){
+    this.formaPagamentoService.consultar()
+    .then(resp => {
+      if(resp.length === 0){
+        this.formasPagamento = null;
+      }else{
+        this.formasPagamento = resp;
+      }
+    })
+    .catch(err => {
+      this.formasPagamento = new Array<FormasPagamento>();
+    });
   }
-
 }

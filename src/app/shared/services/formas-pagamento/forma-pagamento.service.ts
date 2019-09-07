@@ -12,13 +12,12 @@ import { LoadingController } from '@ionic/angular';
 })
 export class FormaPagamentoService {
 
-
   constructor(
     private loadingController: LoadingController
   ) { }
 
-  id: number = 1;
-
+  private id: number = 1;
+  
   usuario: Usuarios = {
     id: 1,
     primeiroNome: 'leonardo',
@@ -37,7 +36,7 @@ export class FormaPagamentoService {
     uf: 'sp',
     usuario: 'berganardo'
   }
-
+  
   cartoes: CartoesCredito[] = [
     {
       idCartao: 1,
@@ -46,11 +45,11 @@ export class FormaPagamentoService {
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
       usuario: this.usuario,
-      bandeira_cartao: 'VISA'
+      bandeiraCartao: 'VISA'
     }
   ];
 
-  formasPagamento: FormasPagamento[] = [];
+formasPagamento: FormasPagamento[] = [];
 
   adicionar(usuario: Usuarios, cartaoCredito: CartoesCredito, carteira?: Carteiras): Promise<FormasPagamento[]>{
     return new Promise(async (resolve, reject) => {
@@ -62,9 +61,10 @@ export class FormaPagamentoService {
       });
       loading.present()
       .then(() => {
+        let cartaoFormatado = {...cartaoCredito, cartaoFormatado: Number(cartaoCredito.nroCartao.toString().slice(-4))},;
           try{
             this.formasPagamento.push({
-              cartao: cartaoCredito,
+              cartao: cartaoFormatado,
               carteira: carteira,
               idFormaPg: this.id++,
               usuario: this.usuario
@@ -79,9 +79,25 @@ export class FormaPagamentoService {
     });
   }
 
+  consultar(): Promise<FormasPagamento[]>{
+    return new Promise((resolve, reject) => {
+      if(this.formasPagamento){
+        resolve(this.formasPagamento);
+      }else{
+        reject(new Array<FormasPagamento>());
+      }
+    });
+  }
+
   // remover(id: number, formaPagamento?: FormasPagamento): Promise<string>{
   //   return Promise((resolve, reject) => {
 
   //   })
   // }
+
+  ocultaNroCartao(nro: number): string{
+    console.log(nro.toString().trim().slice(-4));
+    // return nro.substring(12,16);
+    return '';
+  }
 }
