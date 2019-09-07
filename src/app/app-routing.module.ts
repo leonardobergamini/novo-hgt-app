@@ -106,7 +106,6 @@ const routes: Routes = [
       }
     ]
   },
-  { path: 'cartao-credito', loadChildren: './shared/telas/formas-pagamento/adicionar-forma-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule' },
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
 
 ];
