@@ -48,6 +48,21 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col>
+                            <ion-label>bandeiras</ion-label>
+                            <ion-select placeholder="selecione a bandeira" formControlName="bandeiraCartao" cancelText="cancelar" okText="ok" [ngClass]="{invalido : !formCadastrarFormaPg.get('bandeiraCartao').valid  && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)}">
+                                <div *ngFor="let bandeira of bandeiras">
+                                    <ion-select-option value="{{bandeira.nome}}">{{bandeira.nome}}</ion-select-option>
+                                </div>
+                            </ion-select>
+                            <ng-container *ngFor="let validacao of mensagensValidacao.bandeiraCartao">
+                                <div *ngIf="formCadastrarFormaPg.get('bandeiraCartao').hasError(validacao.type) && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)">
+                                    <span class="erro">{{ validacao.message }}</span>
+                                </div>
+                            </ng-container>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
                             <div class="ion-text-start">
                                 <ion-label position="stacked">nro. cartão</ion-label>
                                 <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('nroCartao').valid  && (formCadastrarFormaPg.get('nroCartao').dirty || formCadastrarFormaPg.get('nroCartao').touched)}" id="nrCartao" formControlName="nroCartao" type="tel" maxlength="16" (keyup)="setDadosNroCartao($event)"></ion-input>

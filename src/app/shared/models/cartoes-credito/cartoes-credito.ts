@@ -7,4 +7,5 @@ export class CartoesCredito {
     dtVencimento: string;
     codSegurancao: number;
     usuario: Usuarios;
+    bandeira_cartao: string;
 }

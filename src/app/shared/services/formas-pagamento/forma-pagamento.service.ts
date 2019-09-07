@@ -5,16 +5,19 @@ import { Usuarios } from '../../models/usuarios/usuarios';
 import { Carteiras } from '../../models/carteiras/carteiras';
 import { FormasPagamento } from '../../models/formas-pagamento/formas-pagamento';
 import { FormGroup, FormBuilder, Validators, EmailValidator } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdicionarFormasPagamentoService {
+export class FormaPagamentoService {
 
 
-  constructor() { }
+  constructor(
+    private loadingController: LoadingController
+  ) { }
 
-  id: number = 0;
+  id: number = 1;
 
   usuario: Usuarios = {
     id: 1,
@@ -42,25 +45,37 @@ export class AdicionarFormasPagamentoService {
       codSegurancao: 456,
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
-      usuario: this.usuario
+      usuario: this.usuario,
+      bandeira_cartao: 'VISA'
     }
   ];
 
   formasPagamento: FormasPagamento[] = [];
 
-  adicionar(usuario: Usuarios, cartaoCredito: CartoesCredito, carteira?: Carteiras): Promise<FormasPagamento>{
-    return new Promise((resolve, reject) => {
-      try{
-        this.formasPagamento.push({
-          cartao: cartaoCredito,
-          carteira: carteira,
-          idFormaPg: this.id++,
-          usuario: this.usuario
+  adicionar(usuario: Usuarios, cartaoCredito: CartoesCredito, carteira?: Carteiras): Promise<FormasPagamento[]>{
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Cadastrando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+      loading.present()
+      .then(() => {
+          try{
+            this.formasPagamento.push({
+              cartao: cartaoCredito,
+              carteira: carteira,
+              idFormaPg: this.id++,
+              usuario: this.usuario
+            });
+            resolve(this.formasPagamento)
+            loading.dismiss();
+          }catch(err){
+            loading.dismiss();
+            reject('Erro ao cadastrar nova forma de pagamento. Tente novamente.');
+          }
         });
-        resolve(this.formasPagamento[this.formasPagamento.length-1])
-      }catch(err){
-        reject('Erro ao cadastrar nova forma de pagamento. Tente novamente.');
-      }
     });
   }
 
