@@ -45,11 +45,19 @@ export class FormaPagamentoService {
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
       usuario: this.usuario,
-      bandeiraCartao: 'VISA'
+      bandeiraCartao: 'VISA',
+      cartaoFormatado: 8765
     }
   ];
 
-formasPagamento: FormasPagamento[] = [];
+formasPagamento: FormasPagamento[] = [
+  {
+    cartao: this.cartoes[0],
+    carteira: new Carteiras(),
+    idFormaPg: this.id++,
+    usuario: this.usuario
+  }
+];
 
   adicionar(usuario: Usuarios, cartaoCredito: CartoesCredito, carteira?: Carteiras): Promise<FormasPagamento[]>{
     return new Promise(async (resolve, reject) => {
@@ -61,7 +69,7 @@ formasPagamento: FormasPagamento[] = [];
       });
       loading.present()
       .then(() => {
-        let cartaoFormatado = {...cartaoCredito, cartaoFormatado: Number(cartaoCredito.nroCartao.toString().slice(-4))},;
+        let cartaoFormatado = {...cartaoCredito, cartaoFormatado: Number(cartaoCredito.nroCartao.toString().slice(-4))};
           try{
             this.formasPagamento.push({
               cartao: cartaoFormatado,

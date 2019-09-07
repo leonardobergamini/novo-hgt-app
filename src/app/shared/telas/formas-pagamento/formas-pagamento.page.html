@@ -7,41 +7,60 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-    <ion-list lines="none">
-        <ion-list-header>
-            cartões cadastrados
-        </ion-list-header>
+<ion-content padding>
+    <ion-radio-group>
+        <ion-card class="ion-no-margin">
+            <ion-list lines="none">
+                <ion-item>
+                    <h3 class="ion-text-start">Saldo da carteira: <span>R$ 300,00</span>
+                    </h3>
+                    <ion-radio slot="end" color="secondary" name="sausage"></ion-radio>
+                </ion-item>
+            </ion-list>
+        </ion-card>
 
+        <ion-card class="ion-no-margin">
+            <ion-list lines="none">
+                <ion-list-header>
+                    cartões cadastrados
+                </ion-list-header>
 
-        <div id="cartoes-cadastrados" *ngIf="formasPagamento; else semFormasPg">
-            <div *ngFor="let formaPg of formasPagamento">
-                <ion-item-sliding>
+                <div id="cartoes-cadastrados" *ngIf="formasPagamento; else semFormasPg">
+                    <div *ngFor="let formaPg of formasPagamento">
+                        <ion-item-sliding>
+                            <ion-item-options side="start">
+                                <ion-item-option>Favorite</ion-item-option>
+                            </ion-item-options>
+
+                            <ion-item>
+                                <ion-avatar slot="start">
+                                    <img src="../../../../assets/icons/{{formaPg.cartao.bandeiraCartao | lowercase}}.svg">
+                                </ion-avatar>
+                                <ion-label>
+                                    <h3>**** {{formaPg.cartao.cartaoFormatado}}</h3>
+                                    <h4>{{formaPg.cartao.nomeTitular | uppercase}} </h4>
+                                </ion-label>
+                                <ion-radio slot="end" color="secondary" name="sausage" checked></ion-radio>
+                            </ion-item>
+
+                            <ion-item-options side="end">
+                                <ion-item-option color="danger">Excluir</ion-item-option>
+                            </ion-item-options>
+                        </ion-item-sliding>
+                    </div>
+                </div>
+
+                <ng-template #semFormasPg>
                     <ion-item>
-                        <ion-avatar slot="start">
-                            <img src="../../../../assets/icons/{{formaPg.cartao.bandeiraCartao | lowercase}}.svg">
-                        </ion-avatar>
                         <ion-label>
-                            <h3>**** {{formaPg.cartao.cartaoFormatado}}</h3>
-                            <h4>{{formaPg.cartao.nomeTitular | uppercase}} </h4>
+                            <h3>sem cartões cadastrados.</h3>
                         </ion-label>
                     </ion-item>
+                </ng-template>
+            </ion-list>
+        </ion-card>
 
-                    <ion-item-options side="end">
-                        <ion-item-option color="danger">Excluir</ion-item-option>
-                    </ion-item-options>
-                </ion-item-sliding>
-            </div>
-        </div>
-
-        <ng-template #semFormasPg>
-            <ion-item>
-                <ion-label>
-                    <h3>sem cartões cadastrados.</h3>
-                </ion-label>
-            </ion-item>
-        </ng-template>
-    </ion-list>
+    </ion-radio-group>
     <ion-fab horizontal="end" vertical="bottom" slot="fixed">
         <ion-fab-button color="success" routerLink="adicionar-forma-pagamento" routerDirection="forward">
             <ion-icon name="add-circle-outline"></ion-icon>
