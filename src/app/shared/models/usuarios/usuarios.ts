@@ -1,18 +1,18 @@
 export class Usuarios {
-    id_usuario: string;
-    primeiro_nome: string;
+    id: number;
+    primeiroNome: string;
     sobrenome: string;
-    dt_nascimento: string;
+    dtNascimento: string;
     cpf: string;
     email: string;
-    telefone: number;
-    img_perfil: string;
+    telefone: string;
+    imgPerfil: string;
     usuario: string;
     senha: string;
     logradouro: string;
-    numero: number;
+    numero: string;
     complemento: string;
-    cep: number;
+    cep: string;
     cidade: string;
     uf: string;
 }

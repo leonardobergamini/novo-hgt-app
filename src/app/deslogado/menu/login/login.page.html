@@ -1,102 +1,107 @@
 <ion-content>
     <div class="conteudo" padding>
         <div class="header"></div>
-        <div class="box-login">
-            <!-- <ion-alert-controller></ion-alert-controller> -->
-            <ion-card mode="ios">
-                <ion-progress-bar class="ion-hide" type="indeterminate"></ion-progress-bar>
-                <ion-card-header>
-                    <ion-card-title class="ion-text-right">Login</ion-card-title>
-                </ion-card-header>
 
-                <ion-card-content>
-                    <form id="formularioLogin" [formGroup]="formularioLogin" (ngSubmit)="onSubmitLogin()">
-                        <div class="input-group">
-                            <label for="email">email</label>
-                            <div class="input">
-                                <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyLogin($event)">
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label for="senha">senha</label>
-                            <div class="input">
-                                <input type="password" class="custom-input" id="senha" formControlName="senha">
-                            </div>
-                        </div>
-                        <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar">Entrar</ion-button>
-                    </form>
+        <ion-slides [options]="sliderOpts" #formSlides>
+            <ion-slide>
+                <ion-card mode="ios">
+                    <ion-card-header>
+                        <ion-card-title class="ion-text-center">Login</ion-card-title>
+                    </ion-card-header>
 
-                    <div class="links ">
-                        <div class="link ">
-                            <a (click)="abrirNovaConta()">criar conta</a>
-                        </div>
-                        <div class="link ">
-                            <a href="#! ">esqueceu a senha?</a>
-                        </div>
-                    </div>
+                    <ion-card-content>
+                        <form id="formularioLogin" [formGroup]="formLogin" (ngSubmit)="onSubmitLogin()">
+                            <div id="email" class="ion-text-start">
+                                <ion-label position="stacked">e-mail</ion-label>
+                                <ion-input formControlName="email" type="email"></ion-input>
+                            </div>
+                            <div id="senha" class="ion-text-start">
+                                <ion-label position="stacked">senha</ion-label>
+                                <ion-input formControlName="senha" type="password"></ion-input>
+                            </div>
+                            <ion-button type="submit" disabled="true" size="large" shape="round" expand="full" id="btnEntrar" color="primary" [disabled]="!formLogin.valid">Entrar</ion-button>
+                        </form>
 
-                </ion-card-content>
-            </ion-card>
-        </div>
+                        <div class="links ">
+                            <div class="link ">
+                                <a (click)="next()">criar conta</a>
+                            </div>
+                            <div class="link ">
+                                <a href="#! ">esqueceu a senha?</a>
+                            </div>
+                        </div>
 
-        <div class="box-cadastrar ion-hide">
-            <ion-card mode="ios">
-                <ion-progress-bar class="ion-hide" type="indeterminate"></ion-progress-bar>
-                <ion-card-header class="card-header">
-                    <ion-icon name="arrow-back" size="large" (click)="voltar()"></ion-icon>
-                    <ion-card-title>Cadastrar</ion-card-title>
-                </ion-card-header>
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
 
-                <ion-card-content>
-                    <form id="formularioCadastro" [formGroup]="formularioCadastro" (ngSubmit)="onSubmitCadastro()">
-                        <div class="input-group primeiro_nome">
-                            <div class="input-item">
-                                <label for="primeiro_nome">primeiro nome</label>
-                                <div class="input">
-                                    <input type="text" class="custom-input" id="primeiro_nome" formControlName="primeiro_nome" (blur)="verificarValidacao($event)">
-                                    <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
-                                </div>
-                                <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
-                            </div>
-                        </div>
-                        <div class="input-group sobrenome">
-                            <label for="sobrenome">sobrenome</label>
-                            <div class="input">
-                                <input type="text" class="custom-input" id="sobrenome" formControlName="sobrenome" (blur)="verificarValidacao($event)">
-                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
-                            </div>
-                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
-                        </div>
-                        <div class="input-group email">
-                            <label for="email">email</label>
-                            <div class="input">
-                                <input type="email" class="custom-input" id="email" formControlName="email" (keyup)="onKeyCadastro($event)">
-                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
-                            </div>
-                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
-                        </div>
-                        <div class="input-group senha">
-                            <label for="senha">senha</label>
-                            <div class="input">
-                                <input type="password" class="custom-input" id="senha" formControlName="senha" (keyup)="verificarSenha($event)">
-                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
-                            </div>
-                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
-                        </div>
-                        <div class="input-group senhaConf">
-                            <label for="senhaConf">confirme sua senha</label>
-                            <div class="input">
-                                <input type="password" class="custom-input" id="senhaConf" (keyup)="verificarSenhaIgual($event)">
-                                <ion-icon class="icone-ok ion-hide" name="md-checkmark-circle-outline"></ion-icon>
-                            </div>
-                            <span class="validacao ion-hide">*Ops! Não esquece desse campo.</span>
-                        </div>
-                        <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar">Cadastrar</ion-button>
-                    </form>
+            <ion-slide>
+                <ion-card mode="ios">
+                    <ion-card-header class="card-header">
+                        <ion-icon name="arrow-back" size="large" (click)="prev()"></ion-icon>
+                        <ion-card-title>Cadastrar</ion-card-title>
+                    </ion-card-header>
 
-                </ion-card-content>
-            </ion-card>
-        </div>
+                    <ion-card-content>
+                        <form id="formularioCadastro" [formGroup]="formCadastro" (ngSubmit)="onSubmitCadastro()">
+                            <div id="primeiro_nome" class="ion-text-start">
+                                <ion-label position="stacked">primeiro nome</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('primeiro_nome').valid  && (formCadastro.get('primeiro_nome').dirty || formCadastro.get('primeiro_nome').touched)}" formControlName="primeiro_nome" type="text"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.primeiro_nome">
+                                    <div *ngIf="formCadastro.get('primeiro_nome').hasError(validacao.type) && (formCadastro.get('primeiro_nome').dirty || formCadastro.get('primeiro_nome').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div id="sobrenome" class="ion-text-start">
+                                <ion-label position="stacked">sobrenome</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('sobrenome').valid  && (formCadastro.get('sobrenome').dirty || formCadastro.get('sobrenome').touched)}" formControlName="sobrenome" type="text"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.sobrenome">
+                                    <div *ngIf="formCadastro.get('sobrenome').hasError(validacao.type) && (formCadastro.get('sobrenome').dirty || formCadastro.get('sobrenome').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div id="email" class="ion-text-start">
+                                <ion-label position="stacked">e-mail</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('email').valid  && (formCadastro.get('email').dirty || formCadastro.get('email').touched)}" formControlName="email" type="email"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.email">
+                                    <div *ngIf="formCadastro.get('email').hasError(validacao.type) && (formCadastro.get('email').dirty || formCadastro.get('email').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div id="senha" class="ion-text-start">
+                                <ion-label position="stacked">senha</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('senha').valid  && (formCadastro.get('senha').dirty || formCadastro.get('senha').touched)}" formControlName="senha" type="password"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.senha">
+                                    <div *ngIf="formCadastro.get('senha').hasError(validacao.type) && (formCadastro.get('senha').dirty || formCadastro.get('senha').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <div id="confirmacao_senha" class="ion-text-start">
+                                <ion-label position="stacked">confirme sua senha</ion-label>
+                                <ion-input [ngClass]="{'invalido': !formCadastro.get('senhaConfirmacao').valid  && (formCadastro.get('senhaConfirmacao').dirty || formCadastro.get('senhaConfirmacao').touched)}" formControlName="senhaConfirmacao" type="password"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.senhaConfirmacao">
+                                    <div *ngIf="formCadastro.get('senhaConfirmacao').hasError(validacao.type) && (formCadastro.get('senhaConfirmacao').dirty || formCadastro.get('senhaConfirmacao').touched)">
+                                        <span>{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+
+                            <ion-button type="submit" size="large" shape="round" expand="full" id="btnCadastrar" [disabled]="!formCadastro.valid">Cadastrar</ion-button>
+                        </form>
+
+                    </ion-card-content>
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
     </div>
+
 
 </ion-content>

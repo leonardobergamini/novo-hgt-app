@@ -1,43 +1,50 @@
+ion-card {
+    background: #fff;
+    height: auto;
+}
+
+span {
+    font-weight: bold;
+    font-size: 0.8em;
+    color: #ea6153;
+}
+
+ion-input {
+    border: 1px solid #d2d2d2;
+    border-radius: 10px;
+}
+
+ion-button {
+    --border-radius: 100%;
+    width: 60px;
+    height: 60px;
+}
+
+ion-datetime {
+    border-radius: 10px;
+    border: 1px solid #d2d2d2;
+    padding: 10px 8px 10px 10px;
+}
+
+.botao-confirmar {
+    margin-top: 10px;
+}
+
 .input-group {
     margin-bottom: 10px;
 }
 
-.custom-input {
-    width: 90%;
-    height: 45px;
-    padding-left: 5px;
-    border-radius: 10px;
-    border: none;
-    font-size: 16px;
-    outline: none;
-    text-transform: lowercase;
-}
-
-.input {
-    width: 100%;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid #707070;
-}
-
-.icone-ok {
-    color: #2ecc71;
-    font-size: 20px;
-    vertical-align: middle;
-}
-
-.validacao {
-    color: #f00;
-    font-weight: bold;
-    font-size: 12px;
-}
-
 .invalido {
-    border: 2px solid #f00;
+    border: 2px solid #ea6153;
     border-radius: 10px;
 }
 
-.valido {
-    border: 2px solid #2ecc71;
-    border-radius: 10px;
+.progressoCep {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.loading {
+    font-size: 32px;
+    margin: 0 auto;
 }

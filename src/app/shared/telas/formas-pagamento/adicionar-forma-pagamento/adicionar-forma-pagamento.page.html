@@ -1,0 +1,124 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary"></ion-back-button>
+        </ion-buttons>
+
+        <ion-title class="ion-text-center">Forma de pagamento</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="onSubmit()" type="submit">
+                <ion-icon slot="icon-only" name="checkmark" color="success" size="large"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div>
+        <ion-card class="cartao" padding>
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+                        <span class="ion-text-center" id="txtNroCartao"></span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="8">
+                        <label for="dtValidade">val</label>
+                        <span id="txtDtValidade"></span>
+                    </ion-col>
+                    <ion-col size="4">
+                        <label for="codSeguranca">cvv</label>
+                        <span id="txtCodSeguranca"></span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <span id="txtNomeTitular"></span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card>
+    </div>
+
+    <div class="dados-cartao" padding>
+        <ion-card>
+            <form id="formularioCadastrarFormaPg" [formGroup]="formCadastrarFormaPg" (ngSubmit)="onSubmitFormaPg()">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label>bandeiras</ion-label>
+                            <ion-select placeholder="selecione a bandeira" formControlName="bandeiraCartao" cancelText="cancelar" okText="ok" [ngClass]="{invalido : !formCadastrarFormaPg.get('bandeiraCartao').valid  && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)}">
+                                <div *ngFor="let bandeira of bandeiras">
+                                    <ion-select-option value="{{bandeira.nome}}">{{bandeira.nome}}</ion-select-option>
+                                </div>
+                            </ion-select>
+                            <ng-container *ngFor="let validacao of mensagensValidacao.bandeiraCartao">
+                                <div *ngIf="formCadastrarFormaPg.get('bandeiraCartao').hasError(validacao.type) && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)">
+                                    <span class="erro">{{ validacao.message }}</span>
+                                </div>
+                            </ng-container>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <div class="ion-text-start">
+                                <ion-label position="stacked">nro. cartão</ion-label>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('nroCartao').valid  && (formCadastrarFormaPg.get('nroCartao').dirty || formCadastrarFormaPg.get('nroCartao').touched)}" id="nrCartao" formControlName="nroCartao" type="tel" maxlength="16" (keyup)="setDadosNroCartao($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.nroCartao">
+                                    <div *ngIf="formCadastrarFormaPg.get('nroCartao').hasError(validacao.type) && (formCadastrarFormaPg.get('nroCartao').dirty || formCadastrarFormaPg.get('nroCartao').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col size="6">
+                            <div class="ion-text-start">
+                                <ion-label position="stacked">data de vencimento</ion-label>
+                                <ion-datetime [ngClass]="{invalido : !formCadastrarFormaPg.get('dtValidade').valid  && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)}" placeholder="MM/AAAA" formControlName="dtValidade" displayFormat="MM/YYYY"
+                                    min="2019" max="2030" cancelText="cancelar" doneText="pronto" (ionChange)="setDadosDtValidade($event)"></ion-datetime>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.dtValidade">
+                                    <div *ngIf="formCadastrarFormaPg.get('dtValidade').hasError(validacao.type) && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                        <ion-col size="6">
+                            <div class="ion-text-start">
+                                <ion-label position="stacked">cod. seguranca (cvv)</ion-label>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('codSeguranca').valid  && (formCadastrarFormaPg.get('codSeguranca').dirty || formCadastrarFormaPg.get('codSeguranca').touched)}" id="codSeguranca" formControlName="codSeguranca" type="tel" maxlength="3"
+                                    (keyup)="setDadosCodSeguranca($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.codSeguranca">
+                                    <div *ngIf="formCadastrarFormaPg.get('codSeguranca').hasError(validacao.type) && (formCadastrarFormaPg.get('codSeguranca').dirty || formCadastrarFormaPg.get('codSeguranca').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <div class="ion-text-start">
+                                <ion-label position="stacked">nome titular</ion-label>
+                                <ion-input [ngClass]="{invalido : !formCadastrarFormaPg.get('nomeTitular').valid  && (formCadastrarFormaPg.get('nomeTitular').dirty || formCadastrarFormaPg.get('nomeTitular').touched)}" id="nomeTitular" formControlName="nomeTitular" type="text" maxlength="20"
+                                    (keyup)="setDadosNomeTitular($event)"></ion-input>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.nomeTitular">
+                                    <div *ngIf="formCadastrarFormaPg.get('nomeTitular').hasError(validacao.type) && (formCadastrarFormaPg.get('nomeTitular').dirty || formCadastrarFormaPg.get('nomeTitular').touched)">
+                                        <span class="erro">{{ validacao.message }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </form>
+        </ion-card>
+    </div>
+
+</ion-content>

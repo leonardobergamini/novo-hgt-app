@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { Eventos } from '../../models/eventos/eventos';
+import { Utils } from '../../utils/utils'
 import * as moment from 'moment';
-// var moment = require('moment');
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,6 @@ export class EventosService {
   eventoNovos: Eventos[] = [];
   
   constructor() { }
-
-  formatarData(data: string): string{
-    let _d: string[] = data.split('/');
-    return `${_d[1]}-${_d[0]}-${_d[2]}`;
-  }
 
   getEventoByArtista(artista: string){
     this.eventos = this.getAllEventos();
@@ -61,7 +57,7 @@ export class EventosService {
     
     this.eventos.filter((evento: Eventos) =>{
       let hoje = moment().locale('pt-br');
-      let dataPublicacao = moment(this.formatarData(evento.data_publicacao)).locale('pt-br');
+      let dataPublicacao = moment(Utils.formatarDataEUA(evento.data_publicacao)).locale('pt-br');
       hoje.isBetween(dataPublicacao.format(), dataPublicacao.add(15, 'day').format())
       ? this.eventoNovos.push(evento) : null;   
     });

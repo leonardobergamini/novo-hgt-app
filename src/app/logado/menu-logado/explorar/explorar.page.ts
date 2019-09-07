@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
+import { Storage } from '@ionic/storage';
 
 import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
@@ -17,12 +18,15 @@ export class ExplorarPage implements OnInit {
   eventosService: EventosService;
   eventos: Eventos[];
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
-  usuarioLogado: Usuarios;
+  usuarioLogado: any;
 
-  constructor(private statusBar: StatusBar) { }
+  constructor(
+    private statusBar: StatusBar,
+    private storage: Storage
+    ) { }
 
   ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#ECF0F1');
+    this.statusBar.backgroundColorByHexString('#FF6700');
     this.eventosService = new EventosService();
   }
 
@@ -32,7 +36,14 @@ export class ExplorarPage implements OnInit {
 
   ionViewDidEnter(){
     this.eventos = this.eventosService.getAllEventos();
-    this.usuarioLogado = {...JSON.parse(localStorage.getItem('usuarioLogado'))};
+    // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
+    // console.log(this.usuarioLogado);
+
+    this.usuarioLogado = {
+      primeiroNome: 'leonardo',
+      sobrenome: 'bergamini',
+      email: 'leonardo@gmail.com'
+    }
     this.msgBoasVindas();
   }
 
@@ -40,15 +51,15 @@ export class ExplorarPage implements OnInit {
     var data = new Date();
     if(data.getHours() < 12 ){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>bom dia, ${this.usuarioLogado.primeiro_nome.toLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>bom dia, ${this.usuarioLogado.primeiroNome.toLowerCase()}</h2>`);
     }
     if (data.getHours() >= 12){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>boa tarde, ${this.usuarioLogado.primeiro_nome.toLocaleLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>boa tarde, ${this.usuarioLogado.primeiroNome.toLocaleLowerCase()}</h2>`);
     }
     if(data.getHours() >= 18 ){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>boa noite, ${this.usuarioLogado.primeiro_nome.toLocaleLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>boa noite, ${this.usuarioLogado.primeiroNome.toLocaleLowerCase()}</h2>`);
     }
   }
 

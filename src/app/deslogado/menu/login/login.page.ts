@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms'
-import { ToastController, AlertController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { ToastController, AlertController, NavController, LoadingController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 import * as $ from 'jquery';
-import { LoginService } from '../../../shared/services/login/login.service';
-import { Router, NavigationExtras } from '@angular/router';
-import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
+import { EmailValidator } from '../../../shared/validators/email-validator/email-validator'
+import { SenhaValidator } from '../../../shared/validators/senha-validator/senha-validator'
+import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-login',
@@ -14,205 +16,158 @@ import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 })
 export class LoginPage implements OnInit {
 
-  usuario: Usuarios = new Usuarios;
+  @ViewChild('formSlides') formSlides;
+
   private toast: any;
-  private erro: boolean;
+  private loading: any;
+  private formLogin: FormGroup;
+  private formCadastro: FormGroup;
 
-  formularioCadastro = new FormGroup({
-    primeiro_nome: new FormControl(),
-    sobrenome: new FormControl(),
-    email: new FormControl(),
-    senha: new FormControl()
-  });
+  mensagensValidacao = {
+    'primeiro_nome': [
+      {type: 'maxlength', message: 'Nome maior que 30 caracteres.'},
+      {type: 'required', message: 'Ops! Não esquece de informar seu nome.'},
+      {type: 'pattern', message: 'Seu nome só pode conter letras.' }
+    ],
 
-  formularioLogin = new FormGroup({
-    email: new FormControl(''),
-    senha: new FormControl('')
-  });
+    'sobrenome': [
+      {type: 'maxlength', message: 'Sobrenome maios que 50 caracteres.'},
+      {type: 'required', message: 'Ops! Não esquece que informar o seu sobrenome.'},
+      {type: 'pattern', message: 'Seu sobrenome só pode conter letras.'},
+    ],
 
-  constructor(private router: Router, 
+    'email': [
+      {type: 'required', message: 'Ops! Não esquece que informar o seu e-mail.'},
+      {type: 'emailinvalido', message: 'Informe um e-mail válido.'},
+    ],
+
+    'senha': [
+      {type: 'required', message: 'Ops! Não esquece de informar a sua senha.'},
+      {type: 'minlength', message: 'Sua senha deve ser maior que 6 caracteres.'},
+    ],
+
+    'senhaConfirmacao': [
+      {type: 'required', message: 'Ops! Não esquece de confirmar sua senha.'},
+      {type: 'minlength', message: 'Sua senha deve ser maior que 6 caracteres.'},
+      {type: 'senhasdiferentes', message: 'As senhas devem ser iguais.'}
+    ]
+  };
+
+  sliderOpts = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    spaceBetween: 10,
+    speed: 400,
+    preventInteractionOnTransition: true,
+  }
+
+  constructor(
     private toastController: ToastController, 
-    private loginService: LoginService,
-    private alertController: AlertController) {}
+    private alertController: AlertController,
+    private formBuilder: FormBuilder,
+    private navCtrl: NavController,
+    private usuarioService: UsuarioService,
+    private loadingController: LoadingController,
+    private storage: Storage
+    ) {
+      this.formCadastro = formBuilder.group({
+        primeiro_nome: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
+        sobrenome: ['', Validators.compose([Validators.maxLength(50), Validators.pattern('[a-zA-z ]*'), Validators.required])],
+        email: ['', Validators.required, EmailValidator.verificarEmail],
+        senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+        senhaConfirmacao: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      }, {validator: SenhaValidator.areSenhasIguais});
+
+      this.formLogin = formBuilder.group({
+        email: ['', Validators.required, EmailValidator.verificarEmail],
+        senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+      });
+
+    }
 
   ngOnInit() { }
 
-  onSubmitLogin(){
-    let formValues = this.formularioLogin.value;
+  ionViewDidLeave(){
+  }
 
-    if(!formValues.senha){
-      $('#senha').focus();
-      this.exibirToast('Informe a senha');
+  next(){
+    this.formSlides.slideNext();
+  }
+
+  prev(){
+    this.formSlides.slidePrev();
+  }
+
+  async onSubmitLogin(){
+    if(!this.formLogin.valid){
+      console.log('Há erros no form de login');
+      this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
+      this.formSlides.slideTo(0);
     }else{
-      // $('ion-progress-bar').removeClass('ion-hide');
-      this.exibirAlert();
-      this.loginService.login(formValues.email, formValues.senha)
-          .then(resp => {
-            console.log(('entrando'));          
-          })
-          .catch(err => {
-            console.log(err);
-            if(err.code) this.exibirToast('Usuário ou senha inválidos. Tente novamente.');
-          })
-          .finally(() => {
-            this.fecharAlert();
-  
-            // $('ion-progress-bar').addClass('ion-hide');
-          });
+      this.usuarioService.login(this.formLogin.get('email').value, this.formLogin.get('senha').value)
+      .then(resp => {
+        console.log(resp);     
+      })
+      .catch(err => {
+        console.log(err);
+        if(err.code) this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
+      });
     }
   }
 
   onSubmitCadastro(){      
-    let usuarioForm = this.formularioCadastro.value;
-
-    if(JSON.stringify(usuarioForm).trim().includes('null')){
-      if(usuarioForm.primeiro_nome == null || usuarioForm.primeiro_nome == '') this.campoInvalido('.primeiro_nome');
-      if(usuarioForm.sobrenome == null || usuarioForm.sobrenome == '') this.campoInvalido('.sobrenome');
-      if(usuarioForm.email == null || usuarioForm.email == '') this.campoInvalido('.email');
-      if(usuarioForm.senha == null || usuarioForm.senha == '') this.campoInvalido('.senha');
-      if($('.senhaConf').find('input').val() == null || $('.senhaConf').find('input').val() == '') this.campoInvalido('.senhaConf');
-
+    console.log(this.formCadastro.value);
+    if(!this.formCadastro.valid){
+      this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
+      this.formSlides.slideTo(1);
     }else{
-      this.usuario.primeiro_nome = usuarioForm.primeiro_nome;
-      this.usuario.sobrenome = usuarioForm.sobrenome;
-      this.usuario.email = usuarioForm.email;
-      this.usuario.senha = usuarioForm.senha;
-
-      if(!this.erro){
-        this.loginService.createUser(this.usuario)
-        .then(resp => {
-          this.exibirToast(resp);
+      this.usuarioService.createUser(Utils.inicializaUsuario(this.formCadastro.value))
+      .then(resp => {
+        if(resp.status == 200 || resp.status == 201){
+          this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.formCadastro.value)));
+          this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark-circle');
           $('#formularioCadastro').trigger('reset');
-          this.voltar();
-        })
-        .catch(err => {
-          console.log(err.code);
-          if(err.code == 'auth/email-already-in-use'){
-            this.exibirToast('E-mail já cadastrado no sistema.');  
-            $('.email').find('.input').find('input').focus();
-            $('.email').find('.input').removeClass('valido');
-            $('.email').find('.icone-ok').addClass('ion-hide');
-            $('.email').find('.input').addClass('invalido');
-            return;
-          }else{
-            this.exibirToast('Algo deu errado. Tente novamente.');
-          }
-        });
-      }
+          this.prev();
+        }else{
+          this.exibirErro('Algo deu errado. Tente novamente.', 'md-close-circle');
+          return;
+        }
+      })
+      .catch(err => {
+        if(err){
+          this.exibirErro('Algo deu errado. Tente novamente.', 'md-close-circle');
+          return;
+        }
+      });
     }
-  }
-
-  verificarValidacao(event){
-    let campo = event.target;
-
-    if($(campo).val() == '' || $(campo).val() == null){
-      console.log(event.target);
-      $(campo).parent().addClass('invalido');
-      $(campo).parent().parent().find('.validacao').removeClass('ion-hide');
-      $(campo).parent().removeClass('valido');
-      $(campo).parent().find('.icone-ok').addClass('ion-hide');
-      this.erro = true;
-    }else{
-      console.log(event.target);
-      $(campo).parent().removeClass('invalido');
-      $(campo).parent().parent().find('.validacao').addClass('ion-hide');
-      $(campo).parent().addClass('valido');
-      $(campo).parent().find('.icone-ok').removeClass('ion-hide');
-      this.erro = false;
-    }
-  }
-
-  verificarSenha(event){
-    let campo = event.target;
-    let senha = $('.senhaConf').find('input').val();
-
-
-    // if(campo.value == '' || campo.value == null){
-    //   this.campoInvalido('.senha');
-    //   this.erro = true;
-    //   return;
-    // }
-
-    if(campo.value.length < 6){
-      console.log('menor que 6');
-      $(campo).parent().parent().find('.validacao').removeClass('ion-hide');
-      $(campo).parent().parent().find('.validacao').text('*A senha deve ser maior que 6 caracteres.');
-      $(campo).parent().addClass('invalido');
-      $(campo).parent().removeClass('valido');
-      $(campo).parent().find('.icone-ok').addClass('ion-hide');
-      this.erro = true;
-      return;
-    }    
-    
-    else{
-      $(campo).parent().find('.icone-ok').removeClass('ion-hide');
-      $(campo).parent().removeClass('invalido');
-      $(campo).parent().addClass('valido');
-      $(campo).parent().parent().find('.validacao').addClass('ion-hide');
-      $('.senhaConf').find('input').removeClass('invalido');
-      $('.senhaConf').find('.validacao').addClass('ion-hide');
-      this.erro = false;
-    }
-  }
-
-  verificarSenhaIgual(event){
-    let campo = event.target;
-    let senha = $('.senha').find('input').val();
-    console.log(campo.value != senha);
-    console.log(campo.value + ' - ' + senha);
-
-    if(campo.value == null || campo.value == ''){
-      $(campo).parent().addClass('invalido');
-      $(campo).parent().parent().find('.validacao').removeClass('ion-hide');
-      this.erro = true;
-      return;
-    }
-    if(campo.value != senha){
-      $(campo).parent().parent().find('.validacao').removeClass('ion-hide');
-      $(campo).parent().parent().find('.validacao').text('*As senhas devem ser iguais.');
-      $(campo).parent().addClass('invalido');
-      $(campo).parent().removeClass('valido');
-      $(campo).parent().find('.icone-ok').addClass('ion-hide');
-      this.erro = true;
-      return;
-    }else{
-      $(campo).parent().find('.icone-ok').removeClass('ion-hide');
-      $(campo).parent().addClass('valido');
-      $(campo).parent().removeClass('invalido');
-      $(campo).parent().parent().find('.validacao').addClass('ion-hide');
-      this.erro = false;
-    }
-  }
-
-  campoInvalido(classeCss: string){
-    $('#formularioCadastro').focus();
-    $(classeCss).find('.input').addClass('invalido');
-    $(classeCss).find('.validacao').removeClass('ion-hide');
-    $(classeCss).find('.validacao').text('*Ops! Não esquece desse campo.');
-  }
-
-  exibirToast(mensagem){
-    this.toast = this.toastController.create({
-      color: 'dark',
-      duration: 3000,
-      message: `${mensagem}`,
-      closeButtonText: 'fechar',
-      showCloseButton: true
-    }).then(toastData => {
-      toastData.present();
-    });    
   }
 
   exibirAlert(){
     this.alertController.create({
+      header: 'E-mail já cadastro no sistema.',
       animated: true,
-      mode: 'ios',
-      message: 'Carregando...'
+      message: 'Esqueceu sua senha?',
+      buttons: [
+        {
+          text: 'Não',
+          cssClass: 'secondary',
+          role: 'cancel',
+          handler: () => {
+            return false;
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            // return true;
+            console.log('recuperar senha');
+          }
+        } 
+      ]
     }).then(alert => {
       alert.present();
     }).catch(err => {
       console.log(err);
-      this.exibirToast('Erro');
     });
   }
 
@@ -220,52 +175,22 @@ export class LoginPage implements OnInit {
     this.alertController.dismiss();
   }
 
-  abrirNovaConta(){
-    $('.box-login').addClass('ion-hide');
-    $('.box-cadastrar').removeClass('ion-hide');
-    $('#btnEntrar').addClass('ion-hide');
-    $('#btnCadastrar').removeClass('ion-hide');
-
+  exibirErro(msg: string, icone: string){
+    this.toast = this.toastController.create({
+      color: 'dark',
+      duration: 3000,
+      message: msg,
+      closeButtonText: 'fechar',
+      showCloseButton: true,
+      buttons: [
+        {
+          side: 'start',
+          icon: icone
+        }
+      ]
+    }).then(toastData => {
+      toastData.present();
+    });  
   }
 
-  voltar(){
-    $('.box-login').removeClass('ion-hide');
-    $('.box-cadastrar').addClass('ion-hide');
-    $('#btnEntrar').removeClass('ion-hide');
-    $('#btnCadastrar').addClass('ion-hide');
-  }
-
-  onKeyLogin(event){
-    let regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
-
-    if(!regex.test(event.target.value)){
-      console.log('inválido');  
-      $('#btnEntrar').prop('disabled', 'true');
-    }else{
-      console.log('válido');
-      $('#btnEntrar').prop('disabled', 'false');
-    }
-  }
-
-  onKeyCadastro(event){
-    let regex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
-
-    if(!regex.test(event.target.value)){
-      console.log('inválido');  
-      $(event.target).parent().removeClass('ion-hide');
-      $(event.target).parent().removeClass('valido');
-      $(event.target).parent().addClass('invalido');
-      $(event.target).parent().parent().find('.validacao').removeClass('ion-hide');
-      $(event.target).parent().parent().find('.validacao').text('Insira um e-mail válido.');
-      $(event.target).parent().find('.icone-ok').addClass('ion-hide');
-      this.erro = true;
-    }else{
-      console.log('válido');
-      $(event.target).parent().removeClass('invalido');
-      $(event.target).parent().addClass('valido');
-      $(event.target).parent().find('.icone-ok').removeClass('ion-hide');
-      $(event.target).parent().parent().find('.validacao').addClass('ion-hide');
-      this.erro = false;
-    }
-  }
 }

@@ -42,7 +42,11 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './deslogado/menu/login/login.module#LoginPageModule',
-          }
+          },
+          // { 
+          //   path: 'cadastrar', 
+          //   loadChildren: './deslogado/menu/login/cadastrar/cadastrar.module#CadastrarPageModule' 
+          // }
         ]
       }
     ],
@@ -61,7 +65,24 @@ const routes: Routes = [
           { 
             path: 'meus-favoritos', 
             loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' 
-          }
+          },
+          { 
+            path: 'editar-perfil', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' 
+          },
+          { 
+            path: 'formas-pagamento', 
+            children: [
+              {
+                path: '',
+                loadChildren: './shared/telas/formas-pagamento/formas-pagamento.module#FormasPagamentoPageModule' 
+              },
+              {
+                path: 'adicionar-forma-pagamento', 
+                loadChildren: './shared/telas/formas-pagamento/adicionar-forma-pagamento/adicionar-forma-pagamento.module#AdicionarFormaPagamentoPageModule'                 
+              }
+            ]
+          },
         ]
       },
       {
@@ -85,8 +106,8 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'cartao-credito', loadChildren: './shared/telas/formas-pagamento/adicionar-forma-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule' },
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
-  // { path: 'meus-favoritos', loadChildren: './logado/menu-logado/perfil/itens-perfil/meus-favoritos/meus-favoritos.module#MeusFavoritosPageModule' }
 
 ];
 
