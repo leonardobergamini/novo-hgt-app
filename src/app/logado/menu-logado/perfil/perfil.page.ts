@@ -6,6 +6,7 @@ import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import * as $ from 'jquery';
 import { EditarPerfilPage } from './itens-perfil/editar-perfil/editar-perfil.page';
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-perfil',
@@ -53,7 +54,8 @@ export class PerfilPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private storage: Storage,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private statusBar: StatusBar
     ) { }
 
   ngOnInit() {
@@ -69,7 +71,10 @@ export class PerfilPage implements OnInit {
     this.usuarioLogado.imgPerfil == 'null';
   }
 
-  ionViewDidEnter(){}
+  ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#f3f0f0');
+    this.statusBar.styleDefault();
+  }
 
   ionViewCanLeave(){
   }

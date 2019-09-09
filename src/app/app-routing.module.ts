@@ -78,8 +78,8 @@ const routes: Routes = [
                 loadChildren: './shared/telas/formas-pagamento/formas-pagamento.module#FormasPagamentoPageModule' 
               },
               {
-                path: 'adicionar-forma-pagamento', 
-                loadChildren: './shared/telas/formas-pagamento/adicionar-forma-pagamento/adicionar-forma-pagamento.module#AdicionarFormaPagamentoPageModule'                 
+                path: 'cartao-credito', 
+                loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
               }
             ]
           },

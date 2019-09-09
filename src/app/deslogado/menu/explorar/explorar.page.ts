@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 
 import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-explorar',
@@ -16,13 +17,18 @@ export class ExplorarPage implements OnInit {
 
   constructor(
     private statusBar: StatusBar,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    private navCtrl: NavController
     ) { }
 
   ngOnInit() {
-    this.statusBar.styleDefault();
+    this.statusBar.backgroundColorByHexString('#ecf0f1');
     this.eventos = this.eventosService.getAllEventos();
   }
 
+  ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#ecf0f1');
+    this.statusBar.styleDefault();
+  }
 }  
 
