@@ -24,11 +24,11 @@ export class PerfilPage implements OnInit {
       icone: 'ios-card',
       rota: 'formas-pagamento'
     },
-    {
-      titulo: 'alterar senha',
-      icone: 'ios-key',
-      rota: 'alterar-senha'
-    },
+    // {
+    //   titulo: 'alterar senha',
+    //   icone: 'ios-key',
+    //   rota: 'alterar-senha'
+    // },
     {
       titulo: 'editar perfil',
       icone: 'md-create',

@@ -83,6 +83,18 @@ const routes: Routes = [
               }
             ]
           },
+          { 
+            path: 'atendimento', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/atendimento/atendimento.module#AtendimentoPageModule' 
+          },
+          {
+            path: 'termos-uso', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/termos-uso/termos-uso.module#TermosUsoPageModule' 
+          },
+          { 
+            path: 'politicas-privacidade', 
+            loadChildren: './logado/menu-logado/perfil/itens-perfil/politicas-privacidade/politicas-privacidade.module#PoliticasPrivacidadePageModule' 
+          },
         ]
       },
       {
