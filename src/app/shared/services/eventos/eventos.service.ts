@@ -57,8 +57,8 @@ export class EventosService {
     
     this.eventos.filter((evento: Eventos) =>{
       let hoje = moment().locale('pt-br');
-      let dataPublicacao = moment(Utils.formatarDataEUA(evento.data_publicacao)).locale('pt-br');
-      hoje.isBetween(dataPublicacao.format(), dataPublicacao.add(15, 'day').format())
+      let dtPublicacao = moment(Utils.formatarDataEUA(evento.dtPublicacao)).locale('pt-br');
+      hoje.isBetween(dtPublicacao.format(), dtPublicacao.add(15, 'day').format())
       ? this.eventoNovos.push(evento) : null;   
     });
     
@@ -68,7 +68,7 @@ export class EventosService {
   getAllEventos(): Eventos[]{
     return this.eventos = [
       {
-        id_evento: 1,
+        id: 1,
         imagem: "../../../assets/events/gabriela-rocha/gabriela-rocha.png",
         atracao: {
           id_atracao: 1,
@@ -89,20 +89,20 @@ export class EventosService {
           cep: "09876-900",
           capacidade_max: 10000        
         },
-        faixa_etaria: {
+        faixaEtaria: {
           id_faixa_etaria: 1,
           nome: "livre",
           descricao: ""
         },
-        dt_inicio_evento: "24/07/2019",
-        dt_fim_evento: "24/07/2019",
-        dt_inicio_vendas: "30/06/2019",
-        dt_inicio_evento_formatada: 'quarta-feira, 24 de julho de 2019',
-        dt_fim_evento_formatada: 'quarta-feira, 24 de julho de 2019',
-        hora_inicio_evento: '19h',
-        hora_fim_evento: '22h',
-        visualizações: 0,
-        data_publicacao: "10/06/2019",
+        dtInicioEvento: "24/07/2019",
+        dtFimEvento: "24/07/2019",
+        dtInicioVendas: "30/06/2019",
+        dtInicioEventoFormatada: 'quarta-feira, 24 de julho de 2019',
+        dtFimEventoFormatada: 'quarta-feira, 24 de julho de 2019',
+        horaInicioEvento: '19h',
+        horaFimEvento: '22h',
+        visualizacoes: '0',
+        dtPublicacao: "10/06/2019",
         descricao: "É uma cantora brasileira de música cristã contemporânea.",
         produtor:{
           id: 1,
@@ -127,7 +127,7 @@ export class EventosService {
         ]
       },
       {
-        id_evento: 2,
+        id: 2,
         imagem: "../../../assets/events/foo-fighters/foo-fighters.png",
         atracao: {
           id_atracao: 2,
@@ -148,20 +148,20 @@ export class EventosService {
           cep: "05001-200",
           capacidade_max: 50000        
         },
-        faixa_etaria: {
+      faixaEtaria: {
           id_faixa_etaria: 2,
           nome: "14",
           descricao: ''
         },
-        dt_inicio_evento: "20/11/2019",
-        dt_fim_evento: "20/11/2019",
-        dt_inicio_vendas: "01/09/2019",
-        dt_inicio_evento_formatada: 'quarta-feira, 20 de novembro de 2019',
-        dt_fim_evento_formatada: 'quarta-feira, 20 de novembro de 2019',
-        hora_inicio_evento: '20h',
-        hora_fim_evento: '23h',
-        visualizações: 0,
-        data_publicacao: "30/06/2019",
+        dtInicioEvento: "20/11/2019",
+        dtFimEvento: "20/11/2019",
+        dtInicioVendas: "01/09/2019",
+        dtInicioEventoFormatada: 'quarta-feira, 20 de novembro de 2019',
+        dtFimEventoFormatada: 'quarta-feira, 20 de novembro de 2019',
+        horaInicioEvento: '20h',
+        horaFimEvento: '23h',
+        visualizacoes: '0',
+        dtPublicacao: "30/06/2019",
         descricao: "Foo Fighters, é uma banda de rock dos Estados Unidos formada pelos ex-Nirvana Dave Grohl e Pat Smear em 1994.",
         produtor:{
           id: 1,
@@ -186,7 +186,7 @@ export class EventosService {
         ]
       },
       {
-        id_evento: 3,
+        id: 3,
         imagem: "../../../assets/events/luccas-neto-os-aventureiros/luccas-neto-os-aventureiros.png",
         atracao: {
           id_atracao: 3,
@@ -207,20 +207,20 @@ export class EventosService {
           cep: "01156-000",
           capacidade_max: 30000   
         },
-        faixa_etaria: {
+      faixaEtaria: {
           id_faixa_etaria: 1,
           nome: "livre",
           descricao: ''
         },
-        dt_inicio_evento: "20/07/2019",
-        dt_fim_evento: "20/07/2019",
-        dt_inicio_vendas: "01/07/2019",
-        dt_inicio_evento_formatada: 'quarta-feira, 20 de junho de 2019',
-        dt_fim_evento_formatada: 'quarta-feira, 20 de julho de 2019',
-        visualizações: 0,
-        hora_inicio_evento: '18h',
-        hora_fim_evento: '20h',
-        data_publicacao: "20/06/2019",
+        dtInicioEvento: "20/07/2019",
+        dtFimEvento: "20/07/2019",
+        dtInicioVendas: "01/07/2019",
+        dtInicioEventoFormatada: 'quarta-feira, 20 de junho de 2019',
+        dtFimEventoFormatada: 'quarta-feira, 20 de julho de 2019',
+        visualizacoes: '0',
+        horaInicioEvento: '18h',
+        horaFimEvento: '20h',
+        dtPublicacao: "20/06/2019",
         descricao: "Luccas Neto com Os Aventureiros.",
         produtor:{
           id: 2,
@@ -241,7 +241,7 @@ export class EventosService {
       ]
     },
     {
-      id_evento: 4,
+      id: 4,
       imagem: "../../../assets/events/marcos-e-belluti/marcos-e-belluti.png",
       atracao: {
         id_atracao: 4,
@@ -262,20 +262,20 @@ export class EventosService {
         cep: "02000-320",
         capacidade_max: 20000        
       },
-      faixa_etaria: {
+    faixaEtaria: {
         id_faixa_etaria: 3,
         nome: "16",
         descricao: ''
       },
-      dt_inicio_evento: "29/06/2019",
-      dt_fim_evento: "29/06/2019",
-      dt_inicio_vendas: "01/06/2019",
-      dt_inicio_evento_formatada: 'sábado, 26 de junho de 2019',
-      dt_fim_evento_formatada: 'sábado, 26 de junho de 2019',
-      visualizações: 0,
-      hora_inicio_evento: '21h',
-      hora_fim_evento: '00h',
-      data_publicacao: "01/07/2019",
+      dtInicioEvento: "29/06/2019",
+      dtFimEvento: "29/06/2019",
+      dtInicioVendas: "01/06/2019",
+      dtInicioEventoFormatada: 'sábado, 26 de junho de 2019',
+      dtFimEventoFormatada: 'sábado, 26 de junho de 2019',
+      visualizacoes: '0',
+      horaInicioEvento: '21h',
+      horaFimEvento: '00h',
+      dtPublicacao: "01/07/2019",
       descricao: "Marcos & Belutti é uma dupla sertaneja formada pelos amigos Leonardo Prado de Souza, mais conhecido como Marcos, e Bruno Belucci Pereira, mais conhecido como Belutti.",
       produtor:{
         id: 1,
@@ -300,7 +300,7 @@ export class EventosService {
       ]
     },
     {
-      id_evento: 5,
+      id: 5,
       imagem: "../../../assets/events/sandy-e-junior/sandy-e-junior.png",
       atracao: {
         id_atracao: 5,
@@ -321,20 +321,20 @@ export class EventosService {
         cep: "05001-200",
         capacidade_max: 50000          
       },
-      faixa_etaria: {
+    faixaEtaria: {
         id_faixa_etaria: 3,
         nome: "16",
         descricao: ''
       },
-      dt_inicio_evento: "12/10/2019",
-      dt_fim_evento: "12/10/2019",
-      dt_inicio_vendas: "01/07/2019",
-      dt_inicio_evento_formatada: 'sábado, 12 de outubro de 2019',
-      dt_fim_evento_formatada: 'sábado, 12 de outubro de 2019',
-      visualizações: 0,
-      hora_inicio_evento: '19h',
-      hora_fim_evento: '23h',
-      data_publicacao: "08/07/2019",
+      dtInicioEvento: "12/10/2019",
+      dtFimEvento: "12/10/2019",
+      dtInicioVendas: "01/07/2019",
+      dtInicioEventoFormatada: 'sábado, 12 de outubro de 2019',
+      dtFimEventoFormatada: 'sábado, 12 de outubro de 2019',
+      visualizacoes: '0',
+      horaInicioEvento: '19h',
+      horaFimEvento: '23h',
+      dtPublicacao: "08/07/2019",
       descricao: "Devido ao grande sucesso e procura de fãs, a Live Nation, junto de Sandy e Junior Lima, informam que a cidade de São Paulo irá receber mais dois extras da turnê “Nossa História”.",
       produtor:{
         id: 1,
@@ -355,7 +355,7 @@ export class EventosService {
       ]
     },
     {
-      id_evento: 6,
+      id: 6,
       imagem: "../../../assets/events/improvavel/improvavel.jpeg",
       atracao: {
         id_atracao: 6,
@@ -376,20 +376,20 @@ export class EventosService {
         cep: null,
         capacidade_max: 10000          
       },
-      faixa_etaria: {
+    faixaEtaria: {
         id_faixa_etaria: 4,
         nome: "14",
         descricao: ''
       },
-      dt_inicio_evento: "23/08/2019",
-      dt_fim_evento: "24/06/2019",
-      dt_inicio_vendas: "01/07/2019",
-      dt_inicio_evento_formatada: 'sexta, 23 de agosto de 2019',
-      dt_fim_evento_formatada: 'sábado, 24 de agosto de 2019',
-      visualizações: 0,
-      hora_inicio_evento: '21h',
-      hora_fim_evento: '23h',
-      data_publicacao: "09/07/2019",
+      dtInicioEvento: "23/08/2019",
+      dtFimEvento: "24/06/2019",
+      dtInicioVendas: "01/07/2019",
+      dtInicioEventoFormatada: 'sexta, 23 de agosto de 2019',
+      dtFimEventoFormatada: 'sábado, 24 de agosto de 2019',
+      visualizacoes: '0',
+      horaInicioEvento: '21h',
+      horaFimEvento: '23h',
+      dtPublicacao: "09/07/2019",
       descricao: `A Cia. Barbixas de Humor comemorou, em 2017, 10 anos de sucesso do IMPROVÁVEL, um espetáculo criado e apresentado pelo trio de humoristas Anderson Bizzocchi, Daniel Nascimento e Elidio Sanna (os Barbixas) que usa a improvisação como linguagem para a criação de jogos e de cenas artísticas de humor.
       Neste espetáculo teatral, um mestre de cerimônias apresenta as regras dos jogos, a plateia sugere os temas e os atores improvisam as cenas na hora e sem nenhuma preparação prévia. Assim, nunca uma apresentação é igual à outra - fazendo com que o público retorne sempre.`,
       produtor:{

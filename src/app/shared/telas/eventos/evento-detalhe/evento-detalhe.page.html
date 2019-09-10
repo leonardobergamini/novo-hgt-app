@@ -1,7 +1,7 @@
 <ion-content>
     <ion-row padding>
         <div class="sair">
-            <ion-icon name="ios-arrow-back" (click)="fecharModal()" class="fechar ion-left"></ion-icon>
+            <ion-icon name="ios-arrow-back" (click)="fecharModal()" color="primary" class="fechar ion-left"></ion-icon>
         </div>
     </ion-row>
     <ion-row>
@@ -21,11 +21,11 @@
                 <div class="infos-complementar-content">
                     <div class="data">
                         <ion-icon id="calendario" name="calendar"></ion-icon>
-                        <ion-text>{{ evento.dt_inicio_evento_formatada }}</ion-text>
+                        <ion-text>{{ evento.dtInicioEventoFormatada }}</ion-text>
                     </div>
                     <div class="hora">
                         <ion-icon id="relogio" name="time"></ion-icon>
-                        <ion-text>às {{ evento.hora_inicio_evento }}</ion-text>
+                        <ion-text>às {{ evento.horaInicioEvento }}</ion-text>
                     </div>
                     <divisor></divisor>
                     <div class="local">
@@ -41,6 +41,27 @@
                 </div>
             </div>
             <div class="infos-content">
+                <div class="setoresComPrecos">
+                    <h4>setores e preços</h4>
+                    <ion-list lines="none" class="ion-no-margin ion-no-padding">
+                        <ion-item>
+                            <ion-label>Pokémon Yellow</ion-label>
+                            <contador-hgt></contador-hgt>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Mega Man X</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>The Legend of Zelda</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Pac-Man</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Super Mario World</ion-label>
+                        </ion-item>
+                    </ion-list>
+                </div>
                 <div class="detalhes">
                     <h4>detalhes</h4>
                     <ion-text>
@@ -59,4 +80,4 @@
     <ion-row>
         <ion-button id="btnComprar" class="ion-no-margin" expand="full">garanta seu ingresso</ion-button>
     </ion-row>
-</ion-content>
+</ion-content>x

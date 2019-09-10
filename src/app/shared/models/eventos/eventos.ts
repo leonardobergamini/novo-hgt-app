@@ -5,22 +5,22 @@ import { Atracoes } from '../atracoes/atracoes';
 import { FaixasEtarias } from '../faixas-etarias/faixas-etarias';
 
 export class Eventos {
-    id_evento: number;
-    data_publicacao: string;
+    id: number;
+    dtPublicacao: string;
     imagem: string;
-    dt_inicio_evento: string;
-    dt_fim_evento: string;
-    dt_inicio_vendas: string;
-    dt_inicio_evento_formatada: string;
-    dt_fim_evento_formatada: string;
-    hora_inicio_evento: string;
-    hora_fim_evento: string;
+    dtInicioEvento: string;
+    dtFimEvento: string;
+    dtInicioVendas: string;
+    dtInicioEventoFormatada: string;
+    dtFimEventoFormatada: string;
+    horaInicioEvento: string;
+    horaFimEvento: string;
     descricao: string;
-    visualizações: number;
+    visualizacoes: string;
     local: Locais;
     produtor: Produtores;
     categorias: Categorias[];
-    faixa_etaria: FaixasEtarias;
+    faixaEtaria: FaixasEtarias;
     atracao: Atracoes;
 }
 
