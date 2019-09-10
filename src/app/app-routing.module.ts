@@ -115,9 +115,15 @@ const routes: Routes = [
             loadChildren: './logado/menu-logado/pesquisar/pesquisar.module#PesquisarPageModule',
           }
         ]
-      }
+      },
+      { 
+        path: 'efetuar-compra', 
+        loadChildren: './logado/efetuar-compra/efetuar-compra.module#EfetuarCompraPageModule' 
+      },
+
     ]
   },
+
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
 
 ];

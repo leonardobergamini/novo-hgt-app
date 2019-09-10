@@ -1,8 +1,8 @@
-import { Locais } from '../locais/locais';
 import { Produtores } from '../produtores/produtores';
 import { Categorias } from '../categorias/categorias';
 import { Atracoes } from '../atracoes/atracoes';
 import { FaixasEtarias } from '../faixas-etarias/faixas-etarias';
+import { Setores } from '../setores/setores';
 
 export class Eventos {
     id: number;
@@ -17,7 +17,7 @@ export class Eventos {
     horaFimEvento: string;
     descricao: string;
     visualizacoes: string;
-    local: Locais;
+    setores: Setores[];
     produtor: Produtores;
     categorias: Categorias[];
     faixaEtaria: FaixasEtarias;

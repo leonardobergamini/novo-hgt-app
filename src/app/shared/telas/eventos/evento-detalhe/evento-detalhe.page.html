@@ -30,13 +30,13 @@
                     <divisor></divisor>
                     <div class="local">
                         <ion-icon id="gps" name="pin"></ion-icon>
-                        <ion-text>{{ evento.local.nome }}</ion-text>
+                        <ion-text>{{ evento.setores[0].local.nome }}</ion-text>
                     </div>
                     <div class="endereco">
-                        <ion-text class="ion-text-center">{{ evento.local.endereco }}</ion-text>
+                        <ion-text class="ion-text-center">{{ evento.setores[0].local.endereco }}</ion-text>
                     </div>
                     <div class="cidade-uf">
-                        <ion-text class="ion-text-uppercase">{{ evento.local.cidade }}/{{ evento.local.uf }}</ion-text>
+                        <ion-text class="ion-text-uppercase">{{ evento.setores[0].local.cidade }}/{{ evento.setores[0].local.uf }}</ion-text>
                     </div>
                 </div>
             </div>
@@ -44,22 +44,15 @@
                 <div class="setoresComPrecos">
                     <h4>setores e preços</h4>
                     <ion-list lines="none" class="ion-no-margin ion-no-padding">
-                        <ion-item>
-                            <ion-label>Pokémon Yellow</ion-label>
-                            <contador-hgt></contador-hgt>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Mega Man X</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>The Legend of Zelda</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Pac-Man</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Super Mario World</ion-label>
-                        </ion-item>
+                        <div *ngFor="let setor of evento.setores">
+                            <ion-item>
+                                <ion-label>
+                                    <h2>{{ setor.nome }}</h2>
+                                    <h3>inteira: R$ {{ setor.preco }}</h3>
+                                </ion-label>
+                                <contador-hgt max="5" (click)="selecionaSetor(setor, $event)"></contador-hgt>
+                            </ion-item>
+                        </div>
                     </ion-list>
                 </div>
                 <div class="detalhes">
@@ -68,16 +61,11 @@
                         <p>{{ evento.descricao }}</p>
                     </ion-text>
                 </div>
-                <!-- <divisor></divisor>
-                <div class="conheça">
-                    <h4>conheça</h4>
-                </div> -->
-
             </div>
         </div>
     </ion-row>
 
     <ion-row>
-        <ion-button id="btnComprar" class="ion-no-margin" expand="full">garanta seu ingresso</ion-button>
+        <ion-button id="btnComprar" class="ion-no-margin" expand="full" (click)="validarCompra(evento)">garanta seu ingresso</ion-button>
     </ion-row>
-</ion-content>x
+</ion-content>

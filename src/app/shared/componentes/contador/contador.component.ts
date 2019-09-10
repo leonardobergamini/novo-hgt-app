@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'contador-hgt',
@@ -7,21 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContadorComponent implements OnInit {
 
-  private contador: number = 0;
+  public contador: number = 0;
+  @Input() max: number = 5;
+  @Input() min: number = 0;
+  //@Output() clickAdicionar = new EventEmitter();
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   adicionar(){
-    if(this.contador === 5){
+    if(this.contador === Number(this.max)){
+      //this.clickAdicionar.emit(this.contador.toString());
       return this.contador;
     }else{
+      //this.clickAdicionar.emit(this.contador.toString());
       return this.contador++;
     }
   }
 
   subtrair(){
-    if(this.contador === 0){
+    if(this.contador === Number(this.min)){
       return this.contador;
     }else{
       return this.contador--;

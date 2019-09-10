@@ -3,16 +3,86 @@ import { Injectable } from '@angular/core';
 import { Eventos } from '../../models/eventos/eventos';
 import { Utils } from '../../utils/utils'
 import * as moment from 'moment';
+import { Setores } from '../../models/setores/setores';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventosService {
 
+  private id: number = 0;
   eventos: Eventos[];
   eventosFiltrados: Eventos[] = [];
   eventoNovos: Eventos[] = [];
   
+  
+  setores: Setores[] = [
+    {
+      id: this.id++,
+      capacidadeMax: 200,
+      local: {
+        id: 1,
+        nome: "Teatro Riachuelo",
+        uf: "RN",
+        cidade: "Natal",
+        endereco: "Av. Arnaldo Antunes, 905",
+        bairro: "Centro",
+        cep: "09876-900",
+        capacidade_max: 10000
+      },
+      nome: 'SETOR A',
+      preco: 20
+    },
+    {
+      id: this.id++,
+      capacidadeMax: 400,
+      local: {
+        id: 1,
+        nome: "Teatro Riachuelo",
+        uf: "RN",
+        cidade: "Natal",
+        endereco: "Av. Arnaldo Antunes, 905",
+        bairro: "Centro",
+        cep: "09876-900",
+        capacidade_max: 10000
+      },
+      nome: 'SETOR B',
+      preco: 50
+    },
+    {
+      id: this.id++,
+      capacidadeMax: 300,
+      local: {
+        id: 1,
+        nome: "Teatro Riachuelo",
+        uf: "RN",
+        cidade: "Natal",
+        endereco: "Av. Arnaldo Antunes, 905",
+        bairro: "Centro",
+        cep: "09876-900",
+        capacidade_max: 10000
+      },
+      nome: 'SETOR C',
+      preco: 60
+    },
+    {
+      id: this.id++,
+      capacidadeMax: 100,
+      local: {
+        id: 1,
+        nome: "Teatro Riachuelo",
+        uf: "RN",
+        cidade: "Natal",
+        endereco: "Av. Arnaldo Antunes, 905",
+        bairro: "Centro",
+        cep: "09876-900",
+        capacidade_max: 10000
+      },
+      nome: 'SETOR D',
+      preco: 100
+    }    
+  ];
+
   constructor() { }
 
   getEventoByArtista(artista: string){
@@ -79,16 +149,7 @@ export class EventosService {
           youtube: 'www.youtube.com.br'
           `
         },
-        local: {
-          id: 1,
-          nome: "Teatro Riachuelo",
-          uf: "RN",
-          cidade: "Natal",
-          endereco: "Av. Arnaldo Antunes, 905",
-          bairro: "Centro",
-          cep: "09876-900",
-          capacidade_max: 10000        
-        },
+        setores: this.setores,
         faixaEtaria: {
           id_faixa_etaria: 1,
           nome: "livre",
@@ -138,17 +199,8 @@ export class EventosService {
           youtube: 'www.youtube.com.br'
           `
         },
-        local: {
-          id: 3,
-          nome: "Allianz Parque",
-          uf: "SP",
-          cidade: "São Paulo",
-          endereco: "Av. Francisco Matarazzo, 1705",
-          bairro: "Água Branca",
-          cep: "05001-200",
-          capacidade_max: 50000        
-        },
-      faixaEtaria: {
+        setores: this.setores,
+        faixaEtaria: {
           id_faixa_etaria: 2,
           nome: "14",
           descricao: ''
@@ -197,17 +249,8 @@ export class EventosService {
           youtube: 'www.youtube.com.br'
           `
         },
-        local: {
-          id: 2,
-          nome: "Espaço das Américas",
-          uf: "SP",
-          cidade: "São Paulo",
-          endereco: "R. Tagipuru, 795",
-          bairro: "Barra Funda",
-          cep: "01156-000",
-          capacidade_max: 30000   
-        },
-      faixaEtaria: {
+        setores: this.setores,
+        faixaEtaria: {
           id_faixa_etaria: 1,
           nome: "livre",
           descricao: ''
@@ -252,17 +295,8 @@ export class EventosService {
         youtube: 'www.youtube.com.br'
         `
       },
-      local: {
-        id: 5,
-        nome: "Casa Brasil",
-        uf: "RJ",
-        cidade: "Rio de Janeiro",
-        endereco: "Av. Francisco Rodrigues, 705",
-        bairro: "Leblon",
-        cep: "02000-320",
-        capacidade_max: 20000        
-      },
-    faixaEtaria: {
+      setores: this.setores,
+      faixaEtaria: {
         id_faixa_etaria: 3,
         nome: "16",
         descricao: ''
@@ -311,17 +345,8 @@ export class EventosService {
         youtube: 'www.youtube.com.br'
         `
       },
-      local: {
-        id: 3,
-        nome: "Allianz Parque",
-        uf: "SP",
-        cidade: "São Paulo",
-        endereco: "Av. Francisco Matarazzo, 1705",
-        bairro: "Água Branca",
-        cep: "05001-200",
-        capacidade_max: 50000          
-      },
-    faixaEtaria: {
+      setores: this.setores,
+      faixaEtaria: {
         id_faixa_etaria: 3,
         nome: "16",
         descricao: ''
@@ -366,17 +391,8 @@ export class EventosService {
         youtube: 'www.youtube.com.br'
         `
       },
-      local: {
-        id: 4,
-        nome: "Teatro SESC Casa do Comércio",
-        uf: "BA",
-        cidade: "Salvador",
-        endereco: "Av. Tancredo Neves, 1109",
-        bairro: "Centro",
-        cep: null,
-        capacidade_max: 10000          
-      },
-    faixaEtaria: {
+      setores: this.setores,
+      faixaEtaria: {
         id_faixa_etaria: 4,
         nome: "14",
         descricao: ''
