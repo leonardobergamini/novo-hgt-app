@@ -50,7 +50,7 @@
                                     <h2>{{ setor.nome }}</h2>
                                     <h3>inteira: R$ {{ setor.preco }}</h3>
                                 </ion-label>
-                                <contador-hgt max="5" (click)="selecionaSetor(setor, $event)"></contador-hgt>
+                                <contador-hgt max="5" (clickAdicionar)="exibirContador(setor, $event)" (clickSubtrair)="exibirContador(setor, $event)"></contador-hgt>
                             </ion-item>
                         </div>
                     </ion-list>
