@@ -1,6 +1,6 @@
 <ion-header translucent>
     <ion-toolbar>
-        <ion-title>Efetuar compra</ion-title>
+        <ion-title>Confirmar pedido</ion-title>
         <ion-buttons slot="start">
             <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="menu-logado/explorar"></ion-back-button>
         </ion-buttons>
@@ -50,8 +50,10 @@
                         <ion-list lines="none">
                             <ion-item *ngFor="let evento of eventoSelecionado.setores" class="ion-no-margin ion-no-padding">
                                 <ng-container *ngIf="evento.contador > 0">
-                                    <ion-label>{{evento.setor}}</ion-label>
-                                    <ion-text slot="end" class="ion-text-end">{{evento.contador}}</ion-text>
+                                    <ion-label>
+                                        {{evento.setor}}
+                                        <ion-text slot="end" class="ion-text-end">qtd {{evento.contador}}</ion-text>
+                                    </ion-label>
                                 </ng-container>
                             </ion-item>
                         </ion-list>

@@ -59,7 +59,8 @@ export class EventoDetalhePage implements OnInit {
       this.storage.remove('eventoSelecionado');
       let eventoComSetoresSelecionado = {
         evento: evento,
-        setores: this.arraySetoresSelecionados
+        setores: this.arraySetoresSelecionados,
+        valorTotal: this.valorTotal
       }
       this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
       this.fecharModal();
@@ -71,11 +72,11 @@ export class EventoDetalhePage implements OnInit {
     this.arraySetoresSelecionados = this.arraySetoresSemQuantidade;
      let novoArray = this.arraySetoresSemQuantidade.map((value: QuantidadeIngressoSetor) => {
       if(setor.nome === value.setor){
-        value = {
+        return value = {
           setor: value.setor, 
           contador: Number(contador),
-          preco: setor.preco,
-          valorTotal: (setor.preco * contador)
+          preco: Number(setor.preco),
+          valorTotal: (Number(setor.preco) * Number(contador))
         };
       }
       return value;
@@ -90,16 +91,27 @@ export class EventoDetalhePage implements OnInit {
         return;
       }
     });
-    console.log(this.arraySetoresSelecionados);
-    console.log(this.calcularValorTotal(this.arraySetoresSelecionados));
+    this.calcularValorTotal(this.arraySetoresSelecionados);
+    this.valorTotal > 0 ? this.adicionarValorTotalNoBotao() : this.removerValorTotalNoBotao();
+
   }
 
-  calcularValorTotal(setores): number{
-    return this.valorTotal = this.arraySetoresSelecionados.reduce((prevVal, elem) => {
-      if(prevVal.valorTotal)
-      console.log(prevVal.valorTotal);
-      // return prevVal + elem.valorTotal;
+  calcularValorTotal(setores){
+    let valorTmp: number = 0;
+    this.arraySetoresSelecionados.forEach((setor, i) => {
+      if(setor.valorTotal >= 0){
+        valorTmp += setor.valorTotal;
+      }
     });
+    return this.valorTotal = valorTmp;
+  }
+
+  adicionarValorTotalNoBotao(){
+    $('ion-button').attr('color', 'success').html(`<strong>Valor da compra: R$ ${this.valorTotal}</strong>`);
+  }
+
+  removerValorTotalNoBotao(){
+    $('ion-button').attr('color', 'primary').text('garanta seu ingresso');
   }
 
 

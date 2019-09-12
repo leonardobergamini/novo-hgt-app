@@ -25,8 +25,6 @@ export class EfetuarCompraPage implements OnInit {
     this.storage.get('eventoSelecionado')
     .then(resp => {
       this.eventoSelecionado = resp;
-      this.formatarIngressos(this.eventoSelecionado);
-      this.eventoSelecionado = this.calcularValorTotal(this.eventoSelecionado);
       console.log(this.eventoSelecionado);
     });
   }
@@ -37,14 +35,6 @@ export class EfetuarCompraPage implements OnInit {
   // novoArray = eventos.setores.map(value => {
   //   if(value.)
   // });
-  }
-
-  calcularValorTotal(eventos){
-    debugger;
-    let tmp: number = 0;
-    let arrayRetorno = [];
-    
-    return arrayRetorno = {...eventos.setores, valorTotal: tmp};
   }
 
 }
