@@ -8,6 +8,72 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
+    <ion-card>
+        <img src="{{eventoSelecionado.evento.imagem}}" />
+        <ion-card-header>
+            <ion-card-title>{{eventoSelecionado.evento.atracao.nome}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid class="ion-no-margin ion-no-padding">
+                <ion-row>
+                    <ion-col class="ion-no-margin ion-no-padding">
+                        <ion-icon id="calendario" name="calendar"></ion-icon>
+                        <ion-text>{{eventoSelecionado.evento.dtInicioEventoFormatada}}</ion-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-no-margin ion-no-padding">
+                        <ion-icon id="relogio" name="time"></ion-icon>
+                        <ion-text>{{eventoSelecionado.evento.horaInicioEvento}} às {{eventoSelecionado.evento.horaFimEvento}}</ion-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-no-margin ion-no-padding">
+                        <ion-icon id="gps" name="pin"></ion-icon>
+                        <ion-text>{{eventoSelecionado.evento.setores[0].local.nome}}</ion-text>
+                        <ion-text> - {{eventoSelecionado.evento.setores[0].local.endereco}}</ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>ingressos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid class="ion-no-margin ion-no-padding">
+                <ion-row>
+                    <ion-col class="ion-no-margin ion-no-padding">
+                        <ion-list lines="none">
+                            <ion-item *ngFor="let evento of eventoSelecionado.setores" class="ion-no-margin ion-no-padding">
+                                <ng-container *ngIf="evento.contador > 0">
+                                    <ion-label>{{evento.setor}}</ion-label>
+                                    <ion-text slot="end" class="ion-text-end">{{evento.contador}}</ion-text>
+                                </ng-container>
+                            </ion-item>
+                        </ion-list>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>forma de pagamento</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+        </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="full" color="secondary">A full-width button</ion-button>
+
+
+
+
 
 </ion-content>
