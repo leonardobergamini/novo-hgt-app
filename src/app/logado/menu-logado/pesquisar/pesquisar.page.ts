@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import * as $ from 'jquery';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pesquisar',
@@ -14,9 +16,19 @@ export class PesquisarPage implements OnInit {
   _eventosFiltrados: Eventos[] = [];
   erro: boolean;
 
-  constructor(private _eventoService:EventosService) { }
+  constructor(
+    private eventoService:EventosService,
+    private statusBar: StatusBar,
+    private nacCtrl: NavController
+    ) { }
 
   ngOnInit() {
+
+  }
+
+  ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#2d3436');
+    this.statusBar.styleBlackOpaque();
   }
 
   eventoClicadoEmit(event){
@@ -41,13 +53,13 @@ export class PesquisarPage implements OnInit {
 
     $('.melhor-resultado').removeClass('ion-hide');
     $('.melhor-resultado-card').removeClass('ion-hide');
-    this._eventoService = new EventosService();
+    this.eventoService = new EventosService();
 
-    if(this._eventoService.getEventoByQuery(event.target.value).length == 0){
+    if(this.eventoService.getEventoByQuery(event.target.value).length == 0){
       this.erro = true;
       $('.melhor-resultado-card').addClass('ion-hide');
     }else{
-      this._eventosFiltrados = this._eventoService.getEventoByQuery(event.target.value);
+      this._eventosFiltrados = this.eventoService.getEventoByQuery(event.target.value);
       this.erro = false;
     }
   }

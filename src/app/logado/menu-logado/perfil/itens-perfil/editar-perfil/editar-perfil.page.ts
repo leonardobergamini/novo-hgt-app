@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { NavParams, ModalController, ToastController, AlertController, LoadingController } from '@ionic/angular';
+import { NavParams, ModalController, ToastController, AlertController, LoadingController, NavController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
@@ -8,6 +8,7 @@ import { CpfValidator } from 'src/app/shared/validators/cpf-validator/cpf-valida
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
 import * as $ from 'jquery';
 import * as moment from 'moment';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 
 @Component({
@@ -79,13 +80,15 @@ export class EditarPerfilPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private formBuilder: FormBuilder,
     private usuarioService: UsuarioService,
-    public loadingController: LoadingController
+    private loadingController: LoadingController,
+    private statusBar: StatusBar,
+    private navCtrl: NavController
   ) { 
     this.formEditar = formBuilder.group({
-      id_usuario: [this.usuario.id],
-      primeiro_nome: [this.usuario.primeiroNome, Validators.compose([Validators.required, Validators.maxLength(30), Validators.pattern('[a-zA-z ]*')])],
-      sobrenome: [this.usuario.sobrenome, Validators.compose([Validators.required, Validators.maxLength(50), Validators.pattern('[a-zA-z ]*')])],
-      email: [this.usuario.email],
+      id_usuario: [''],
+      primeiro_nome: [''],
+      sobrenome: [''],
+      email: [''],
       usuario: ['', Validators.compose([Validators.maxLength(20), Validators.required])],
       dt_nascimento: ['', Validators.compose([Validators.required])],
       cpf: ['', Validators.compose([Validators.maxLength(14), Validators.required, CpfValidator.validarCPF])],
@@ -103,6 +106,11 @@ export class EditarPerfilPage implements OnInit, OnDestroy {
     this.getData();
     this.usuarioService.readUsers();
   }
+
+  ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#fff');
+    this.statusBar.styleDefault();
+  }  
   
   ngOnDestroy(): void {
     this.usuario = null;

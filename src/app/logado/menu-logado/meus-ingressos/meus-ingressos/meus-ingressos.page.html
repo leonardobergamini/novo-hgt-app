@@ -1,0 +1,57 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">meus ingressos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <section *ngIf="tickets.length > 0; else semTickets">
+        <div *ngFor="let ticket of tickets">
+            <!-- <div>
+                <img src="../../../../assets/icons/ticket.svg" />
+            </div>
+            <div id="dados-evento">
+                <div class="margem-baixo10 txt-negrito">
+                    <ion-text>{{ticket.evento.atracao.nome}}</ion-text>
+                </div>
+                <div class="flex fonte-tamanho12 margem-baixo10">
+                    <ion-text>{{ticket.evento.dtInicioEvento}}</ion-text>
+                    <ion-text>{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
+                </div>
+                <div class="fonte-tamanho12 margem-baixo10">
+                    <ion-text>{{ticket.evento.setores[0].local.nome}}</ion-text>
+                </div>
+                <div class="flex">
+                    <ion-text>{{ticket.setor}}</ion-text>
+                    <ion-text>R$ {{ticket.preco}}</ion-text>
+                </div>
+            </div> -->
+            <ion-card button="true">
+                <ion-card-header>
+                    <ion-card-title>{{ticket.evento.atracao.nome}}</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                    <div class="flex fonte-tamanho12 margem-baixo10">
+                        <ion-text>{{ticket.evento.dtInicioEvento}}</ion-text>
+                        <ion-text>{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
+                    </div>
+                    <div class="fonte-tamanho12 margem-baixo10">
+                        <ion-text>{{ticket.evento.setores[0].local.nome}}</ion-text>
+                    </div>
+                    <div class="flex">
+                        <ion-text>{{ticket.setor}}</ion-text>
+                        <ion-text>R$ {{ticket.preco}}</ion-text>
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </section>
+    <section>
+        <ng-template #semTickets>
+            <div class="ion-text-center">
+                <ion-text>sem tickets... =/</ion-text>
+            </div>
+        </ng-template>
+    </section>
+</ion-content>

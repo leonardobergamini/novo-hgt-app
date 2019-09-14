@@ -12,11 +12,11 @@ import { CartoesCredito } from 'src/app/shared/models/cartoes-credito/cartoes-cr
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 
 @Component({
-  selector: 'app-adicionar-forma-pagamento',
-  templateUrl: './adicionar-forma-pagamento.page.html',
-  styleUrls: ['./adicionar-forma-pagamento.page.scss'],
+  selector: 'cartao-credito-page',
+  templateUrl: './cartao-credito.page.html',
+  styleUrls: ['./cartao-credito.page.scss'],
 })
-export class AdicionarFormaPagamentoPage implements OnInit {
+export class CartaoCreditoPage implements OnInit {
 
   formCadastrarFormaPg: FormGroup;
 
@@ -75,6 +75,11 @@ export class AdicionarFormaPagamentoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.statusBar.styleDefault();
+  }
+
+  ionDidViewEnter(){
+    this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
   }
 

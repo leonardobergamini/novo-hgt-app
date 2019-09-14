@@ -6,6 +6,7 @@ import { EventosService } from '../../services/eventos/eventos.service';
 import { EventEmitter } from 'events';
 import { ModalController } from '@ionic/angular';
 import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'card-slide',
@@ -62,8 +63,11 @@ export class CardSlideComponent implements OnInit{
     }
   };
 
-  constructor(private eventoService: EventosService,
-              private modalController: ModalController) {}
+  constructor(
+    private eventoService: EventosService,
+    private modalController: ModalController,
+    private keyboard: Keyboard
+  ) {}
 
   ngOnInit(){
     if(!this.novidades){
@@ -79,6 +83,7 @@ export class CardSlideComponent implements OnInit{
   }
 
   async exibirDetalhes(evento){
+    this.keyboard.hide();
     const modal = await this.modalController.create({
       component: EventoDetalhePage,
       componentProps: {

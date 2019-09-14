@@ -35,6 +35,7 @@ export class ExplorarPage implements OnInit {
   }
 
   ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#FF6700');
     this.eventos = this.eventosService.getAllEventos();
     // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
     // console.log(this.usuarioLogado);

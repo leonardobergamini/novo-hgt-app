@@ -5,14 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AdicionarFormaPagamentoPage } from './adicionar-forma-pagamento.page';
+import { CartaoCreditoPage } from './cartao-credito.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BrMaskerModule } from 'br-mask';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdicionarFormaPagamentoPage
+    component: CartaoCreditoPage
   }
 ];
 
@@ -26,6 +26,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     BrMaskerModule
   ],
-  declarations: [AdicionarFormaPagamentoPage]
+  declarations: [CartaoCreditoPage]
 })
-export class AdicionarFormaPagamentoPageModule {}
+export class CartaoCreditoPageModule {}
+  

@@ -36,7 +36,7 @@ import { DatePicker } from '@ionic-native/date-picker/ngx';
     IonicStorageModule.forRoot({
       name: '___hgtdb',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
-    })
+    }),
   ],
   providers: [
     StatusBar,

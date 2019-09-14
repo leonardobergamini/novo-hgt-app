@@ -8,6 +8,7 @@ import { EmailValidator } from '../../../shared/validators/email-validator/email
 import { SenhaValidator } from '../../../shared/validators/senha-validator/senha-validator'
 import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
 import { Utils } from 'src/app/shared/utils/utils';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-login',
@@ -68,8 +69,9 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private usuarioService: UsuarioService,
     private loadingController: LoadingController,
-    private storage: Storage
-    ) {
+    private storage: Storage,
+    private statusBar: StatusBar
+  ) {
       this.formCadastro = formBuilder.group({
         primeiro_nome: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-z ]*'), Validators.required])],
         sobrenome: ['', Validators.compose([Validators.maxLength(50), Validators.pattern('[a-zA-z ]*'), Validators.required])],
@@ -87,7 +89,9 @@ export class LoginPage implements OnInit {
 
   ngOnInit() { }
 
-  ionViewDidLeave(){
+  ionViewDidEnter(){
+    this.statusBar.backgroundColorByHexString('#ecf0f1');
+    this.statusBar.styleDefault();
   }
 
   next(){
@@ -125,7 +129,7 @@ export class LoginPage implements OnInit {
       .then(resp => {
         if(resp.status == 200 || resp.status == 201){
           this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.formCadastro.value)));
-          this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark-circle');
+          this.exibirErro('Cadastro feito com sucesso!', 'md-mark-circle');
           $('#formularioCadastro').trigger('reset');
           this.prev();
         }else{

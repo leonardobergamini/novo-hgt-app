@@ -1,0 +1,27 @@
+ion-card {
+    background-color: #fff;
+    img {
+        max-height: 300px;
+    }
+}
+
+ion-text,
+ion-icon {
+    font-size: 16px;
+    align-self: center;
+}
+
+#calendario {
+    vertical-align: text-bottom;
+    margin-right: 10px;
+}
+
+#relogio {
+    vertical-align: text-bottom;
+    margin-right: 10px;
+}
+
+#gps {
+    vertical-align: text-bottom;
+    margin-right: 10px;
+}

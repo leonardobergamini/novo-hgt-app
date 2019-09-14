@@ -5,7 +5,8 @@ import { Usuarios } from '../../models/usuarios/usuarios';
 import { Carteiras } from '../../models/carteiras/carteiras';
 import { FormasPagamento } from '../../models/formas-pagamento/formas-pagamento';
 import { FormGroup, FormBuilder, Validators, EmailValidator } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -97,11 +98,14 @@ formasPagamento: FormasPagamento[] = [
     });
   }
 
-  // remover(id: number, formaPagamento?: FormasPagamento): Promise<string>{
-  //   return Promise((resolve, reject) => {
-
-  //   })
-  // }
+  remover(id: number): Promise<string>{
+    return new Promise((resolve, reject) => {
+      this.formasPagamento.forEach((value, i) => {
+        this.formasPagamento.splice(i, 1);
+      });
+      resolve('Forma de pagamento excluida com sucesso.');
+    });
+  }
 
   ocultaNroCartao(nro: number): string{
     console.log(nro.toString().trim().slice(-4));
