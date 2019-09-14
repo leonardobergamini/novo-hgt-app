@@ -120,6 +120,10 @@ const routes: Routes = [
         path: 'efetuar-compra', 
         loadChildren: './logado/efetuar-compra/efetuar-compra.module#EfetuarCompraPageModule' 
       },
+      { 
+        path: 'meus-ingressos', 
+        loadChildren: './logado/menu-logado/meus-ingressos/meus-ingressos/meus-ingressos.module#MeusIngressosPageModule' 
+      },
 
     ]
   },

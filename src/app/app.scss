@@ -7,3 +7,27 @@
 ion-content {
     --background: #ecf0f1;
 }
+
+ion-card {
+    background-color: #fff !important;
+}
+
+//Tamanho de fontes
+.fonte-tamanho12 {
+    font-size: 12px !important;
+}
+
+//Margem cima
+.margem-cima10 {
+    margin-top: 10px !important;
+}
+
+//Margem baixo
+.margem-baixo10 {
+    margin-bottom: 10px !important;
+}
+
+//Texto negrito
+.txt-negrito {
+    font-weight: bold;
+}

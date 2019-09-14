@@ -1,8 +1,14 @@
 <ion-header translucent>
     <ion-toolbar>
-        <ion-title>Confirmar pedido</ion-title>
+        <ion-title class="ion-text-center">confirmar pedido</ion-title>
         <ion-buttons slot="start">
             <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="menu-logado/explorar"></ion-back-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="confirmarPedido()" id="btnConfirmar">
+                <ion-icon slot="icon-only" name="checkmark" color="success" size="large"></ion-icon>
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -46,19 +52,31 @@
         <ion-card-content>
             <ion-grid class="ion-no-margin ion-no-padding">
                 <ion-row>
-                    <ion-col class="ion-no-margin ion-no-padding">
-                        <ion-list lines="none">
-                            <ion-item *ngFor="let evento of eventoSelecionado.setores" class="ion-no-margin ion-no-padding">
-                                <ng-container *ngIf="evento.contador > 0">
-                                    <ion-label>
-                                        {{evento.setor}}
-                                        <ion-text slot="end" class="ion-text-end">qtd {{evento.contador}}</ion-text>
-                                    </ion-label>
-                                </ng-container>
-                            </ion-item>
-                        </ion-list>
+                    <ion-col size="5" class="ion-text-start"><strong>setores</strong></ion-col>
+                    <ion-col size="4" class="ion-text-center"><strong>valor</strong></ion-col>
+                    <ion-col size="3" class="ion-text-end"><strong>qtd</strong></ion-col>
+                </ion-row>
+                <ion-row *ngFor="let ingresso of eventoSelecionado.setores">
+                    <ion-col size="5" class="ion-text-start">{{ingresso.setor}}</ion-col>
+                    <ion-col size="4" class="ion-text-center">
+                        <ng-container *ngIf="ingresso.preco; else semPreco">
+                            R$ {{ingresso.preco}}
+                        </ng-container>
+
+                        <ng-template #semPreco>
+                            R$ 0
+                        </ng-template>
+                    </ion-col>
+                    <ion-col size="3" class="ion-text-end">{{ingresso.contador}}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-item-divider color="light" class="ion-text-end ion-no-margin ion-no-padding">
+                            <ion-label><strong>TOTAL: R$ {{eventoSelecionado.valorTotal}}</strong></ion-label>
+                        </ion-item-divider>
                     </ion-col>
                 </ion-row>
+
             </ion-grid>
         </ion-card-content>
     </ion-card>
@@ -68,14 +86,18 @@
             <ion-card-title>forma de pagamento</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+            <div *ngFor="let formaPg of formaPagamento">
+                <ion-item lines="none">
+                    <ion-input hidden value="{{formaPg.idFormaPg}}"></ion-input>
+                    <ion-avatar slot="start">
+                        <img src="../../../../assets/icons/{{formaPg.cartao.bandeiraCartao | lowercase}}.svg">
+                    </ion-avatar>
+                    <ion-label>
+                        <h3>**** {{formaPg.cartao.cartaoFormatado}}</h3>
+                        <h4>{{formaPg.cartao.nomeTitular | uppercase}} </h4>
+                    </ion-label>
+                </ion-item>
+            </div>
         </ion-card-content>
     </ion-card>
-
-    <ion-button expand="full" color="secondary">A full-width button</ion-button>
-
-
-
-
-
 </ion-content>

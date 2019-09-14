@@ -7,6 +7,8 @@ import { ModalController, NavParams, NavController } from '@ionic/angular';
 import { Setores } from 'src/app/shared/models/setores/setores';
 import { QuantidadeIngressoSetor } from 'src/app/shared/interfaces/quantidade-ingresso-setor/quantidade-ingresso-setor';
 import { Storage } from '@ionic/storage';
+import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'evento-detalhe',
@@ -19,8 +21,10 @@ export class EventoDetalhePage implements OnInit {
   private evento: Eventos = null;
   private ativarBtn: boolean = false;
   private valorTotal: number = 0;
+  private qtdIngressos: number = 0;
   private arraySetoresSemQuantidade = [];
   private arraySetoresSelecionados = [];
+  private arraySomenteSetoresSelecionados: QuantidadeIngressoSetor[] = [];
   @Input() eventos: Eventos;
 
   constructor(
@@ -28,7 +32,8 @@ export class EventoDetalhePage implements OnInit {
     private modalCtrl: ModalController,
     private navCtrl: NavController,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private statusBar: StatusBar
   ){
     this.evento = navParams.get('eventoSelecionado');
   }
@@ -56,11 +61,17 @@ export class EventoDetalhePage implements OnInit {
 
   validarCompra(evento){
     if(this.arraySetoresSelecionados.length > 0){
-      this.storage.remove('eventoSelecionado');
-      let eventoComSetoresSelecionado = {
+      this.somenteSetoresSelecionados(this.arraySetoresSelecionados);
+      this.getQuantidadeIngressos(this.arraySetoresSelecionados);
+      
+      this.storage.remove('eventoSelecionado')
+      .then(resp => {console.log('Excluindo storage...');});
+
+      let eventoComSetoresSelecionado: EventoSetoresSelecionado = {
         evento: evento,
-        setores: this.arraySetoresSelecionados,
-        valorTotal: this.valorTotal
+        setores: this.arraySomenteSetoresSelecionados,
+        valorTotal: this.valorTotal,
+        qtdIngressos: this.qtdIngressos
       }
       this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
       this.fecharModal();
@@ -93,7 +104,6 @@ export class EventoDetalhePage implements OnInit {
     });
     this.calcularValorTotal(this.arraySetoresSelecionados);
     this.valorTotal > 0 ? this.adicionarValorTotalNoBotao() : this.removerValorTotalNoBotao();
-
   }
 
   calcularValorTotal(setores){
@@ -106,12 +116,30 @@ export class EventoDetalhePage implements OnInit {
     return this.valorTotal = valorTmp;
   }
 
+  somenteSetoresSelecionados(arraySetores){
+    arraySetores.forEach((value, i) => {
+      if(value.contador > 0){
+        this.arraySomenteSetoresSelecionados.push(value);
+      }
+    });
+  }
+
+  getQuantidadeIngressos(setores){
+    let valorTmp: number = 0;
+    this.arraySomenteSetoresSelecionados.forEach((setor, i) => {
+      if(setor.contador > 0){
+        valorTmp += setor.contador;
+      }
+    });
+    return this.qtdIngressos = valorTmp;
+  }
+
   adicionarValorTotalNoBotao(){
-    $('ion-button').attr('color', 'success').html(`<strong>Valor da compra: R$ ${this.valorTotal}</strong>`);
+    $('.btnComprar').attr('color', 'success').html(`<strong>Valor da compra: R$ ${this.valorTotal}</strong>`);
   }
 
   removerValorTotalNoBotao(){
-    $('ion-button').attr('color', 'primary').text('garanta seu ingresso');
+    $('.btnComprar').attr('color', 'primary').text('garanta seu ingresso');
   }
 
 
