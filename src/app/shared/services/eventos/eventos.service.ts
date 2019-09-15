@@ -22,12 +22,12 @@ export class EventosService {
       capacidadeMax: 200,
       local: {
         id: 1,
-        nome: "Teatro Riachuelo",
-        uf: "RN",
-        cidade: "Natal",
-        endereco: "Av. Arnaldo Antunes, 905",
-        bairro: "Centro",
-        cep: "09876-900",
+        nome: 'Teatro Riachuelo',
+        uf: 'RN',
+        cidade: 'Natal',
+        endereco: 'Av. Arnaldo Antunes, 905',
+        bairro: 'Centro',
+        cep: '09876-900',
         capacidade_max: 10000
       },
       nome: 'SETOR A',
@@ -38,12 +38,12 @@ export class EventosService {
       capacidadeMax: 400,
       local: {
         id: 1,
-        nome: "Teatro Riachuelo",
-        uf: "RN",
-        cidade: "Natal",
-        endereco: "Av. Arnaldo Antunes, 905",
-        bairro: "Centro",
-        cep: "09876-900",
+        nome: 'Teatro Riachuelo',
+        uf: 'RN',
+        cidade: 'Natal',
+        endereco: 'Av. Arnaldo Antunes, 905',
+        bairro: 'Centro',
+        cep: '09876-900',
         capacidade_max: 10000
       },
       nome: 'SETOR B',
@@ -54,12 +54,12 @@ export class EventosService {
       capacidadeMax: 300,
       local: {
         id: 1,
-        nome: "Teatro Riachuelo",
-        uf: "RN",
-        cidade: "Natal",
-        endereco: "Av. Arnaldo Antunes, 905",
-        bairro: "Centro",
-        cep: "09876-900",
+        nome: 'Teatro Riachuelo',
+        uf: 'RN',
+        cidade: 'Natal',
+        endereco: 'Av. Arnaldo Antunes, 905',
+        bairro: 'Centro',
+        cep: '09876-900',
         capacidade_max: 10000
       },
       nome: 'SETOR C',
@@ -70,12 +70,12 @@ export class EventosService {
       capacidadeMax: 100,
       local: {
         id: 1,
-        nome: "Teatro Riachuelo",
-        uf: "RN",
-        cidade: "Natal",
-        endereco: "Av. Arnaldo Antunes, 905",
-        bairro: "Centro",
-        cep: "09876-900",
+        nome: 'Teatro Riachuelo',
+        uf: 'RN',
+        cidade: 'Natal',
+        endereco: 'Av. Arnaldo Antunes, 905',
+        bairro: 'Centro',
+        cep: '09876-900',
         capacidade_max: 10000
       },
       nome: 'SETOR D',
@@ -139,10 +139,10 @@ export class EventosService {
     return this.eventos = [
       {
         id: 1,
-        imagem: "../../../assets/events/gabriela-rocha/gabriela-rocha.png",
+        imagem: '../../../assets/events/gabriela-rocha/gabriela-rocha.png',
         atracao: {
           id_atracao: 1,
-          nome: "Gabriela Rocha",
+          nome: 'Gabriela Rocha',
           rede_sociais: `
           facebook: 'www.facebook.com.br',
           instagram: 'www.instagram.com',
@@ -152,47 +152,47 @@ export class EventosService {
         setores: this.setores,
         faixaEtaria: {
           id_faixa_etaria: 1,
-          nome: "livre",
-          descricao: ""
+          nome: 'livre',
+          descricao: ''
         },
-        dtInicioEvento: "24/07/2019",
-        dtFimEvento: "24/07/2019",
-        dtInicioVendas: "30/06/2019",
+        dtInicioEvento: '24/07/2019',
+        dtFimEvento: '24/07/2019',
+        dtInicioVendas: '30/06/2019',
         dtInicioEventoFormatada: 'quarta-feira, 24 de julho de 2019',
         dtFimEventoFormatada: 'quarta-feira, 24 de julho de 2019',
         horaInicioEvento: '19h',
         horaFimEvento: '22h',
         visualizacoes: '0',
-        dtPublicacao: "10/06/2019",
-        descricao: "É uma cantora brasileira de música cristã contemporânea.",
+        dtPublicacao: '10/06/2019',
+        descricao: 'É uma cantora brasileira de música cristã contemporânea.',
         produtor:{
           id: 1,
-          nome: "Nome Produtor",
-          cidade: "São Paulo",
-          uf: "SP",
-          cnpj: "12.234.432/0001-09"
+          nome: 'Nome Produtor',
+          cidade: 'São Paulo',
+          uf: 'SP',
+          cnpj: '12.234.432/0001-09'
         },
         categorias: [
           {
             id: 1,
-            nome: "show"
+            nome: 'show'
           },
           {
             id: 2,
-            nome: "cristão"
+            nome: 'cristão'
           },
           {
             id: 3,
-            nome: "gospel"
+            nome: 'gospel'
           }
         ]
       },
       {
         id: 2,
-        imagem: "../../../assets/events/foo-fighters/foo-fighters.png",
+        imagem: '../../../assets/events/foo-fighters/foo-fighters.png',
         atracao: {
           id_atracao: 2,
-          nome:  "Foo Fighters",
+          nome:  'Foo Fighters',
           rede_sociais: `
           facebook: 'www.facebook.com.br',
           instagram: 'www.instagram.com',
@@ -202,47 +202,47 @@ export class EventosService {
         setores: this.setores,
         faixaEtaria: {
           id_faixa_etaria: 2,
-          nome: "14",
+          nome: '14',
           descricao: ''
         },
-        dtInicioEvento: "20/11/2019",
-        dtFimEvento: "20/11/2019",
-        dtInicioVendas: "01/09/2019",
+        dtInicioEvento: '20/11/2019',
+        dtFimEvento: '20/11/2019',
+        dtInicioVendas: '01/09/2019',
         dtInicioEventoFormatada: 'quarta-feira, 20 de novembro de 2019',
         dtFimEventoFormatada: 'quarta-feira, 20 de novembro de 2019',
         horaInicioEvento: '20h',
         horaFimEvento: '23h',
         visualizacoes: '0',
-        dtPublicacao: "30/06/2019",
-        descricao: "Foo Fighters, é uma banda de rock dos Estados Unidos formada pelos ex-Nirvana Dave Grohl e Pat Smear em 1994.",
+        dtPublicacao: '30/06/2019',
+        descricao: 'Foo Fighters, é uma banda de rock dos Estados Unidos formada pelos ex-Nirvana Dave Grohl e Pat Smear em 1994.',
         produtor:{
           id: 1,
-          nome: "Nome Produtor",
-          cidade: "São Paulo",
-          uf: "SP",
-          cnpj: "12.234.432/0001-09"
+          nome: 'Nome Produtor',
+          cidade: 'São Paulo',
+          uf: 'SP',
+          cnpj: '12.234.432/0001-09'
         },
         categorias: [
           {
             id: 1,
-            nome: "show"
+            nome: 'show'
           },
           {
             id: 4,
-            nome: "rock"
+            nome: 'rock'
           },
           {
             id: 5,
-            nome: "internacional"
+            nome: 'internacional'
           }
         ]
       },
       {
         id: 3,
-        imagem: "../../../assets/events/luccas-neto-os-aventureiros/luccas-neto-os-aventureiros.png",
+        imagem: '../../../assets/events/luccas-neto-os-aventureiros/luccas-neto-os-aventureiros.png',
         atracao: {
           id_atracao: 3,
-          nome: "Luccas Neto com Os Aventureiros",
+          nome: 'Luccas Neto com Os Aventureiros',
           rede_sociais: `
           facebook: 'www.facebook.com.br',
           instagram: 'www.instagram.com',
@@ -252,43 +252,43 @@ export class EventosService {
         setores: this.setores,
         faixaEtaria: {
           id_faixa_etaria: 1,
-          nome: "livre",
+          nome: 'livre',
           descricao: ''
         },
-        dtInicioEvento: "20/07/2019",
-        dtFimEvento: "20/07/2019",
-        dtInicioVendas: "01/07/2019",
+        dtInicioEvento: '20/07/2019',
+        dtFimEvento: '20/07/2019',
+        dtInicioVendas: '01/07/2019',
         dtInicioEventoFormatada: 'quarta-feira, 20 de junho de 2019',
         dtFimEventoFormatada: 'quarta-feira, 20 de julho de 2019',
         visualizacoes: '0',
         horaInicioEvento: '18h',
         horaFimEvento: '20h',
-        dtPublicacao: "20/06/2019",
-        descricao: "Luccas Neto com Os Aventureiros.",
+        dtPublicacao: '20/06/2019',
+        descricao: 'Luccas Neto com Os Aventureiros.',
         produtor:{
           id: 2,
-          nome: "Eda Shows e Eventos Ltda",
-          cidade: "São Paulo",
-          uf: "SP",
-          cnpj: "13.180.837/0001-01"
+          nome: 'Eda Shows e Eventos Ltda',
+          cidade: 'São Paulo',
+          uf: 'SP',
+          cnpj: '13.180.837/0001-01'
         },
         categorias: [
         {
           id: 6,
-          nome: "teatro"
+          nome: 'teatro'
         },
         {
           id: 7,
-          nome: "infantil"
+          nome: 'infantil'
         }
       ]
     },
     {
       id: 4,
-      imagem: "../../../assets/events/marcos-e-belluti/marcos-e-belluti.png",
+      imagem: '../../../assets/events/marcos-e-belluti/marcos-e-belluti.png',
       atracao: {
         id_atracao: 4,
-        nome: "Marcos e Belutti",
+        nome: 'Marcos e Belutti',
         rede_sociais: `
         facebook: 'www.facebook.com.br',
         instagram: 'www.instagram.com',
@@ -298,47 +298,47 @@ export class EventosService {
       setores: this.setores,
       faixaEtaria: {
         id_faixa_etaria: 3,
-        nome: "16",
+        nome: '16',
         descricao: ''
       },
-      dtInicioEvento: "29/06/2019",
-      dtFimEvento: "29/06/2019",
-      dtInicioVendas: "01/06/2019",
+      dtInicioEvento: '29/06/2019',
+      dtFimEvento: '29/06/2019',
+      dtInicioVendas: '01/06/2019',
       dtInicioEventoFormatada: 'sábado, 26 de junho de 2019',
       dtFimEventoFormatada: 'sábado, 26 de junho de 2019',
       visualizacoes: '0',
       horaInicioEvento: '21h',
       horaFimEvento: '00h',
-      dtPublicacao: "01/07/2019",
-      descricao: "Marcos & Belutti é uma dupla sertaneja formada pelos amigos Leonardo Prado de Souza, mais conhecido como Marcos, e Bruno Belucci Pereira, mais conhecido como Belutti.",
+      dtPublicacao: '01/07/2019',
+      descricao: 'Marcos & Belutti é uma dupla sertaneja formada pelos amigos Leonardo Prado de Souza, mais conhecido como Marcos, e Bruno Belucci Pereira, mais conhecido como Belutti.',
       produtor:{
         id: 1,
-        nome: "Nome Produtor",
-        cidade: "São Paulo",
-        uf: "SP",
-        cnpj: "12.234.432/0001-09"
+        nome: 'Nome Produtor',
+        cidade: 'São Paulo',
+        uf: 'SP',
+        cnpj: '12.234.432/0001-09'
       },
       categorias: [
         {
           id: 1,
-          nome: "show"
+          nome: 'show'
         },
         {
           id: 8,
-          nome: "sertanejo"
+          nome: 'sertanejo'
         },
         {
           id: 9,
-          nome: "universitário"
+          nome: 'universitário'
         }
       ]
     },
     {
       id: 5,
-      imagem: "../../../assets/events/sandy-e-junior/sandy-e-junior.png",
+      imagem: '../../../assets/events/sandy-e-junior/sandy-e-junior.png',
       atracao: {
         id_atracao: 5,
-        nome: "Sandy & Junior",
+        nome: 'Sandy & Junior',
         rede_sociais: `
         facebook: 'www.facebook.com.br',
         instagram: 'www.instagram.com',
@@ -348,43 +348,43 @@ export class EventosService {
       setores: this.setores,
       faixaEtaria: {
         id_faixa_etaria: 3,
-        nome: "16",
+        nome: '16',
         descricao: ''
       },
-      dtInicioEvento: "12/10/2019",
-      dtFimEvento: "12/10/2019",
-      dtInicioVendas: "01/07/2019",
+      dtInicioEvento: '12/10/2019',
+      dtFimEvento: '12/10/2019',
+      dtInicioVendas: '01/07/2019',
       dtInicioEventoFormatada: 'sábado, 12 de outubro de 2019',
       dtFimEventoFormatada: 'sábado, 12 de outubro de 2019',
       visualizacoes: '0',
       horaInicioEvento: '19h',
       horaFimEvento: '23h',
-      dtPublicacao: "08/07/2019",
-      descricao: "Devido ao grande sucesso e procura de fãs, a Live Nation, junto de Sandy e Junior Lima, informam que a cidade de São Paulo irá receber mais dois extras da turnê “Nossa História”.",
+      dtPublicacao: '08/07/2019',
+      descricao: 'Devido ao grande sucesso e procura de fãs, a Live Nation, junto de Sandy e Junior Lima, informam que a cidade de São Paulo irá receber mais dois extras da turnê “Nossa História”.',
       produtor:{
         id: 1,
-        nome: "Nome Produtor",
-        cidade: "São Paulo",
-        uf: "SP",
-        cnpj: "12.234.432/0001-09"
+        nome: 'Nome Produtor',
+        cidade: 'São Paulo',
+        uf: 'SP',
+        cnpj: '12.234.432/0001-09'
       },
       categorias: [
         {
           id: 1,
-          nome: "show"
+          nome: 'show'
         },
         {
           id: 10,
-          nome: "pop"
+          nome: 'pop'
         }
       ]
     },
     {
       id: 6,
-      imagem: "../../../assets/events/improvavel/improvavel.jpeg",
+      imagem: '../../../assets/events/improvavel/improvavel.jpeg',
       atracao: {
         id_atracao: 6,
-        nome: "Improvável",
+        nome: 'Improvável',
         rede_sociais: `
         facebook: 'www.facebook.com.br',
         instagram: 'www.instagram.com',
@@ -394,31 +394,31 @@ export class EventosService {
       setores: this.setores,
       faixaEtaria: {
         id_faixa_etaria: 4,
-        nome: "14",
+        nome: '14',
         descricao: ''
       },
-      dtInicioEvento: "23/08/2019",
-      dtFimEvento: "24/06/2019",
-      dtInicioVendas: "01/07/2019",
+      dtInicioEvento: '23/08/2019',
+      dtFimEvento: '24/06/2019',
+      dtInicioVendas: '01/07/2019',
       dtInicioEventoFormatada: 'sexta, 23 de agosto de 2019',
       dtFimEventoFormatada: 'sábado, 24 de agosto de 2019',
       visualizacoes: '0',
       horaInicioEvento: '21h',
       horaFimEvento: '23h',
-      dtPublicacao: "09/07/2019",
+      dtPublicacao: '09/07/2019',
       descricao: `A Cia. Barbixas de Humor comemorou, em 2017, 10 anos de sucesso do IMPROVÁVEL, um espetáculo criado e apresentado pelo trio de humoristas Anderson Bizzocchi, Daniel Nascimento e Elidio Sanna (os Barbixas) que usa a improvisação como linguagem para a criação de jogos e de cenas artísticas de humor.
       Neste espetáculo teatral, um mestre de cerimônias apresenta as regras dos jogos, a plateia sugere os temas e os atores improvisam as cenas na hora e sem nenhuma preparação prévia. Assim, nunca uma apresentação é igual à outra - fazendo com que o público retorne sempre.`,
       produtor:{
         id: 1,
-        nome: "Nome Produtor",
-        cidade: "São Paulo",
-        uf: "SP",
-        cnpj: "12.234.432/0001-09"
+        nome: 'Nome Produtor',
+        cidade: 'São Paulo',
+        uf: 'SP',
+        cnpj: '12.234.432/0001-09'
       },
       categorias: [
         {
           id: 1,
-          nome: "teatro"
+          nome: 'teatro'
         }
       ]
     }]

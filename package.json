@@ -30,6 +30,7 @@
     "@ionic-native/status-bar": "^5.11.0",
     "@ionic/angular": "^4.1.0",
     "@ionic/storage": "^2.2.0",
+    "angularx-qrcode": "^1.6.4",
     "animate.css": "^3.7.2",
     "br-mask": "0.0.7",
     "com.telerik.plugins.nativepagetransitions": "^0.6.5",

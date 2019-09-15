@@ -122,7 +122,16 @@ const routes: Routes = [
       },
       { 
         path: 'meus-ingressos', 
-        loadChildren: './logado/menu-logado/meus-ingressos/meus-ingressos/meus-ingressos.module#MeusIngressosPageModule' 
+        children: [
+          {
+            path: '',
+            loadChildren: './logado/menu-logado/meus-ingressos/meus-ingressos/meus-ingressos.module#MeusIngressosPageModule' 
+          },
+          { 
+            path: 'detalhe-pedido', 
+            loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module#DetalhePedidoPageModule' 
+          },
+        ]
       },
 
     ]

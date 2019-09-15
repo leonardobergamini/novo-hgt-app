@@ -28,13 +28,36 @@ export class TicketsService {
     loading.present()
     .then(() => {
       this.tickets.push(...arrayTickets);
-      console.log(this.tickets);
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
       loading.dismiss();
+    });
+  }
+
+  getTicket(): Promise<Tickets[]>{
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Carregando ingressos...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true,
+      });
+
+      loading.present()
+      .then(() => {
+        resolve(this.tickets);
+        console.log(this.tickets);
+      })
+      .catch(err => {
+        reject(err);
+        console.log('Erro ao trazer tickets.' + err);
+      })
+      .finally(() => {
+        loading.dismiss();
+      });
     });
   }
 }
