@@ -9,82 +9,68 @@
 <ion-content padding>
     <ion-slides pager="true">
         <ion-slide *ngFor="let ticket of objPedido.tickets">
-            <div class="ticket">
-                <div class="conteudo">
-                    <ion-grid class="ion-no-padding">
-                        <ion-row class="margem-baixo5">
-                            <ion-col>
-                                <h3>{{ticket.evento.atracao.nome}}</h3>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6">
-                                <ion-text class="fonte-tamanho12" color="medium">data</ion-text>
-                            </ion-col>
-                            <ion-col size="6">
-                                <ion-text class="fonte-tamanho12" color="medium">horário</ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6" class="ion-no-padding">
-                                <ion-text class="fonte-tamanho14">{{ticket.evento.dtInicioEvento}}</ion-text>
-                            </ion-col>
-                            <ion-col size="6" class="ion-no-padding">
-                                <ion-text class="fonte-tamanho14">{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6">
-                                <ion-text class="fonte-tamanho12" color="medium">local</ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6" class="ion-no-padding">
-                                <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.nome}}</ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6">
-                                <ion-text class="fonte-tamanho12" color="medium">endereco</ion-text>
-                            </ion-col>
-                            <ion-col size="6">
-                                <ion-text class="fonte-tamanho12" color="medium">setor</ion-text>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6" class="ion-no-padding">
-                                <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.endereco}}</ion-text>
-                            </ion-col>
-                            <ion-col size="6" class="ion-no-padding">
-                                <ion-text class="fonte-tamanho14">{{ticket.setor}}</ion-text>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
+            <div>
+                <div>
+                    <ion-card class="ion-no-margin" button (click)="presentar(ticket)">
+                        <ion-grid class="ion-no-padding">
+                            <ion-row class="margem-baixo10">
+                                <ion-col>
+                                    <h3>{{ticket.evento.atracao.nome}}</h3>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6">
+                                    <ion-text class="fonte-tamanho12" color="medium">data</ion-text>
+                                </ion-col>
+                                <ion-col size="6">
+                                    <ion-text class="fonte-tamanho12" color="medium">horário</ion-text>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6" class="ion-no-padding">
+                                    <ion-text class="fonte-tamanho14">{{ticket.evento.dtInicioEvento}}</ion-text>
+                                </ion-col>
+                                <ion-col size="6" class="ion-no-padding">
+                                    <ion-text class="fonte-tamanho14">{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6">
+                                    <ion-text class="fonte-tamanho12" color="medium">local</ion-text>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6" class="ion-no-padding">
+                                    <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.nome}}</ion-text>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6">
+                                    <ion-text class="fonte-tamanho12" color="medium">endereco</ion-text>
+                                </ion-col>
+                                <ion-col size="6">
+                                    <ion-text class="fonte-tamanho12" color="medium">setor</ion-text>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="6" class="ion-no-padding">
+                                    <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.endereco}}</ion-text>
+                                </ion-col>
+                                <ion-col size="6" class="ion-no-padding">
+                                    <ion-text class="fonte-tamanho14">{{ticket.setor}}</ion-text>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card>
                 </div>
                 <div class="qr-code">
-                    <qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>
+                    <ion-card class="ion-no-margin">
+                        <qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>
+                    </ion-card>
                 </div>
             </div>
         </ion-slide>
     </ion-slides>
 
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-button expand="block" shape="round">
-                    Revender
-                    <ion-icon slot="start" name="pricetag"></ion-icon>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-button expand="block" shape="round" color="secondary" fill="outline" (click)="presentar(ticket)">
-                    Presentear
-                    <ion-icon slot="start" name="gift"></ion-icon>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
 
 </ion-content>

@@ -40,38 +40,30 @@ export class DetalhePedidoPage implements OnInit {
 
   async presentar(ticket){
       const actionSheet = await this.actionSheetController.create({
-        header: 'Albums',
-        buttons: [{
-          text: 'Delete',
-          role: 'destructive',
-          icon: 'trash',
+        header: 'Ações',
+        buttons: [ 
+        {
+          text: 'Presentear',
+          icon: 'gift',
           handler: () => {
-            console.log('Delete clicked');
+            console.log('presentar clicked');
+            console.log(ticket);
           }
-        }, {
-          text: 'Share',
-          icon: 'share',
+        }, 
+        {
+          text: 'Revender',
+          icon: 'pricetag',
           handler: () => {
-            console.log('Share clicked');
+            console.log('revender clicked');
+            console.log(ticket);
           }
-        }, {
-          text: 'Play (open modal)',
-          icon: 'arrow-dropright-circle',
-          handler: () => {
-            console.log('Play clicked');
-          }
-        }, {
-          text: 'Favorite',
-          icon: 'heart',
-          handler: () => {
-            console.log('Favorite clicked');
-          }
-        }, {
-          text: 'Cancel',
+        }, 
+        {
+          text: 'Fechar',
           icon: 'close',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            console.log('fechar clicked');
           }
         }]
       });
