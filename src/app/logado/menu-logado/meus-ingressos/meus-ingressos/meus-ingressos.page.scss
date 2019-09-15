@@ -20,3 +20,33 @@ img {
     position: relative;
     top: 0;
 }
+
+.fundo {
+    position: absolute;
+    top: 0;
+    height: 200px;
+    width: 100rem;
+    background: #000;
+    opacity: 0.60;
+    z-index: 1;
+}
+
+.infos {
+    position: absolute;
+    top: 0;
+    color: #fff;
+    z-index: 1;
+    padding: 10px;
+    width: 19.5em;
+    font-size: 16px;
+    line-height: 1.5rem;
+    padding: 15px;
+    .titulo-evento {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+}
+
+ion-card {
+    height: 200px;
+}

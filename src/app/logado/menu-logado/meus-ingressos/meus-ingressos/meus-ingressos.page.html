@@ -1,56 +1,52 @@
 <ion-header translucent>
     <ion-toolbar>
-        <ion-title class="ion-text-center">meus ingressos</ion-title>
+        <div *ngIf="qtdTickets > 0; else semQtd">
+            <ion-title class="ion-text-center">meus ingressos ({{qtdTickets}})</ion-title>
+        </div>
+
+        <ng-template #semQtd>
+            <ion-title class="ion-text-center">meus ingressos</ion-title>
+        </ng-template>
+
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
     <section *ngIf="tickets.length > 0; else semTickets">
-        <div *ngFor="let ticket of tickets">
-            <!-- <div>
-                <img src="../../../../assets/icons/ticket.svg" />
-            </div>
-            <div id="dados-evento">
-                <div class="margem-baixo10 txt-negrito">
-                    <ion-text>{{ticket.evento.atracao.nome}}</ion-text>
-                </div>
-                <div class="flex fonte-tamanho12 margem-baixo10">
-                    <ion-text>{{ticket.evento.dtInicioEvento}}</ion-text>
-                    <ion-text>{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
-                </div>
-                <div class="fonte-tamanho12 margem-baixo10">
-                    <ion-text>{{ticket.evento.setores[0].local.nome}}</ion-text>
-                </div>
-                <div class="flex">
-                    <ion-text>{{ticket.setor}}</ion-text>
-                    <ion-text>R$ {{ticket.preco}}</ion-text>
-                </div>
-            </div> -->
-            <ion-card button="true">
-                <ion-card-header>
-                    <ion-card-title>{{ticket.evento.atracao.nome}}</ion-card-title>
-                </ion-card-header>
+        <div *ngFor="let pedido of ticketsPorPedido">
+            <ion-card button="true" (click)="selecionarPedido(pedido)">
+                <div class="fundo"></div>
+                <div class="infos">
+                    <div class="flex margem-baixo20">
+                        <ion-text>pedido #000{{pedido.pedido.id}}</ion-text>
+                        <ion-text>{{pedido.tickets?.length}} ingressos</ion-text>
+                    </div>
+                    <div class="fonte-tamanho26 ion-text-center margem-baixo10">
+                        <ion-text>
+                            {{pedido.tickets[0].evento.atracao.nome}}
+                        </ion-text>
+                    </div>
 
-                <ion-card-content>
-                    <div class="flex fonte-tamanho12 margem-baixo10">
-                        <ion-text>{{ticket.evento.dtInicioEvento}}</ion-text>
-                        <ion-text>{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
+                    <div class="flex fonte-tamanho14 margem-baixo10 txt-negrito">
+                        <ion-text>Data: {{pedido.tickets[0].evento.dtInicioEvento}}</ion-text>
+                        <ion-text>Hora: {{pedido.tickets[0].evento.horaInicioEvento}} às {{pedido.tickets[0].evento.horaFimEvento}}</ion-text>
                     </div>
-                    <div class="fonte-tamanho12 margem-baixo10">
-                        <ion-text>{{ticket.evento.setores[0].local.nome}}</ion-text>
+
+                    <div class="fonte-tamanho14 margem-baixo20">
+                        <ion-text>{{pedido.tickets[0].evento.setores[0].local.nome}} - {{pedido.tickets[0].evento.setores[0].local.cidade}} / {{pedido.tickets[0].evento.setores[0].local.uf}}</ion-text>
                     </div>
-                    <div class="flex">
-                        <ion-text>{{ticket.setor}}</ion-text>
-                        <ion-text>R$ {{ticket.preco}}</ion-text>
-                    </div>
-                </ion-card-content>
+
+                </div>
+                <div class="imagem-evento">
+                    <ion-img src="{{pedido.tickets[0].evento.imagem}}"></ion-img>
+                </div>
             </ion-card>
         </div>
     </section>
     <section>
         <ng-template #semTickets>
             <div class="ion-text-center">
-                <ion-text>sem tickets... =/</ion-text>
+                <ion-text color="medium">sem ingressos... =/</ion-text>
             </div>
         </ng-template>
     </section>

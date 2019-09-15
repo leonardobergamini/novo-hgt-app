@@ -5,6 +5,8 @@ import { LoadingController, NavController } from '@ionic/angular';
 import { TicketsService } from '../tickets/tickets.service';
 import { Usuarios } from '../../models/usuarios/usuarios';
 import { Tickets } from '../../models/tickets/tickets';
+import { load } from '@angular/core/src/render3';
+import { TicketsPedido } from '../../interfaces/tickets-pedido/tickets-pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ export class PedidoService{
   
   private id: number = 0;
   private tickets: Tickets[] = [];
+  public arrayTicketsPorPedido: TicketsPedido[] = [];
+  private objTickesPorPedido: TicketsPedido = null;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
@@ -57,6 +61,7 @@ export class PedidoService{
       }
     );    
     this.adicionarTicketsPedidos(pedido);
+    this.getTicketsPorPedido(this.tickets);
 
     if(this.tickets.length > 0){
       this.ticketService.novoTicket(this.tickets);
@@ -86,4 +91,12 @@ export class PedidoService{
     });
   }
 
+  getTicketsPorPedido(tickets): void{    
+    let objPedido = tickets[0].pedido;
+    this.objTickesPorPedido = {
+      pedido: objPedido,
+      tickets
+    };
+    this.arrayTicketsPorPedido.push(this.objTickesPorPedido);
+  }
 }
