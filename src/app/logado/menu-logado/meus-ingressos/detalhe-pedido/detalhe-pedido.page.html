@@ -8,10 +8,10 @@
 </ion-header>
 <ion-content padding>
     <ion-slides pager="true">
-        <ion-slide *ngFor="let ticket of objPedido.tickets">
+        <ion-slide *ngFor="let ticket of objPedido.tickets; let i = index">
             <div>
                 <div>
-                    <ion-card class="ion-no-margin" button (click)="presentar(ticket)">
+                    <ion-card class="ion-no-margin" button (click)="presentar(ticket, i)">
                         <ion-grid class="ion-no-padding">
                             <ion-row class="margem-baixo10">
                                 <ion-col>

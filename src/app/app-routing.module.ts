@@ -129,7 +129,20 @@ const routes: Routes = [
           },
           { 
             path: 'detalhe-pedido', 
-            loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module#DetalhePedidoPageModule' 
+            children: [
+              {
+                path: ':idPedido',
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module#DetalhePedidoPageModule' 
+              },
+              {
+                path: 'presentear', 
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/presentear/presentear.module#PresentearPageModule'
+              },
+              { 
+                path: 'revender/:idPedido', 
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/revender/revender.module#RevenderPageModule' 
+              },
+            ]
           },
         ]
       },

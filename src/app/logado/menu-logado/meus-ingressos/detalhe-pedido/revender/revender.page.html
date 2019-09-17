@@ -1,0 +1,58 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">revender</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="" (click)="fecharModal()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>{{ticket.evento.atracao.nome}}</ion-card-title>
+            <ion-card-subtitle>#ticket 000{{ticket.id}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14" color="medium">setor</ion-text>
+                    </ion-col>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14" color="medium">preço comprado</ion-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">{{ticket.setor}}</ion-text>
+                    </ion-col>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">R$ {{ticket.preco}}</ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-content>
+            <form id="formRevender" (ngSubmit)="onSubmitRevender()">
+                <div id="preco" class="ion-text-start input-group margem-baixo10">
+                    <ion-label position="stacked">preço a ser vendido</ion-label>
+                    <ion-input inputmode="number" type="number" class="margem-baixo5"></ion-input>
+                    <ion-label position="stacked">você vai receber: <span class="txt-negrito">R$ 40</span></ion-label>
+                    <!-- <ng-container *ngFor="let validacao of mensagensValidacao.uf">
+                <div *ngIf="formEditar.get('uf').hasError(validacao.type) && (formEditar.get('uf').dirty || formEditar.get('uf').touched)">
+                    <span>{{ validacao.message }}</span>
+                </div>
+            </ng-container> -->
+                </div>
+
+                <ion-button (click)="exibirAlert()" expand="block">Revender</ion-button>
+
+            </form>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -25,7 +25,8 @@ export class MeusIngressosPage implements OnInit {
     private statusBar: StatusBar,
     private ticketService: TicketsService,
     private pedidoService: PedidoService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -48,18 +49,16 @@ export class MeusIngressosPage implements OnInit {
     })
   }
 
-  async selecionarPedido(param){
+  async selecionarPedido(param, i){
     if(param){
-      const modal = await this.modalController.create({
-        component: DetalhePedidoPage,
-        componentProps: {
-          pedido: param.pedido,
-          tickets: param.tickets
-        }
-      });
-      console.log(param);
-      return await modal.present();
-
+      // const modal = await this.modalController.create({
+      //   component: DetalhePedidoPage,
+      //   componentProps: {
+      //     pedido: param.pedido,
+      //     tickets: param.tickets
+      //   }
+      localStorage.setItem('detalhe-pedido', JSON.stringify(param));
+      this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${param.pedido.id}`)
     }
   }
 

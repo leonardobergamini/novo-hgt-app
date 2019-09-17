@@ -13,8 +13,8 @@
 
 <ion-content padding>
     <section *ngIf="tickets.length > 0; else semTickets">
-        <div *ngFor="let pedido of ticketsPorPedido">
-            <ion-card button="true" (click)="selecionarPedido(pedido)">
+        <div *ngFor="let pedido of ticketsPorPedido; let i = index;">
+            <ion-card button="true" (click)="selecionarPedido(pedido, i)">
                 <div class="fundo"></div>
                 <div class="infos">
                     <div class="flex margem-baixo20">

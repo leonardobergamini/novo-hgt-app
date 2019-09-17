@@ -22,6 +22,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { DetalhePedidoPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module';
 import { QRCodeModule } from 'angularx-qrcode';
+import { PresentearPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/presentear/presentear.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     ReactiveFormsModule,
     EventoDetalhePageModule,
     DetalhePedidoPageModule,
+    PresentearPageModule,
     IonicStorageModule.forRoot({
       name: '___hgtdb',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']

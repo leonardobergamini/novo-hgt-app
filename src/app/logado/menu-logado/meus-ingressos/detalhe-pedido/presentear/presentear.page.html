@@ -1,0 +1,34 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">presentear</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="" (click)="fecharModal()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-text>selecione um usuário para presenteá-lo:</ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-searchbar placeholder="nome de usuário ou e-mail" (ionInput)="pesquisarUsuario($event)"></ion-searchbar>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-list lines="none" class="ion-no-padding">
+                    <ion-item *ngFor="let item of listaUsuarioFiltrado" class="ion-activatable ion-no-padding" (click)="presentear(item)">
+                        <ion-ripple-effect></ion-ripple-effect>
+                        @{{item.usuario}} -
+                        <ion-text color="medium">{{item.email}}</ion-text>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -16,6 +16,7 @@ export class PedidoService{
   private id: number = 0;
   private tickets: Tickets[] = [];
   public arrayTicketsPorPedido: TicketsPedido[] = [];
+  public arrayTicketsPorIdPedido: TicketsPedido[] = []
   private objTickesPorPedido: TicketsPedido = null;
 
   constructor(
@@ -91,12 +92,23 @@ export class PedidoService{
     });
   }
 
-  getTicketsPorPedido(tickets): void{    
-    let objPedido = tickets[0].pedido;
-    this.objTickesPorPedido = {
-      pedido: objPedido,
-      tickets
-    };
-    this.arrayTicketsPorPedido.push(this.objTickesPorPedido);
+  getTicketsPorPedido(tickets, idPedido?: number): TicketsPedido[]{ 
+    let arrayPedidosComTickets = this.arrayTicketsPorPedido;
+    if(idPedido > 0){
+      arrayPedidosComTickets.filter(value => {
+        if(value.pedido.id === idPedido){
+          this.arrayTicketsPorIdPedido.push(value);
+          return this.arrayTicketsPorIdPedido;
+        }
+      });
+    }else{
+      let objPedido = tickets[0].pedido;
+      this.objTickesPorPedido = {
+        pedido: objPedido,
+        tickets
+      };
+      this.arrayTicketsPorPedido.push(this.objTickesPorPedido);
+      return this.arrayTicketsPorIdPedido
+    }
   }
 }
