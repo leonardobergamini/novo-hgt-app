@@ -15,19 +15,23 @@ import { NavController } from '@ionic/angular';
 })
 export class ExplorarPage implements OnInit {
 
-  eventosService: EventosService;
+  // private eventos: Eventos[] = [];
+  
+  // eventosService: EventosService;
   eventos: Eventos[];
   categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
   usuarioLogado: any;
 
   constructor(
     private statusBar: StatusBar,
-    private storage: Storage
+    private storage: Storage,
+    private eventoService: EventosService
     ) { }
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#FF6700');
-    this.eventosService = new EventosService();
+    // this.eventosService = new EventosService();
+    
   }
 
   IonViewDidLeave(){
@@ -36,15 +40,11 @@ export class ExplorarPage implements OnInit {
 
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#FF6700');
-    this.eventos = this.eventosService.getAllEventos();
+    // this.eventos = this.eventoService.getAllEventos();
     // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
     // console.log(this.usuarioLogado);
 
-    this.usuarioLogado = {
-      primeiroNome: 'leonardo',
-      sobrenome: 'bergamini',
-      email: 'leonardo@gmail.com'
-    }
+    this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     this.msgBoasVindas();
   }
 

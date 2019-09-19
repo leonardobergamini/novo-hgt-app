@@ -18,31 +18,15 @@ export class PedidoService{
   public arrayTicketsPorPedido: TicketsPedido[] = [];
   public arrayTicketsPorIdPedido: TicketsPedido[] = []
   private objTickesPorPedido: TicketsPedido = null;
+  private usuario: Usuarios = null;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
     private loadingController: LoadingController,
     private ticketService: TicketsService,
     private navCtrl: NavController
-  ) { }
-
-  usuario: Usuarios = {
-    id: 1,
-    primeiroNome: 'leonardo',
-    sobrenome: 'bergamini',
-    cpf: '36980235800',
-    cep: '02326000',
-    cidade: 'são paulo',
-    complemento: '',
-    dtNascimento: '24/04/1995',
-    email: 'leonardo@gmail.com',
-    imgPerfil: '',
-    logradouro: 'rua arley gilberto de araujo',
-    numero: '04',
-    senha: 'leonardo',
-    telefone: '11940040876',
-    uf: 'sp',
-    usuario: 'berganardo'
+  ) { 
+    this.usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
   }
 
   pedidos: Pedidos[] = [

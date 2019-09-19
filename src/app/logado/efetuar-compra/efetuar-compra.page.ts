@@ -7,7 +7,7 @@ import { FormaPagamentoService } from 'src/app/shared/services/formas-pagamento/
 import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
 import { Pedidos } from 'src/app/shared/models/pedidos/pedidos';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
-import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -26,19 +26,21 @@ export class EfetuarCompraPage implements OnInit {
     private pedidoService: PedidoService
   ) { }
 
-  ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#fff');
-    this.statusBar.styleDefault();
-  }
+  ngOnInit() { }
 
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    this.getStoragePedido();
-    this.formaPagamento = this.formaPagamentoService.formasPagamento;
+    this.setBotaoConfirmar();
+    this.getStoragePedido()
+    .then(resp => {
+      this.eventoSelecionado = resp;
+      this.formaPagamento = this.formaPagamentoService.formasPagamento;
+    });
   }
 
   confirmarPedido(){
+    debugger;
     let pedidoConfirmado = {
       evento: this.eventoSelecionado.evento,
       setores: this.eventoSelecionado.setores,
@@ -50,11 +52,20 @@ export class EfetuarCompraPage implements OnInit {
     this.pedidoService.novoPedido(pedidoConfirmado)
   }
 
-  getStoragePedido(){
-    this.storage.get('eventoSelecionado')
-    .then(resp => {
-      this.eventoSelecionado = resp;
-    });
+  getStoragePedido(): Promise<EventoSetoresSelecionado>{
+    return new Promise((resolve, reject) => {
+      this.storage.get('eventoSelecionado')
+      .then(resp => {
+        resolve(resp);
+      });
+    })
   }
 
+  setBotaoConfirmar(){
+    $('.btnComprar').attr('color', 'success').html(`confirmar`);
+  }
+
+  voltar(){
+    this.navCtrl.navigateBack(`menu-logado/explorar/detalhe-evento/${this.eventoSelecionado.evento.id}`);
+  }
 }

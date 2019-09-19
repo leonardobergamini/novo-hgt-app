@@ -23,7 +23,7 @@ export class ExplorarPage implements OnInit {
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#ecf0f1');
-    this.eventos = this.eventosService.getAllEventos();
+    // this.eventos = this.eventosService.getAllEventos();
   }
 
   ionViewDidEnter(){

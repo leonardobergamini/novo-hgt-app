@@ -1,14 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
-import { AngularFireModule  } from '@angular/fire';
-import { AngularFireAuthModule  } from '@angular/fire/auth';
-import { environment } from '../environments/environment';
-import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFireDatabaseModule } from '@angular/fire/database'
-
 import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -49,7 +42,7 @@ import { PresentearPageModule } from './logado/menu-logado/meus-ingressos/detalh
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Keyboard,
-    DatePicker  
+    DatePicker
   ],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Eventos } from '../../../models/eventos/eventos';
 import * as $ from 'jquery';
-import { ModalController, NavParams, NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Setores } from 'src/app/shared/models/setores/setores';
 import { QuantidadeIngressoSetor } from 'src/app/shared/interfaces/quantidade-ingresso-setor/quantidade-ingresso-setor';
 import { Storage } from '@ionic/storage';
@@ -17,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class EventoDetalhePage implements OnInit {
 
+  private id: number = 0;
   private contador: number = 0;
   private evento: Eventos = null;
   private ativarBtn: boolean = false;
@@ -28,35 +29,35 @@ export class EventoDetalhePage implements OnInit {
   @Input() eventos: Eventos;
 
   constructor(
-    private navParams: NavParams,
     private modalCtrl: ModalController,
     private navCtrl: NavController,
     private router: Router,
     private storage: Storage,
-    private statusBar: StatusBar
-  ){
-    this.evento = navParams.get('eventoSelecionado');
-  }
+    private statusBar: StatusBar,
+    private activatedRoute: ActivatedRoute
+  ){ }
 
   ngOnInit() {
+    this.evento = JSON.parse(localStorage.getItem('detalhe-evento'));
+    this.evento.setores.sort((a,b) => {
+      return Number(a.preco) - Number(b.preco);
+    });
     this.evento.setores.forEach((value, i) => {
       this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
     });
-    $('#favorito').click(() => {
-      $('#favorito').toggleClass('favoritoClicado');
-    });
   }
 
-  reset(){
-    $('#favorito').removeClass('favoritoClicado');
-  }
+  ionViewDidEnter(){ }
+
+  ionViewDidLeave(){ }
 
   adicionaBotaoComprar(){
     $('ion-tabs').find('ion-button').removeClass('ion-hide');
   }
 
-  fecharModal(){
-    this.modalCtrl.dismiss();
+  voltar(){
+    localStorage.removeItem('evento-detalhe');
+    this.navCtrl.navigateBack('menu-logado/explorar');
   }
 
   validarCompra(evento){
@@ -74,7 +75,6 @@ export class EventoDetalhePage implements OnInit {
         qtdIngressos: this.qtdIngressos
       }
       this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
-      this.fecharModal();
       this.router.navigate(['/menu-logado/efetuar-compra']);
     }
   }

@@ -104,6 +104,11 @@ const routes: Routes = [
             path: '',
             loadChildren: './logado/menu-logado/explorar/explorar.module#ExplorarPageModule',
 
+          },
+          {
+            path: 'detalhe-evento/:idEvento',
+            loadChildren: './shared/telas/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'                 
+
           }
         ]
       },

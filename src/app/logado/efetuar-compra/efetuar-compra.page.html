@@ -2,102 +2,106 @@
     <ion-toolbar>
         <ion-title class="ion-text-center">confirmar pedido</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="menu-logado/explorar"></ion-back-button>
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="" (click)="voltar()"></ion-back-button>
         </ion-buttons>
 
-        <ion-buttons slot="end">
-            <ion-button (click)="confirmarPedido()" id="btnConfirmar">
-                <ion-icon slot="icon-only" name="checkmark" color="success" size="large"></ion-icon>
-            </ion-button>
-        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 
-<ion-content padding>
-    <ion-card>
-        <img src="{{eventoSelecionado.evento.imagem}}" />
-        <ion-card-header>
-            <ion-card-title>{{eventoSelecionado.evento.atracao.nome}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-grid class="ion-no-margin ion-no-padding">
-                <ion-row>
-                    <ion-col class="ion-no-margin ion-no-padding">
-                        <ion-icon id="calendario" name="calendar"></ion-icon>
-                        <ion-text>{{eventoSelecionado.evento.dtInicioEventoFormatada}}</ion-text>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col class="ion-no-margin ion-no-padding">
-                        <ion-icon id="relogio" name="time"></ion-icon>
-                        <ion-text>{{eventoSelecionado.evento.horaInicioEvento}} às {{eventoSelecionado.evento.horaFimEvento}}</ion-text>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col class="ion-no-margin ion-no-padding">
-                        <ion-icon id="gps" name="pin"></ion-icon>
-                        <ion-text>{{eventoSelecionado.evento.setores[0].local.nome}}</ion-text>
-                        <ion-text> - {{eventoSelecionado.evento.setores[0].local.endereco}}</ion-text>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-card-content>
-    </ion-card>
+<ion-content>
+    <div class="dados-compra" padding>
+        <ion-card>
+            <img src="{{eventoSelecionado.evento.imagem}}" />
+            <ion-card-header>
+                <ion-card-title>{{eventoSelecionado.evento.nome}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid class="ion-no-margin ion-no-padding">
+                    <ion-row>
+                        <ion-col class="ion-no-margin ion-no-padding">
+                            <ion-icon id="calendario" name="calendar"></ion-icon>
+                            <ion-text>{{eventoSelecionado.evento.dtInicioEventoFormatada}}</ion-text>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="ion-no-margin ion-no-padding">
+                            <ion-icon id="relogio" name="time"></ion-icon>
+                            <ion-text>{{eventoSelecionado.evento.horaInicioEvento}} às {{eventoSelecionado.evento.horaFimEvento}}</ion-text>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="ion-no-margin ion-no-padding">
+                            <ion-icon id="gps" name="pin"></ion-icon>
+                            <ion-text>{{eventoSelecionado.evento.setores[0].local.nome}}</ion-text>
+                            <ion-text> - {{eventoSelecionado.evento.setores[0].local.endereco}}</ion-text>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
 
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>ingressos</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-grid class="ion-no-margin ion-no-padding">
-                <ion-row>
-                    <ion-col size="5" class="ion-text-start"><strong>setores</strong></ion-col>
-                    <ion-col size="4" class="ion-text-center"><strong>valor</strong></ion-col>
-                    <ion-col size="3" class="ion-text-end"><strong>qtd</strong></ion-col>
-                </ion-row>
-                <ion-row *ngFor="let ingresso of eventoSelecionado.setores">
-                    <ion-col size="5" class="ion-text-start">{{ingresso.setor}}</ion-col>
-                    <ion-col size="4" class="ion-text-center">
-                        <ng-container *ngIf="ingresso.preco; else semPreco">
-                            R$ {{ingresso.preco}}
-                        </ng-container>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>ingressos</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-grid class="ion-no-margin ion-no-padding">
+                    <ion-row>
+                        <ion-col size="5" class="ion-text-start"><strong>setor</strong></ion-col>
+                        <ion-col size="4" class="ion-text-center"><strong>valor</strong></ion-col>
+                        <ion-col size="3" class="ion-text-end"><strong>qtd</strong></ion-col>
+                    </ion-row>
+                    <ion-row *ngFor="let ingresso of eventoSelecionado.setores">
+                        <ion-col size="5" class="ion-text-start">{{ingresso.setor}}</ion-col>
+                        <ion-col size="4" class="ion-text-center">
+                            <ng-container *ngIf="ingresso.preco; else semPreco">
+                                R$ {{ingresso.preco}}
+                            </ng-container>
 
-                        <ng-template #semPreco>
-                            R$ 0
-                        </ng-template>
-                    </ion-col>
-                    <ion-col size="3" class="ion-text-end">{{ingresso.contador}}</ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col>
-                        <ion-item-divider color="light" class="ion-text-end ion-no-margin ion-no-padding">
-                            <ion-label><strong>TOTAL: R$ {{eventoSelecionado.valorTotal}}</strong></ion-label>
-                        </ion-item-divider>
-                    </ion-col>
-                </ion-row>
+                            <ng-template #semPreco>
+                                R$ 0
+                            </ng-template>
+                        </ion-col>
+                        <ion-col size="3" class="ion-text-end">{{ingresso.contador}}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item-divider color="light" class="ion-text-end ion-no-margin ion-no-padding">
+                                <ion-label><strong>TOTAL: R$ {{eventoSelecionado.valorTotal}}</strong></ion-label>
+                            </ion-item-divider>
+                        </ion-col>
+                    </ion-row>
 
-            </ion-grid>
-        </ion-card-content>
-    </ion-card>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
 
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>forma de pagamento</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <div *ngFor="let formaPg of formaPagamento">
-                <ion-item lines="none">
-                    <ion-input hidden value="{{formaPg.idFormaPg}}"></ion-input>
-                    <ion-avatar slot="start">
-                        <img src="../../../../assets/icons/{{formaPg.cartao.bandeiraCartao | lowercase}}.svg">
-                    </ion-avatar>
-                    <ion-label>
-                        <h3>**** {{formaPg.cartao.cartaoFormatado}}</h3>
-                        <h4>{{formaPg.cartao.nomeTitular | uppercase}} </h4>
-                    </ion-label>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>forma de pagamento</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <div *ngIf="formaPagamento.length >= 1">
+                    <ion-item lines="none">
+                        <ion-input hidden value="{{formaPagamento[0].idFormaPg}}"></ion-input>
+                        <ion-avatar slot="start">
+                            <img src="../../../../assets/icons/{{formaPagamento[0].cartao.bandeiraCartao | lowercase}}.svg">
+                        </ion-avatar>
+                        <ion-label>
+                            <h3>**** {{formaPagamento[0].cartao.cartaoFormatado}}</h3>
+                            <h4>{{formaPagamento[0].cartao.nomeTitular | uppercase}} </h4>
+                        </ion-label>
+                    </ion-item>
+                </div>
+                <ion-item lines="none" class="link">
+                    <a href="" class="fonte-tamanho14">alterar forma de pagamento</a>
                 </ion-item>
-            </div>
-        </ion-card-content>
-    </ion-card>
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+    <ion-row>
+        <ion-button class="btnComprar ion-no-margin" expand="full" (click)="confirmarPedido()">confirmar</ion-button>
+    </ion-row>
 </ion-content>

@@ -15,15 +15,17 @@ export class ListaCategoriasComponent  {
   
   @Input() categorias: string[];
   eventos: Eventos[];
-  eventosService: EventosService;
   erro: string = "";
   
   slidesOpts = {
     slidesPerView: 4, 
   }
 
-  constructor(private modalController: ModalController) {
-    this.filtrarCategorias('show');
+  constructor(
+    private modalController: ModalController,
+    private eventoService: EventosService
+    ) {
+    // this.filtrarCategorias('show');
    }
 
   ativarItem(event){
@@ -36,26 +38,25 @@ export class ListaCategoriasComponent  {
     $(event.target).addClass('ativo');
 
     var categoria = $(event.target).text();
-    $('.lds-ripple').removeClass('ion-hide');
-    setTimeout(() =>{
-      this.filtrarCategorias(categoria);
-      $('.lds-ripple').addClass('ion-hide');
-    }, 500);
+    // $('.lds-ripple').removeClass('ion-hide');
+    // setTimeout(() =>{
+    //   this.filtrarCategorias(categoria);
+    //   $('.lds-ripple').addClass('ion-hide');
+    // }, 500);
   }
 
-  filtrarCategorias(categoria:string){
-    this.eventosService = new EventosService();
-    this.eventos = this.eventosService.getEventoByCategorias(categoria);
+  // filtrarCategorias(categoria:string){
+  //   this.eventos = this.eventoService.getEventoByCategorias(categoria);
 
-    if(this.eventos.length > 0){
-      this.erro = '';
-      // console.log(this.eventos);
-      $('.lista').show();
-    }else{
-      $('.lista').hide();
-      this.erro = `Ops! Sem eventos para essa categoria`;
-    } 
-  }
+  //   if(this.eventos.length > 0){
+  //     this.erro = '';
+  //     console.log(this.eventos);
+  //     $('.lista').show();
+  //   }else{
+  //     $('.lista').hide();
+  //     this.erro = `Ops! Sem eventos para essa categoria`;
+  //   } 
+  // }
 
   async exibirDetalhes(evento){
     const modal = await this.modalController.create({

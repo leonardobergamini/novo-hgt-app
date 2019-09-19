@@ -76,8 +76,27 @@ export class UsuarioService {
         });
         loading.present()
         .then(() => {
+          let usuario: Usuarios = {
+            id: 1,
+            primeiroNome: 'leonardo',
+            sobrenome: 'bergamini',
+            cpf: '36980235800',
+            cep: '02326000',
+            cidade: 'são paulo',
+            complemento: '',
+            dtNascimento: '24/04/1995',
+            email: 'leonardo@gmail.com',
+            imgPerfil: '',
+            logradouro: 'rua arley gilberto de araujo',
+            numero: '04',
+            senha: 'leonardo',
+            telefone: '11940040876',
+            uf: 'sp',
+            usuario: 'berganardo'
+          }
+          localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
           this.router.navigate(['menu-logado/explorar']);
-          resolve(`Entrou: ${email}`);
+          resolve();
         });
         loading.dismiss();
       // this.usuarioLogado.email = email;
