@@ -47,7 +47,6 @@ export class SetorService {
           this.allSetoresByEvento = [];
           let arrayTmp = json['hydra:member'];
           this.allSetoresByEvento = arrayTmp.filter(setor => {
-            debugger;
             return setor['@id'] === id;
           });
           resolve(this.allSetoresByEvento);

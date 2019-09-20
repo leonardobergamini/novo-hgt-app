@@ -5,8 +5,8 @@ export class CartoesCredito {
     nroCartao: number;
     nomeTitular: string;
     dtVencimento: string;
-    codSegurancao: number;
+    codSeguranca: number;
     usuario: Usuarios;
-    bandeiraCartao: string;
+    bandeira: string;
     cartaoFormatado: number;
 }

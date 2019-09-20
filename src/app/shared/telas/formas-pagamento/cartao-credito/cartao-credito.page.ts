@@ -26,7 +26,7 @@ export class CartaoCreditoPage implements OnInit {
       {type: 'required', message: 'Ops! Não esquece de informar o número do cartão.'}
     ],
 
-    'dtValidade': [
+    'dtVencimento': [
       {type: 'required', message: 'Ops! Não esquece que informar a data de validade.'}
     ],
 
@@ -41,7 +41,7 @@ export class CartaoCreditoPage implements OnInit {
       {type: 'pattern', message: 'Somente letras no nome.' }
     ],
 
-    'bandeiraCartao': [
+    'bandeira': [
       {type: 'required', message: 'Ops! Não esquece de informar a bandeira do cartão.'}
     ]
   };
@@ -67,10 +67,10 @@ export class CartaoCreditoPage implements OnInit {
   ) { 
     this.formCadastrarFormaPg = formBuilder.group({
       nroCartao: ['', Validators.compose([Validators.required, Validators.minLength(16)])],
-      dtValidade: ['', Validators.required],
+      dtVencimento: ['', Validators.required],
       codSeguranca: ['', Validators.compose([Validators.maxLength(3), Validators.required])],
       nomeTitular: ['', Validators.compose([Validators.maxLength(20), Validators.required, Validators.pattern('[a-zA-Z ]*')])],
-      bandeiraCartao: ['', Validators.required]
+      bandeira: ['', Validators.required]
     });
   }
 
@@ -88,9 +88,9 @@ export class CartaoCreditoPage implements OnInit {
     $('#txtNroCartao').text(valor.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,''));
   }
 
-  setDadosDtValidade(event){
+  setDadosDtVencimento(event){
     let data: string = event.target.value;
-    $('#txtDtValidade').text(Utils.formatarDataDiaMes(data.slice(0, 10)));
+    $('#txtDtVencimento').text(Utils.formatarDataDiaMes(data.slice(0, 10)));
   }
 
   setDadosCodSeguranca(event){

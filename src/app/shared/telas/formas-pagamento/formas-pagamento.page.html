@@ -28,14 +28,13 @@
                 <ion-list-header>
                     cartões cadastrados
                 </ion-list-header>
-
                 <div id="cartoes-cadastrados" *ngIf="formasPagamento">
                     <div *ngFor="let formaPg of formasPagamento">
                         <ion-item-sliding>
                             <ion-item>
                                 <ion-input hidden value="{{formaPg.idFormaPg}}"></ion-input>
                                 <ion-avatar slot="start">
-                                    <img src="../../../../assets/icons/{{formaPg.cartao.bandeiraCartao | lowercase}}.svg">
+                                    <img src="../../../../assets/icons/{{formaPg.cartao.bandeira | lowercase}}.svg">
                                 </ion-avatar>
                                 <ion-label>
                                     <h3>**** {{formaPg.cartao.cartaoFormatado}}</h3>

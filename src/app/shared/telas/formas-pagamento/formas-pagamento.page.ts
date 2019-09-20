@@ -13,9 +13,9 @@ import { Utils } from '../../utils/utils';
 })
 export class FormasPagamentoPage implements OnInit {
   
-  private formasPagamento: FormasPagamento[] = [];
+  public formasPagamento: FormasPagamento[] = [];
   private toast;
-  private efetuarCompraLink;
+  public efetuarCompraLink;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
@@ -27,6 +27,7 @@ export class FormasPagamentoPage implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter(){
+    debugger;
     this.efetuarCompraLink = JSON.parse(localStorage.getItem('efetuar-compra-back'));
     if(this.efetuarCompraLink){
       console.log(this.efetuarCompraLink);
@@ -36,6 +37,7 @@ export class FormasPagamentoPage implements OnInit {
 
     this.formaPagamentoService.getAll()
     .then(resp => {
+      debugger;
       console.log(resp);
       this.formasPagamento = resp;
       this.formasPagamento.forEach(forma => {

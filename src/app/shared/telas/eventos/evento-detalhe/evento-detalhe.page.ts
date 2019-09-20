@@ -70,7 +70,6 @@ export class EventoDetalhePage implements OnInit {
       
       this.storage.remove('eventoSelecionado')
       .then(resp => {console.log('Excluindo storage...');});
-
       let eventoComSetoresSelecionado: EventoSetoresSelecionado = {
         evento: evento,
         setores: this.arraySomenteSetoresSelecionados,

@@ -8,6 +8,7 @@ import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor
 import { Pedidos } from 'src/app/shared/models/pedidos/pedidos';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import * as $ from 'jquery';
+import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-pagamento';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -16,7 +17,7 @@ import * as $ from 'jquery';
 })
 export class EfetuarCompraPage implements OnInit {
   private eventoSelecionado: EventoSetoresSelecionado = null;
-  private formaPagamento = [];
+  private formaPagamentoSelecionada: FormasPagamento[];
 
   constructor(
     private storage: Storage,
@@ -36,7 +37,7 @@ export class EfetuarCompraPage implements OnInit {
     this.getStoragePedido()
     .then(resp => {
       this.eventoSelecionado = resp;
-      this.formaPagamento = this.formaPagamentoService.formasPagamento;
+      this.formaPagamentoSelecionada = this.formaPagamentoService.formasPagamento;
     });
   }
 
@@ -46,7 +47,7 @@ export class EfetuarCompraPage implements OnInit {
       evento: this.eventoSelecionado.evento,
       setores: this.eventoSelecionado.setores,
       valorTotal: this.eventoSelecionado.valorTotal,
-      formaPagamento: this.formaPagamento,
+      // formaPagamento: this.formaPagamento,
       qtdIngressos: this.eventoSelecionado.qtdIngressos
     };
     console.log(pedidoConfirmado);

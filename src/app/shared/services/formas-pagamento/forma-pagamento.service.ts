@@ -22,7 +22,6 @@ export class FormaPagamentoService {
 
   private id: number = 1;
   private arrayAllFormasPagamento: FormasPagamento[] = [];
-  private objectFormaPagamento: FormasPagamento;
   private cartaoCredito: CartoesCredito[] = [];
   private carteira: Carteiras;
   private formasPagamento: FormasPagamento[] = [];
@@ -50,11 +49,11 @@ export class FormaPagamentoService {
     {
       idCartao: 1,
       nroCartao: 1234432114568765,
-      codSegurancao: 456,
+      codSeguranca: 456,
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
       usuario: this.usuario,
-      bandeiraCartao: 'VISA',
+      bandeira: 'VISA',
       cartaoFormatado: 8765
     }
   ];
@@ -70,10 +69,11 @@ export class FormaPagamentoService {
 
   create(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<FormasPagamento>{
     return new Promise(async (resolve, reject) => {
+      debugger;
       let obj = {
-        bandeiraCartao: cartao.bandeiraCartao,
+        bandeira: cartao.bandeira,
         cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
-        codSegurancao: cartao.codSegurancao,
+        codSegurancao: cartao.codSeguranca,
         dtVencimento: cartao.dtVencimento,
         nomeTitular: cartao.nomeTitular,
         nroCartao: cartao.nroCartao,
@@ -128,12 +128,11 @@ export class FormaPagamentoService {
 
       loading.present()
       .then(() => {
+        debugger;
         fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
         .then(resp => resp.json())
         .then(json => {
-          // this.arraAllFormasPagamento = json['hydra:member'];
-          // loading.dismiss();
-          // resolve(this.arraAllFormasPagamento);
+          debugger;
           this.formasPagamento = json['hydra:member'];
           this.formasPagamento.forEach((item:any) => {
             
@@ -152,7 +151,7 @@ export class FormaPagamentoService {
                   carteira: this.carteira,
                   usuario: this.usuario
                 }
-
+                this.arrayAllFormasPagamento = [];
                 this.arrayAllFormasPagamento.push(obj);
                 resolve(this.arrayAllFormasPagamento);
                 loading.dismiss();
@@ -202,16 +201,6 @@ export class FormaPagamentoService {
             reject('Erro ao cadastrar nova forma de pagamento. Tente novamente.');
           }
         });
-    });
-  }
-
-  consultar(): Promise<FormasPagamento[]>{
-    return new Promise((resolve, reject) => {
-      if(this.formasPagamento){
-        resolve(this.formasPagamento);
-      }else{
-        reject(new Array<FormasPagamento>());
-      }
     });
   }
 
