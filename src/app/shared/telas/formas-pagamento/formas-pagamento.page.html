@@ -2,7 +2,8 @@
     <ion-toolbar>
         <ion-title>Formas de pagamento</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button text="" icon="ios-arrow-back" color="primary"></ion-back-button>
+            <ion-back-button *ngIf="!efetuarCompraLink" text="" icon="ios-arrow-back" color="primary"></ion-back-button>
+            <ion-back-button *ngIf="efetuarCompraLink" text="" icon="ios-arrow-back" color="primary" defaultHref="{{efetuarCompraLink.rota}}"></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -15,7 +16,7 @@
                     carteira
                 </ion-list-header>
                 <ion-item>
-                    <h3 class="ion-text-start">Saldo: <span>R$ 300,00</span>
+                    <h3 class="ion-text-start">Saldo: <span>{{ formasPagamento[0].carteira.saldo | currency:'BRL'}}</span>
                     </h3>
                     <ion-radio slot="end" color="secondary" name="sausage"></ion-radio>
                 </ion-item>

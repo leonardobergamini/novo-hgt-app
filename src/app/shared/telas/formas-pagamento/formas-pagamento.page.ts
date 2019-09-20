@@ -4,16 +4,18 @@ import { FormasPagamento } from '../../models/formas-pagamento/formas-pagamento'
 import { NavController, ToastController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
+import { Utils } from '../../utils/utils';
 
 @Component({
   selector: 'app-formas-pagamento',
   templateUrl: './formas-pagamento.page.html',
   styleUrls: ['./formas-pagamento.page.scss'],
 })
-export class FormasPagamentoPage implements OnInit, OnChanges {
+export class FormasPagamentoPage implements OnInit {
   
   private formasPagamento: FormasPagamento[] = [];
   private toast;
+  private efetuarCompraLink;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
@@ -24,25 +26,43 @@ export class FormasPagamentoPage implements OnInit, OnChanges {
 
   ngOnInit() {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes.prop);
-  }
-
   ionViewDidEnter(){
+    this.efetuarCompraLink = JSON.parse(localStorage.getItem('efetuar-compra-back'));
+    if(this.efetuarCompraLink){
+      console.log(this.efetuarCompraLink);
+    }
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
 
-    this.formaPagamentoService.consultar()
+    this.formaPagamentoService.getAll()
     .then(resp => {
-      if(resp.length === 0){
-        this.formasPagamento = null;
-      }else{
-        this.formasPagamento = resp;
-      }
+      console.log(resp);
+      this.formasPagamento = resp;
+      this.formasPagamento.forEach(forma => {
+        forma.cartao = Utils.escondeNroCartao(forma.cartao);
+      });
+      console.log(this.formasPagamento);
     })
     .catch(err => {
-      this.formasPagamento = new Array<FormasPagamento>();
-    });
+      this.formasPagamento = [];
+      console.log(err);
+    })
+
+    // this.formaPagamentoService.consultar()
+    // .then(resp => {
+    //   if(resp.length === 0){
+    //     this.formasPagamento = null;
+    //   }else{
+    //     this.formasPagamento = resp;
+    //   }
+    // })
+    // .catch(err => {
+    //   this.formasPagamento = new Array<FormasPagamento>();
+    // });
+  }
+
+  ionViewDidLeave(){
+    localStorage.removeItem('efetuar-compra-back');
   }
 
   excluirForma(event){

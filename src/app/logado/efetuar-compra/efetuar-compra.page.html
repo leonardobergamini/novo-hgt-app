@@ -65,10 +65,10 @@
                         </ion-col>
                         <ion-col size="3" class="ion-text-end">{{ingresso.contador}}</ion-col>
                     </ion-row>
-                    <ion-row>
+                    <ion-row *ngIf="eventoSelecionado.valorTotal">
                         <ion-col>
                             <ion-item-divider color="light" class="ion-text-end ion-no-margin ion-no-padding">
-                                <ion-label><strong>TOTAL: R$ {{eventoSelecionado.valorTotal}}</strong></ion-label>
+                                <ion-label><strong>TOTAL: {{eventoSelecionado.valorTotal | currency: 'BRL'}}</strong></ion-label>
                             </ion-item-divider>
                         </ion-col>
                     </ion-row>
@@ -95,7 +95,7 @@
                     </ion-item>
                 </div>
                 <ion-item lines="none" class="link">
-                    <a href="" class="fonte-tamanho14">alterar forma de pagamento</a>
+                    <a class="fonte-tamanho14" (click)="abrirFormaPagamentoPage()">alterar forma de pagamento</a>
                 </ion-item>
             </ion-card-content>
         </ion-card>

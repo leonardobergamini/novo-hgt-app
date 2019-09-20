@@ -63,7 +63,7 @@ export class CartaoCreditoPage implements OnInit {
     private toastController: ToastController,
     private statusBar: StatusBar,
     private formaPagamentoService: FormaPagamentoService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
   ) { 
     this.formCadastrarFormaPg = formBuilder.group({
       nroCartao: ['', Validators.compose([Validators.required, Validators.minLength(16)])],
@@ -109,7 +109,7 @@ export class CartaoCreditoPage implements OnInit {
       let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
       console.log(cartao);
       this.keyboard.hide();
-      this.formaPagamentoService.adicionar(new Usuarios(), cartao)
+      this.formaPagamentoService.create(cartao, "", "")
       .then(resp => {
         this.exibirToast('Cartão cadastrado com sucesso!', 'checkmark-circle');
         console.log(resp);

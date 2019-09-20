@@ -5,6 +5,7 @@ import { Utils } from '../../utils/utils'
 import * as moment from 'moment';
 import { Setores } from '../../models/setores/setores';
 import { LoadingController } from '@ionic/angular';
+import { Categorias } from '../../models/categorias/categorias';
 
 @Injectable({
   providedIn: 'root'
@@ -164,6 +165,21 @@ export class EventosService {
       });
     });
   }
+
+  // getCategoriaByEvento(id: string): Promise<Categorias>{
+  //   return new Promise((resolve, reject) => {
+  //     this.allEventos.forEach(value => {
+  //       fetch(`https://hgt-events.herokuapp.com/api/categorias/${}`)
+  //       .then(resp => {
+
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //         reject(err);
+  //       })
+  //     });
+  //   });
+  // }
 
   // getAllEventos(): Eventos[]{
   //   return this.eventos = [

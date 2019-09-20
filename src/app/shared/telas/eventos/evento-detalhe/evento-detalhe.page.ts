@@ -38,7 +38,7 @@ export class EventoDetalhePage implements OnInit {
   ){ }
 
   ngOnInit() {
-    this.evento = JSON.parse(localStorage.getItem('detalhe-evento'));
+    this.evento = JSON.parse(localStorage.getItem('detalhe-evento'))
     this.evento.setores.sort((a,b) => {
       return Number(a.preco) - Number(b.preco);
     });
@@ -47,7 +47,10 @@ export class EventoDetalhePage implements OnInit {
     });
   }
 
-  ionViewDidEnter(){ }
+  ionViewDidEnter(){ 
+    this.removerValorTotalNoBotao();
+    this.arraySomenteSetoresSelecionados = [];
+  }
 
   ionViewDidLeave(){ }
 
@@ -61,7 +64,7 @@ export class EventoDetalhePage implements OnInit {
   }
 
   validarCompra(evento){
-    if(this.arraySetoresSelecionados.length > 0){
+    if(this.arraySetoresSelecionados.length > 0 && this.contador){
       this.somenteSetoresSelecionados(this.arraySetoresSelecionados);
       this.getQuantidadeIngressos(this.arraySetoresSelecionados);
       
@@ -76,12 +79,15 @@ export class EventoDetalhePage implements OnInit {
       }
       this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
       this.router.navigate(['/menu-logado/efetuar-compra']);
+    }else{
+      console.log('Contador zerado');
     }
   }
 
   selecionarSetor(setor: Setores, contador: number){
+    this.contador = Number(contador);
     this.arraySetoresSelecionados = this.arraySetoresSemQuantidade;
-     let novoArray = this.arraySetoresSemQuantidade.map((value: QuantidadeIngressoSetor) => {
+      let novoArray = this.arraySetoresSemQuantidade.map((value: QuantidadeIngressoSetor) => {
       if(setor.nome === value.setor){
         return value = {
           setor: value.setor, 

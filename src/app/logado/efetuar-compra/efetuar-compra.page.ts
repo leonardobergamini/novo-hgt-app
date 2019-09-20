@@ -31,6 +31,7 @@ export class EfetuarCompraPage implements OnInit {
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
+    localStorage.removeItem('efetuar-compra-back');
     this.setBotaoConfirmar();
     this.getStoragePedido()
     .then(resp => {
@@ -67,5 +68,10 @@ export class EfetuarCompraPage implements OnInit {
 
   voltar(){
     this.navCtrl.navigateBack(`menu-logado/explorar/detalhe-evento/${this.eventoSelecionado.evento.id}`);
+  }
+
+  abrirFormaPagamentoPage(){
+    localStorage.setItem('efetuar-compra-back', JSON.stringify({rota:'menu-logado/efetuar-compra'}));
+    this.navCtrl.navigateForward('menu-logado/perfil/formas-pagamento');
   }
 }
