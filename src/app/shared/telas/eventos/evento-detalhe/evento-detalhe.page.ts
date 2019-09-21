@@ -113,7 +113,7 @@ export class EventoDetalhePage implements OnInit {
 
   calcularValorTotal(setores){
     let valorTmp: number = 0;
-    this.arraySetoresSelecionados.forEach((setor, i) => {
+    setores.forEach((setor, i) => {
       if(setor.valorTotal >= 0){
         valorTmp += setor.valorTotal;
       }

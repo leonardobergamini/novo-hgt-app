@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CartaoCreditoService } from '../cartao-credito/cartao-credito.service';
 import { Utils } from '../../utils/utils';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,9 +25,11 @@ export class FormaPagamentoService {
   private arrayAllFormasPagamento: FormasPagamento[] = [];
   private cartaoCredito: CartoesCredito[] = [];
   private carteira: Carteiras;
-  private formasPagamento: FormasPagamento[] = [];
+  // private formasPagamento: FormasPagamento[] = [];
+  private formaPagamentoAtiva: FormasPagamento;
+  public quantidadeFormasPagamento: number = 0;
   
-  usuario: Usuarios = {
+  private usuario: Usuarios = {
     id: 1,
     primeiroNome: 'leonardo',
     sobrenome: 'bergamini',
@@ -45,7 +48,7 @@ export class FormaPagamentoService {
     usuario: 'berganardo'
   }
   
-  cartoes: CartoesCredito[] = [
+  private cartoes: CartoesCredito[] = [
     {
       idCartao: 1,
       nroCartao: 1234432114568765,
@@ -58,18 +61,60 @@ export class FormaPagamentoService {
     }
   ];
 
-  // formasPagamento: FormasPagamento[] = [
-  //   {
-  //     cartao: this.cartoes[0],
-  //     carteira: new Carteiras(),
-  //     idFormaPg: this.id++,
-  //     usuario: this.usuario
-  //   }
-  // ];
+  public formasPagamento: FormasPagamento[] = [
+    {
+      cartao: this.cartoes[0],
+      carteira: null,
+      idFormaPg: this.id++,
+      usuario: this.usuario,
+      pagamento: true
+    },
+    {
+      cartao: null,
+      carteira: {
+        idCarteira: 1,
+        saldo: 300,
+        usuario: this.usuario
+      },
+      idFormaPg: this.id++,
+      usuario: this.usuario,
+      pagamento: false
+    }
+  ];
 
-  create(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<FormasPagamento>{
+  getFormaPagamentoAtiva(): Promise<FormasPagamento>{
     return new Promise(async (resolve, reject) => {
-      debugger;
+      let loading = await this.loadingController.create({
+        message: 'Carregando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(() => {
+        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
+        .then(resp => resp.json())
+        .then(json => {
+          let array = json['hydra:member'];
+          this.formaPagamentoAtiva = null;
+          array.forEach(item => {
+            item.pagamento === true ? this.formaPagamentoAtiva = item : null
+          });
+          resolve(this.formaPagamentoAtiva);
+          loading.dismiss();
+        })
+        .catch(err => {
+          console.log(err);
+          reject('Erro ao consultar forma de pagamento ativa');
+          loading.dismiss();
+        });
+      });
+    });
+  }
+
+  create(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<string>{
+    return new Promise(async (resolve, reject) => {
       let obj = {
         bandeira: cartao.bandeira,
         cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
@@ -86,33 +131,35 @@ export class FormaPagamentoService {
         animated: true
       });
 
-      // let obj = {
-      //   "idCartao": idCartao,
-      //   "idCarteira": 'api/carteiras/1',
-      //   "idUsuario": 'api/usuarios/1'
-      // }
-      
       this.cartaoCreditoService.create(cartao)
       .then(resp => {
+        let obj = {
+          "idCartao": 'api/cartoes_creditos/2',
+          "idCarteira": 'api/carteiras/1',
+          "idUsuario": 'api/usuarios/1'
+        }
         console.log(resp);
+        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(obj)
+        })
+        .then(response => {
+          console.log(response);
+          loading.dismiss()
+          resolve('Forma de pagamento cadastrada com sucesso');
+        })
+        .catch(err => {
+          reject(err);
+        })
       })
       .catch(err => {
         console.log(err);
-      })
-
-      // fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos', {
-      //   method: 'post',
-      //   headers: {
-      //     'Accept': 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(obj)
-      // })
-      // .then(response => {
-      //   console.log(response);
-      // })
-      // .catch(err => reject(err))
-      // .finally(() => loading.dismiss());
+        loading.dismiss()
+      });
     });
   }
 
@@ -128,44 +175,58 @@ export class FormaPagamentoService {
 
       loading.present()
       .then(() => {
-        debugger;
         fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
-        .then(resp => resp.json())
-        .then(json => {
+        .then(todasFormas => todasFormas.json())
+        .then(todasFormas => {
           debugger;
-          this.formasPagamento = json['hydra:member'];
-          this.formasPagamento.forEach((item:any) => {
-            
-            fetch(`https://hgt-events.herokuapp.com${item.idCartao}`)
-            .then(resp => resp.json())
-            .then(jsonCartao => {            
-              let idCarteira = json['hydra:member'][0].idCarteira;
-              fetch(`https://hgt-events.herokuapp.com${idCarteira}`)
-              .then(resp => resp.json())
-              .then(json => {
-                this.carteira = json;
-                this.cartaoCredito.push(jsonCartao);
-                let obj = {
-                  idFormaPg: item.id,
-                  cartao: this.cartaoCredito[0],
-                  carteira: this.carteira,
-                  usuario: this.usuario
-                }
-                this.arrayAllFormasPagamento = [];
-                this.arrayAllFormasPagamento.push(obj);
-                resolve(this.arrayAllFormasPagamento);
-                loading.dismiss();
-              })
-              .catch(err => {
-                console.log(err);
-                reject('Erro ao consultar sua carteira.');
-              });
-            })
-            .catch(err => {
-              console.log(err);
-              reject('Erro ao consultar seus cartões');
-            })
-          });         
+          this.formasPagamento = todasFormas['hydra:member'];
+          // this.formasPagamento.forEach((item:any) => {
+          //   debugger;
+          //   fetch(`https://hgt-events.herokuapp.com${item.idCartao}`)
+          //   .then(cartao => cartao.json())
+          //   .then(cartao => {         
+          //     debugger;   
+          //     let idCarteira = cartao['hydra:member'][0].idCarteira;
+          //     fetch(`https://hgt-events.herokuapp.com${idCarteira}`)
+          //     .then(resp => resp.json())
+          //     .then(json => {
+          //       this.carteira = json;
+          //       this.cartaoCredito.push(cartao);
+                
+          //       this.arrayAllFormasPagamento = [];
+          //       this.formasPagamento.forEach((forma: any) => {
+          //         debugger;
+          //         let obj: FormasPagamento = {
+          //           idFormaPg: forma.id,
+          //           cartao: this.cartaoCredito[0],
+          //           carteira: this.carteira,
+          //           usuario: this.usuario,
+          //           pagamento: false
+          //         }
+          //         this.arrayAllFormasPagamento.push(obj);
+          //       })
+          //       this.quantidadeFormasPagamento = this.formasPagamento.length;
+
+          //       resolve(this.arrayAllFormasPagamento);
+          //       loading.dismiss();
+          //     })
+          //     .catch(err => {
+          //       loading.dismiss();
+          //       console.log(err);
+          //       reject('Erro ao consultar sua carteira.');
+          //     });
+          //   })
+          //   .catch(err => {
+          //     loading.dismiss();
+          //     console.log(err);
+          //     reject('Erro ao consultar seus cartões');
+          //   })
+          // });        
+          
+          this.quantidadeFormasPagamento = this.formasPagamento.length;
+          this.arrayAllFormasPagamento = this.formasPagamento;
+          resolve(this.arrayAllFormasPagamento);
+          loading.dismiss();
         })
         .catch(err =>{
           loading.dismiss();
@@ -190,9 +251,14 @@ export class FormaPagamentoService {
           try{
             this.formasPagamento.push({
               cartao: cartaoFormatado,
-              carteira: carteira,
+              carteira: {
+                idCarteira: 1,
+                saldo: 300,
+                usuario: this.usuario
+              },
               idFormaPg: this.id++,
-              usuario: this.usuario
+              usuario: this.usuario,
+              pagamento: false
             });
             resolve(this.formasPagamento)
             loading.dismiss();

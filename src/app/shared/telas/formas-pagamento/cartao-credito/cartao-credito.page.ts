@@ -76,6 +76,7 @@ export class CartaoCreditoPage implements OnInit {
 
   ngOnInit() {
     this.statusBar.styleDefault();
+    console.log($('#txtDtVencimento'));
   }
 
   ionDidViewEnter(){
@@ -109,10 +110,10 @@ export class CartaoCreditoPage implements OnInit {
       let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
       console.log(cartao);
       this.keyboard.hide();
-      this.formaPagamentoService.create(cartao, "", "")
+      this.formaPagamentoService.adicionar(null, cartao, null)
       .then(resp => {
-        this.exibirToast('Cartão cadastrado com sucesso!', 'checkmark-circle');
         console.log(resp);
+        this.exibirToast('Cartão cadastrado com sucesso!', 'checkmark-circle');
         this.navCtrl.back();
       })
       .catch(err => {

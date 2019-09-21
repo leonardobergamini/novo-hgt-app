@@ -76,7 +76,6 @@ export class Utils {
   }
 
   static escondeNroCartao(cartao: CartoesCredito){
-    cartao.bandeiraCartao = 'MASTERCARD';
     cartao.cartaoFormatado = Number(cartao.nroCartao.toString().substr(12, 4));
     return cartao;
   }

@@ -37,12 +37,18 @@ export class EfetuarCompraPage implements OnInit {
     this.getStoragePedido()
     .then(resp => {
       this.eventoSelecionado = resp;
-      this.formaPagamentoSelecionada = this.formaPagamentoService.formasPagamento;
+      this.formaPagamentoService.getFormaPagamentoAtiva()
+      .then(resp => {
+        console.log(resp);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      // this.formaPagamentoSelecionada = this.formaPagamentoService.formasPagamento;
     });
   }
 
   confirmarPedido(){
-    debugger;
     let pedidoConfirmado = {
       evento: this.eventoSelecionado.evento,
       setores: this.eventoSelecionado.setores,

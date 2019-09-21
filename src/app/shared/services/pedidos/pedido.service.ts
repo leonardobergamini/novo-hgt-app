@@ -30,11 +30,11 @@ export class PedidoService{
   }
 
   pedidos: Pedidos[] = [
-    {
-    id: this.id++,
-    isValido: true,
-    formaPagamento: this.formaPagamentoService.formasPagamento[0]
-  }
+  //   {
+  //   id: this.id++,
+  //   isValido: true,
+  //   formaPagamento: this.formaPagamentoService.formasPagamento[0]
+  // }
 ]
 
   novoPedido(pedido){

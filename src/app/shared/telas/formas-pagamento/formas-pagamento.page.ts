@@ -14,6 +14,7 @@ import { Utils } from '../../utils/utils';
 export class FormasPagamentoPage implements OnInit {
   
   public formasPagamento: FormasPagamento[] = [];
+  public formaPagamentoAtiva: FormasPagamento;
   private toast;
   public efetuarCompraLink;
 
@@ -27,28 +28,23 @@ export class FormasPagamentoPage implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter(){
-    debugger;
-    this.efetuarCompraLink = JSON.parse(localStorage.getItem('efetuar-compra-back'));
-    if(this.efetuarCompraLink){
-      console.log(this.efetuarCompraLink);
-    }
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-
-    this.formaPagamentoService.getAll()
-    .then(resp => {
-      debugger;
-      console.log(resp);
-      this.formasPagamento = resp;
-      this.formasPagamento.forEach(forma => {
-        forma.cartao = Utils.escondeNroCartao(forma.cartao);
-      });
-      console.log(this.formasPagamento);
-    })
-    .catch(err => {
-      this.formasPagamento = [];
-      console.log(err);
-    })
+    this.efetuarCompraLink = JSON.parse(localStorage.getItem('efetuar-compra-back'));
+    this.formasPagamento = this.formaPagamentoService.formasPagamento;
+    // .then(todas => {
+      // this.formasPagamento = [];
+      // this.formasPagamento = todas;
+      // this.formasPagamento.forEach(forma => {
+      //   forma.cartao = Utils.escondeNroCartao(forma.cartao);
+      // });
+      // console.log(this.formasPagamento);
+    // })
+    // .catch(err => {
+    //   console.log(err);
+    //   this.exibirToast('Erro ao exibir formas de pagamento. Tente novamente.', 'md-circle-check');
+    // });
+    
 
     // this.formaPagamentoService.consultar()
     // .then(resp => {
@@ -73,6 +69,32 @@ export class FormasPagamentoPage implements OnInit {
     .then(resp => {
       this.exibirToast(resp, 'checkmark-circle');
     });
+  }
+
+  selecionarForma(forma: FormasPagamento, event, index: number){
+    // let copyFormas: FormasPagamento[] = [];
+    // this.formasPagamento = [];
+    // this.formasPagamento = copyFormas;
+    // console.log(this.formasPagamento)
+    let elemento = event.target;
+    let elementos = $('ion-radio');
+
+
+    if($(elemento).attr('aria-checked', 'true')){
+      if(index === 0){
+        //cartão
+        forma.pagamento = true;
+        elementos.forEach(item => {
+          $(item).hasClass('radio-checked') ? $(item).removeClass('radio-checked') : $(item).addClass('radio-checked');
+        })
+      }else if(index === 1){
+        //carteira
+
+      }
+      this.exibirToast('Forma de pagamento alterada com sucesso!', 'md-checkmark')
+      forma.pagamento = true;
+    }
+
   }
 
   exibirToast(msg: string, icone: string){

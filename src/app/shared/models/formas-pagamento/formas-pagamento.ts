@@ -7,4 +7,5 @@ export class FormasPagamento {
     cartao: CartoesCredito;
     carteira: Carteiras;
     usuario: Usuarios
+    pagamento: boolean;
 }
