@@ -1,7 +1,7 @@
 import { Usuarios } from '../usuarios/usuarios';
 
 export class CartoesCredito {
-    idCartao: number;
+    id: number;
     nroCartao: number;
     nomeTitular: string;
     dtVencimento: string;

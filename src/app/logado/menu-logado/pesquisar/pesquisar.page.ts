@@ -19,7 +19,7 @@ export class PesquisarPage implements OnInit {
   constructor(
     private eventoService:EventosService,
     private statusBar: StatusBar,
-    private nacCtrl: NavController
+    private navCtrl: NavController,
     ) { }
 
   ngOnInit() {
@@ -53,15 +53,14 @@ export class PesquisarPage implements OnInit {
 
     $('.melhor-resultado').removeClass('ion-hide');
     $('.melhor-resultado-card').removeClass('ion-hide');
-    // this.eventoService = new EventosService();
 
-    // if(this.eventoService.getEventoByQuery(event.target.value).length == 0){
-    //   this.erro = true;
-    //   $('.melhor-resultado-card').addClass('ion-hide');
-    // }else{
-    //   this._eventosFiltrados = this.eventoService.getEventoByQuery(event.target.value);
-    //   this.erro = false;
-    // }
+    if(this.eventoService.getEventoByQuery(event.target.value).length == 0){
+      this.erro = true;
+      $('.melhor-resultado-card').addClass('ion-hide');
+    }else{
+      this._eventosFiltrados = this.eventoService.getEventoByQuery(event.target.value);
+      this.erro = false;
+    }
   }
   
   verificarBlur(event){

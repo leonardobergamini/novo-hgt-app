@@ -6,22 +6,23 @@ import { Setores } from '../setores/setores';
 
 export class Eventos {
     id: number;
-    dtPublicacao: string;
+    nome
+    datapublicacao: string;
     imagem: string;
-    dtInicioEvento: string;
-    dtFimEvento: string;
-    dtInicioVendas: string;
-    dtInicioEventoFormatada: string;
-    dtFimEventoFormatada: string;
-    horaInicioEvento: string;
-    horaFimEvento: string;
+    dtinicioevento: string;
+    dtfimevento: string;
+    dtiniciovenda: string;
+    // dtinicioevento: string;
+    // dtFimEventoFormatada: string;
+    horainicioevento: string;
+    horafimevento: string;
     descricao: string;
     visualizacoes: string;
     setores: Setores[];
     produtor: Produtores;
-    categorias: Categorias[];
-    faixaEtaria: FaixasEtarias;
-    atracao: Atracoes;
+    idcategoria: Categorias;
+    faixasetarias: FaixasEtarias;
+    atracoes: Atracoes[];
 }
 
 

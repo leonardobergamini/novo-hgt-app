@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
@@ -7,6 +7,7 @@ import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import { NavController } from '@ionic/angular';
+import { ListaCategoriasComponent } from 'src/app/shared/componentes/lista-categorias/lista-categorias.component';
 
 @Component({
   selector: 'app-explorar',
@@ -15,11 +16,9 @@ import { NavController } from '@ionic/angular';
 })
 export class ExplorarPage implements OnInit {
 
-  // private eventos: Eventos[] = [];
-  
-  // eventosService: EventosService;
+  @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
   eventos: Eventos[];
-  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
+  categorias: string[] = ["show", "rock", "teatro", "palestra", "stand-up", "infantil"];
   usuarioLogado: any;
 
   constructor(
@@ -29,8 +28,15 @@ export class ExplorarPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#FF6700');
-    // this.eventosService = new EventosService();
+    this.statusBar.backgroundColorByHexString('#FF6700');    
+    this.eventoService.getAllEventos()
+    .then(resp => {
+      this.storage.remove('eventos')
+      .then(() => {
+        this.listaCategoriasPage.filtrarCategorias('show');
+        this.storage.set('eventos', resp);
+      })
+    });
     
   }
 
@@ -40,7 +46,6 @@ export class ExplorarPage implements OnInit {
 
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#FF6700');
-    // this.eventos = this.eventoService.getAllEventos();
     // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
     // console.log(this.usuarioLogado);
 

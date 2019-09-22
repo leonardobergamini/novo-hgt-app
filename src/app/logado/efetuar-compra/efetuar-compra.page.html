@@ -21,20 +21,20 @@
                     <ion-row>
                         <ion-col class="ion-no-margin ion-no-padding">
                             <ion-icon id="calendario" name="calendar"></ion-icon>
-                            <ion-text>{{eventoSelecionado.evento.dtInicioEventoFormatada}}</ion-text>
+                            <ion-text>{{eventoSelecionado.evento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col class="ion-no-margin ion-no-padding">
                             <ion-icon id="relogio" name="time"></ion-icon>
-                            <ion-text>{{eventoSelecionado.evento.horaInicioEvento}} às {{eventoSelecionado.evento.horaFimEvento}}</ion-text>
+                            <ion-text>{{eventoSelecionado.evento.horainicioevento | date: 'hh:mm'}} às {{eventoSelecionado.evento.horafimevento | date: 'hh:mm'}}</ion-text>
                         </ion-col>
                     </ion-row>
                     <ion-row>
                         <ion-col class="ion-no-margin ion-no-padding">
                             <ion-icon id="gps" name="pin"></ion-icon>
-                            <ion-text>{{eventoSelecionado.evento.setores[0].local.nome}}</ion-text>
-                            <ion-text> - {{eventoSelecionado.evento.setores[0].local.endereco}}</ion-text>
+                            <ion-text>{{eventoSelecionado.evento.setores[0].idlocal.nome}}</ion-text>
+                            <ion-text> - {{eventoSelecionado.evento.setores[0].idlocal.endereco}}</ion-text>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -82,15 +82,15 @@
                 <ion-card-title>forma de pagamento</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-                <div *ngIf="formaPagamento.length >= 1">
+                <div *ngIf="formaPagamentoSelecionada">
                     <ion-item lines="none">
-                        <ion-input hidden value="{{formaPagamento[0].idFormaPg}}"></ion-input>
+                        <ion-input hidden value="{{formaPagamentoSelecionada.id}}"></ion-input>
                         <ion-avatar slot="start">
-                            <img src="../../../../assets/icons/{{formaPagamento[0].cartao.bandeiraCartao | lowercase}}.svg">
+                            <img src="../../../../assets/icons/{{formaPagamentoSelecionada.cartao | lowercase}}.svg">
                         </ion-avatar>
                         <ion-label>
-                            <h3>**** {{formaPagamento[0].cartao.cartaoFormatado}}</h3>
-                            <h4>{{formaPagamento[0].cartao.nomeTitular | uppercase}} </h4>
+                            <h3>**** {{formaPagamentoSelecionada.cartao}}</h3>
+                            <h4>{{formaPagamentoSelecionada.cartao | uppercase}} </h4>
                         </ion-label>
                     </ion-item>
                 </div>

@@ -10,7 +10,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CartaoCreditoService } from '../cartao-credito/cartao-credito.service';
 import { Utils } from '../../utils/utils';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +22,7 @@ export class FormaPagamentoService {
 
   private id: number = 1;
   private arrayAllFormasPagamento: FormasPagamento[] = [];
-  private cartaoCredito: CartoesCredito[] = [];
+  private cartaoCredito: CartoesCredito;
   private carteira: Carteiras;
   // private formasPagamento: FormasPagamento[] = [];
   private formaPagamentoAtiva: FormasPagamento;
@@ -50,7 +49,7 @@ export class FormaPagamentoService {
   
   private cartoes: CartoesCredito[] = [
     {
-      idCartao: 1,
+      id: 1,
       nroCartao: 1234432114568765,
       codSeguranca: 456,
       dtVencimento: '09/23',
@@ -113,6 +112,32 @@ export class FormaPagamentoService {
     });
   }
 
+  update(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<string>{
+    return new Promise(async (resolve, reject) => {
+      let obj = {
+        bandeira: cartao.bandeira,
+        cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
+        codSegurancao: cartao.codSeguranca,
+        dtVencimento: cartao.dtVencimento,
+        nomeTitular: cartao.nomeTitular,
+        nroCartao: cartao.nroCartao,
+        idUsuario: 'api/usuarios/1'
+      }
+
+      let loading = await this.loadingController.create({
+        message: 'Cadastrando forma de pagamento...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(() => {
+        
+      });
+    });
+  }
+
   create(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<string>{
     return new Promise(async (resolve, reject) => {
       let obj = {
@@ -163,7 +188,7 @@ export class FormaPagamentoService {
     });
   }
 
-  getAll(): Promise<FormasPagamento[]>{
+  getAll(): Promise<FormasPagamento>{
     return new Promise(async (resolve, reject) => {
       
       let loading = await this.loadingController.create({
@@ -178,8 +203,30 @@ export class FormaPagamentoService {
         fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
         .then(todasFormas => todasFormas.json())
         .then(todasFormas => {
-          debugger;
-          this.formasPagamento = todasFormas['hydra:member'];
+          // this.formasPagamento = todasFormas['hydra:member'];
+          let formaPagamento = todasFormas['hydra:member'][0];
+
+          fetch(`https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
+          .then(resp => resp.json())
+          .then(json => {
+            this.cartaoCredito = json;
+            let obj: FormasPagamento = {
+              idFormaPg: formaPagamento.id,
+              cartao: this.cartaoCredito,
+              carteira: null,
+              usuario: this.usuario,
+              pagamento: true
+            }
+            // this.arrayAllFormasPagamento = [];
+            // this.arrayAllFormasPagamento.push(obj);
+            resolve(obj);
+            loading.dismiss();
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+
           // this.formasPagamento.forEach((item:any) => {
           //   debugger;
           //   fetch(`https://hgt-events.herokuapp.com${item.idCartao}`)
@@ -223,10 +270,10 @@ export class FormaPagamentoService {
           //   })
           // });        
           
-          this.quantidadeFormasPagamento = this.formasPagamento.length;
-          this.arrayAllFormasPagamento = this.formasPagamento;
-          resolve(this.arrayAllFormasPagamento);
-          loading.dismiss();
+          // this.quantidadeFormasPagamento = this.formasPagamento.length;
+          // this.arrayAllFormasPagamento = this.formasPagamento;
+          // resolve(this.arrayAllFormasPagamento);
+          
         })
         .catch(err =>{
           loading.dismiss();

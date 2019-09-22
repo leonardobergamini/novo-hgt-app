@@ -101,29 +101,28 @@ export class EventosService {
   //   }
   // }
 
-  // getEventoByQuery(query: string): Eventos[]{
-  //   this.eventos = this.getAllEventos();
+  getEventoByQuery(query: string): Eventos[]{
+    this.eventos = this.allEventos;
+    if(query){
+      return this.eventos.filter((evento) =>{ 
+        debugger;
+        return  JSON.stringify(evento.nome + JSON.stringify(evento.idcategoria)).trim().toLowerCase().includes(query.trim().toLowerCase())
+      });
+    }else{
+      throw new Error('Informe um termo para pesquisar.');
+    }
+  }
 
-  //   if(query){
-  //     return this.eventos.filter((evento) =>{ 
-  //       return  JSON.stringify(evento.atracao.nome + JSON.stringify(evento.categorias)).trim().toLowerCase().includes(query.trim().toLowerCase())
-  //     });
-  //   }else{
-  //     throw new Error('Informe um termo para pesquisar.');
-  //   }
-  // }
+  getEventoByCategorias(categoria:string){
+    let todosEventos = this.allEventos;
+    this.eventosFiltrados = [];
 
-  // getEventoByCategorias(categoria:string){
-  //     let todosEventos = this.allEventos;
-  
-  //     todosEventos.filter((evento: Eventos) =>{
-  //       evento.categorias.forEach((value, i) =>{
-  //         value.nome == categoria ? this.eventosFiltrados.push(evento) : null;
-  //       });
-  //     });
+    todosEventos.filter((evento: Eventos) =>{
+      evento.idcategoria.nome == categoria ? this.eventosFiltrados.push(evento) : null;
+    });
 
-  //     return this.eventosFiltrados; 
-  // }
+    return this.eventosFiltrados;
+  }
 
   // getNovosEventos(){
   //   this.eventoNovos = new Array();
@@ -155,7 +154,6 @@ export class EventosService {
         .then(json => {
           loading.dismiss();
           this.allEventos = json['hydra:member'];
-          console.log(json['hydra:member']);
           resolve(this.allEventos);
         })
         .catch(err => {

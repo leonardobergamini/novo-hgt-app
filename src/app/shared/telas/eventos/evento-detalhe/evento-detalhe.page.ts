@@ -60,7 +60,8 @@ export class EventoDetalhePage implements OnInit {
 
   voltar(){
     localStorage.removeItem('evento-detalhe');
-    this.navCtrl.navigateBack('menu-logado/explorar');
+    // this.navCtrl.navigateBack('menu-logado/explorar');
+    this.navCtrl.back();
   }
 
   validarCompra(evento){

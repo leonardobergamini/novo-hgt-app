@@ -2,7 +2,7 @@
     <ion-slides [options]="slidesOpts">
         <ion-slide *ngFor="let evento of eventos">
             <ion-card button="true" (click)="exibirDetalhes(evento)">
-                <app-img src="{{ evento.imagem }}" nomeEvento="{{ evento.nome }}" dataEvento="{{ evento.dtInicioEvento }}"></app-img>
+                <app-img src="{{ evento.imagem }}" nomeEvento="{{ evento.nome }}" dataEvento="{{ evento.dtinicioevento }}" localEvento="{{ evento.setores[0].idlocal.cidade }}/{{ evento.setores[0].idlocal.uf }}"></app-img>
             </ion-card>
         </ion-slide>
         <ion-slide *ngIf="erro"></ion-slide>
@@ -13,7 +13,7 @@
     <ion-slides [options]="slidesOpts">
         <ion-slide *ngFor="let eventoNovo of eventosNovos">
             <ion-card button="true" (click)="exibirDetalhes(eventoNovo)">
-                <app-img src="{{ eventoNovo.imagem }}" nomeEvento="{{ eventoNovo.atracao.nome }}" nomeEvento="{{ eventoNovo.locais.nome }}" dataEvento="{{ eventoNovo.dtInicioEvento }}" localEvento="{{ eventoNovo.setores[0].local.cidade }}/{{ eventoNovo.setores[0].local.uf }}"></app-img>
+                <app-img src="{{ eventoNovo.imagem }}" nomeEvento="{{ eventoNovo.nome }}" dataEvento="{{ eventoNovo.dtinicioevento }}" localEvento="{{ eventoNovo.setores[0].idlocal.cidade }}/{{ eventoNovo.setores[0].idlocal.uf }}"></app-img>
             </ion-card>
         </ion-slide>
         <ion-slide *ngIf="erro"></ion-slide>

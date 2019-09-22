@@ -6,6 +6,16 @@
     </ion-row>
     <ion-grid>
         <ion-row>
+            <h4 padding>categorias</h4>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="12">
+                <lista-categorias [categorias]="categorias"></lista-categorias>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
             <h4 padding>novidades</h4>
         </ion-row>
 
@@ -18,13 +28,6 @@
         <ion-row>
             <ion-col>
                 <divisor></divisor>
-            </ion-col>
-        </ion-row>
-
-
-        <ion-row>
-            <ion-col size="12">
-                <lista-categorias [categorias]="categorias"></lista-categorias>
             </ion-col>
         </ion-row>
 

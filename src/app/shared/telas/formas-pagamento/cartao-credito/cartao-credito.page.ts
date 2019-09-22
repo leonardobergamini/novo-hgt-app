@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController, NavController, IonItemSliding } from '@ionic/angular';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -10,6 +10,8 @@ import { FormaPagamentoService } from 'src/app/shared/services/formas-pagamento/
 import { Utils } from 'src/app/shared/utils/utils';
 import { CartoesCredito } from 'src/app/shared/models/cartoes-credito/cartoes-credito';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
+import { ActivatedRoute } from '@angular/router';
+import { CartaoCreditoService } from 'src/app/shared/services/cartao-credito/cartao-credito.service';
 
 @Component({
   selector: 'cartao-credito-page',
@@ -18,7 +20,10 @@ import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 })
 export class CartaoCreditoPage implements OnInit {
 
-  formCadastrarFormaPg: FormGroup;
+  private formCadastrarFormaPg: FormGroup;
+  private cartaoCredito: CartoesCredito;
+  private paramId: number = 0;
+  @ViewChild('itemCartaoCredito') ionSliding: IonItemSliding;
 
   mensagensValidacao = {
     'nroCartao': [
@@ -64,6 +69,8 @@ export class CartaoCreditoPage implements OnInit {
     private statusBar: StatusBar,
     private formaPagamentoService: FormaPagamentoService,
     private navCtrl: NavController,
+    private activatedRoute: ActivatedRoute,
+    private cartaoCreditoService: CartaoCreditoService
   ) { 
     this.formCadastrarFormaPg = formBuilder.group({
       nroCartao: ['', Validators.compose([Validators.required, Validators.minLength(16)])],
@@ -75,8 +82,30 @@ export class CartaoCreditoPage implements OnInit {
   }
 
   ngOnInit() {
-    this.statusBar.styleDefault();
-    console.log($('#txtDtVencimento'));
+    this.statusBar.styleDefault();    
+    this.paramId = this.activatedRoute.snapshot.params.idCartao;
+    if(this.paramId > 0){
+      this.cartaoCreditoService.getById(this.paramId)
+      .then(resp => {
+        this.cartaoCredito = resp;
+        this.formCadastrarFormaPg.get('nroCartao').setValue(this.cartaoCredito.nroCartao);
+        this.formCadastrarFormaPg.get('bandeira').setValue(this.cartaoCredito.bandeira);
+        this.formCadastrarFormaPg.get('nomeTitular').setValue(this.cartaoCredito.nomeTitular);
+        this.formCadastrarFormaPg.get('codSeguranca').setValue(this.cartaoCredito.codSeguranca);
+        this.formCadastrarFormaPg.get('dtVencimento').setValue(this.cartaoCredito.dtVencimento);
+        this.setDadosCodSeguranca(null, this.cartaoCredito.codSeguranca.toString());
+        this.setDadosDtVencimento(null, this.cartaoCredito.dtVencimento.toString());
+        this.setDadosNomeTitular(null, this.cartaoCredito.nomeTitular.toString());
+        this.setDadosNroCartao(null, this.cartaoCredito.nroCartao.toString());
+      })
+      .catch(err => {
+        this.exibirToast('Não foi possível encontrar seu cartão de crédito', 'close-circle');
+        this.ionSliding.closeOpened()
+        .then(() => {
+          this.navCtrl.back();
+        });
+      })
+    }
   }
 
   ionDidViewEnter(){
@@ -84,22 +113,38 @@ export class CartaoCreditoPage implements OnInit {
     this.statusBar.styleDefault();
   }
 
-  setDadosNroCartao(event){
-    let valor: string = event.target.value;
-    $('#txtNroCartao').text(valor.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,''));
+  setDadosNroCartao(event, value?: string){
+    if(value){
+      $('#txtNroCartao').text(value.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,''));
+    }else{
+      let valor: string = event.target.value;
+      $('#txtNroCartao').text(valor.replace(/(\d{4})/g, '$1 ').replace(/(^\s+|\s+$)/,''));
+    }
   }
 
-  setDadosDtVencimento(event){
-    let data: string = event.target.value;
-    $('#txtDtVencimento').text(Utils.formatarDataDiaMes(data.slice(0, 10)));
+  setDadosDtVencimento(event, value?: string){
+    if(value){
+      $('#txtDtVencimento').text(Utils.formatarDataDiaMes(value.slice(0, 10)));
+    }else{
+      let data: string = event.target.value;
+      $('#txtDtVencimento').text(Utils.formatarDataDiaMes(data.slice(0, 10)));
+    }
   }
 
-  setDadosCodSeguranca(event){
-    $('#txtCodSeguranca').text(event.target.value);
+  setDadosCodSeguranca(event, value?: string){
+    if(value){
+      $('#txtCodSeguranca').text(value);
+    }else{
+      $('#txtCodSeguranca').text(event.target.value);
+    }
   }
 
-  setDadosNomeTitular(event){
-    $('#txtNomeTitular').text(event.target.value);
+  setDadosNomeTitular(event, value?: string){
+    if(value){
+      $('#txtNomeTitular').text(value);
+    }else{
+      $('#txtNomeTitular').text(event.target.value);
+    }
   }
 
   onSubmit(){
@@ -110,16 +155,17 @@ export class CartaoCreditoPage implements OnInit {
       let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
       console.log(cartao);
       this.keyboard.hide();
-      this.formaPagamentoService.adicionar(null, cartao, null)
+      this.cartaoCreditoService.update(this.paramId, cartao)
       .then(resp => {
         console.log(resp);
-        this.exibirToast('Cartão cadastrado com sucesso!', 'checkmark-circle');
-        this.navCtrl.back();
+        this.exibirToast('Cartão alterado com sucesso!', 'checkmark-circle');
       })
       .catch(err => {
         console.log(err);
-        this.exibirToast(err, 'close-circle');
-      });
+        this.exibirToast(err, 'close-circle');  
+      })
+      this.navCtrl.navigateBack('menu-logado/perfil/formas-pagamento');
+      
     }
   }
 

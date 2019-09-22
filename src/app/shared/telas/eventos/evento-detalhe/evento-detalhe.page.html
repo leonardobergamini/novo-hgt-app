@@ -20,23 +20,23 @@
                 <div class="infos-complementar-content">
                     <div class="data">
                         <ion-icon id="calendario" name="calendar"></ion-icon>
-                        <ion-text>{{ evento.dtInicioEvento | date: 'dd/MM/yyyy' }}</ion-text>
+                        <ion-text>{{ evento.dtinicioevento | date: 'dd/MM/yyyy' }}</ion-text>
                     </div>
                     <div class="hora">
                         <ion-icon id="relogio" name="time"></ion-icon>
-                        <ion-text>{{ evento.horaInicioEvento | date: 'hh:mm'}} às {{ evento.horaFimEvento | date: 'hh:mm'}}</ion-text>
+                        <ion-text>{{ evento.horainicioevento | date: 'hh:mm'}} às {{ evento.horafimevento | date: 'hh:mm'}}</ion-text>
                     </div>
                     <divisor></divisor>
-                    <!-- <div class="local">
+                    <div class="local">
                         <ion-icon id="gps" name="pin"></ion-icon>
-                        <ion-text>{{ evento.setores[0].local.nome }}</ion-text>
-                    </div> -->
-                    <!-- <div class="endereco">
-                        <ion-text class="ion-text-center">{{ evento.setores[0].local.endereco }}</ion-text>
+                        <ion-text>{{ evento.setores[0].idlocal.nome }}</ion-text>
+                    </div>
+                    <div class="endereco">
+                        <ion-text class="ion-text-center">{{ evento.setores[0].idlocal.endereco }} - {{ evento.setores[0].idlocal.bairro }}</ion-text>
                     </div>
                     <div class="cidade-uf">
-                        <ion-text class="ion-text-uppercase">{{ evento.setores[0].local.cidade }}/{{ evento.setores[0].local.uf }}</ion-text>
-                    </div> -->
+                        <ion-text class="ion-text-uppercase">{{ evento.setores[0].idlocal.cidade }}/{{ evento.setores[0].idlocal.uf }}</ion-text>
+                    </div>
                 </div>
             </div>
             <div class="infos-content">

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Formas de pagamento</ion-title>
+        <ion-title>formas de pagamento</ion-title>
         <ion-buttons slot="start">
             <ion-back-button *ngIf="!efetuarCompraLink" text="" icon="ios-arrow-back" color="primary"></ion-back-button>
             <ion-back-button *ngIf="efetuarCompraLink" text="" icon="ios-arrow-back" color="primary" defaultHref="{{efetuarCompraLink.rota}}"></ion-back-button>
@@ -10,7 +10,7 @@
 
 <ion-content padding>
     <ion-radio-group>
-        <ion-card class="ion-no-margin" mode="ios">
+        <!-- <ion-card class="ion-no-margin" mode="ios">
             <ion-list lines="none">
                 <div *ngIf="formasPagamento[1]">
                     <ion-list-header>
@@ -23,29 +23,29 @@
                     </ion-item>
                 </div>
             </ion-list>
-        </ion-card>
+        </ion-card> -->
 
         <ion-card class="ion-no-margin" mode="ios">
-            <ion-list lines="none">
+            <ion-list lines="none" mode="ios">
                 <ion-list-header>
-                    cartões cadastrados
+                    cartão cadastrado
                 </ion-list-header>
-                <div id="cartoes-cadastrados" *ngIf="formasPagamento[0]">
-                    <ion-item-sliding>
+                <div id="cartoes-cadastrados" *ngIf="formaPagamento">
+                    <ion-item-sliding #itemCartaoCredito>
                         <ion-item>
-                            <ion-input hidden value="{{formasPagamento[0].idFormaPg}}"></ion-input>
+                            <ion-input hidden value="{{formaPagamento.idFormaPg}}"></ion-input>
                             <ion-avatar slot="start">
-                                <img src="../../../../assets/icons/{{formasPagamento[0].cartao.bandeira | lowercase}}.svg">
+                                <img src="../../../../assets/icons/{{formaPagamento.cartao.bandeira | lowercase}}.svg">
                             </ion-avatar>
                             <ion-label>
-                                <h3>**** {{formasPagamento[0].cartao.cartaoFormatado}}</h3>
-                                <h4>{{formasPagamento[0].cartao.nomeTitular | uppercase}} </h4>
+                                <h3>**** {{formaPagamento.cartao.cartaoFormatado}}</h3>
+                                <h4>{{formaPagamento.cartao.nomeTitular | uppercase}} </h4>
                             </ion-label>
-                            <ion-radio slot="end" color="secondary" name="sausage" checked (click)="selecionarForma(formasPagamento[0], $event, 0)"></ion-radio>
+                            <!-- <ion-radio slot="end" color="secondary" name="sausage" checked (click)="selecionarForma(formaPagamento, $event, 0)"></ion-radio> -->
                         </ion-item>
 
                         <ion-item-options side="end">
-                            <ion-item-option color="danger" (click)="excluirForma($event);">Excluir</ion-item-option>
+                            <ion-item-option color="tertiary" (click)="editarCartao(formaPagamento);">Editar</ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
                 </div>
@@ -53,9 +53,9 @@
         </ion-card>
 
     </ion-radio-group>
-    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-        <ion-fab-button color="success" routerLink="cartao-credito" [disabled]="!formasPagamento.length==0" routerDirection="forward">
+    <!-- <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="success" routerLink="cartao-credito" [disabled]="!formasPagamento" routerDirection="forward">
             <ion-icon name="add-circle-outline"></ion-icon>
         </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
 </ion-content>

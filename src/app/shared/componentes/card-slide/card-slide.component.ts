@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Eventos } from '../../models/eventos/eventos';
@@ -8,6 +8,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { Storage } from '@ionic/storage';
+import { ListaCategoriasComponent } from '../lista-categorias/lista-categorias.component';
 
 @Component({
   selector: 'card-slide',
@@ -87,14 +88,18 @@ export class CardSlideComponent implements OnInit{
   // }
 
   carregarEventos(){
-    this.eventoService.getAllEventos()
+    this.storage.get('eventos')
     .then(resp => {
       this.eventos = resp;
-      this.storage.set('eventos', this.eventos);
     })
-    .catch(err => {
-      console.log(err);
-    });
+    // this.eventoService.getAllEventos()
+    // .then(resp => {
+    //   this.eventos = resp;
+    //   this.storage.set('eventos', this.eventos);
+    // })
+    // .catch(err => {
+    //   console.log(err);
+    // });
   }
 
   async exibirDetalhes(evento){

@@ -79,7 +79,16 @@ const routes: Routes = [
               },
               {
                 path: 'cartao-credito', 
-                loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                children: [
+                  {
+                    path: '',
+                    loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                  },
+                  {
+                    path: ':idCartao',
+                    loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                  }
+                ]
               }
             ]
           },

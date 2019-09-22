@@ -17,7 +17,7 @@ import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-p
 })
 export class EfetuarCompraPage implements OnInit {
   private eventoSelecionado: EventoSetoresSelecionado = null;
-  private formaPagamentoSelecionada: FormasPagamento[];
+  private formaPagamentoSelecionada: FormasPagamento;
 
   constructor(
     private storage: Storage,
@@ -39,6 +39,7 @@ export class EfetuarCompraPage implements OnInit {
       this.eventoSelecionado = resp;
       this.formaPagamentoService.getFormaPagamentoAtiva()
       .then(resp => {
+        this.formaPagamentoSelecionada = resp;
         console.log(resp);
       })
       .catch(err => {
