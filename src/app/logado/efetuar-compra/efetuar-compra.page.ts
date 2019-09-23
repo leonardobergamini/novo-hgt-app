@@ -55,11 +55,18 @@ export class EfetuarCompraPage implements OnInit {
       evento: this.eventoSelecionado.evento,
       setores: this.eventoSelecionado.setores,
       valorTotal: this.eventoSelecionado.valorTotal,
-      // formaPagamento: this.formaPagamento,
+      formaPagamento: this.formaPagamentoSelecionada,
       qtdIngressos: this.eventoSelecionado.qtdIngressos
     };
     console.log(pedidoConfirmado);
-    this.pedidoService.novoPedido(pedidoConfirmado)
+    // this.pedidoService.novoPedido(pedidoConfirmado)
+    this.pedidoService.create(pedidoConfirmado)
+    .then(resp => {
+
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 
   getStoragePedido(): Promise<EventoSetoresSelecionado>{

@@ -17,6 +17,19 @@ export class TicketsService {
     private loadingController: LoadingController
   ) { }
 
+  create(ticket): Promise<Tickets>{
+    return new Promise((resolve, reject) => {
+      let obj = {
+        isMeiaEntrada: false,
+        setor: "SETOR A",
+        preco: 50,
+        idTitular: "/api/usuarios/1",
+        idPedido: "/api/pedidos/1",
+        idEvento: "/api/eventos/1"
+      }
+    });
+  }
+
   async novoTicket(arrayTickets: Tickets[]){
     let loading = await this.loadingController.create({
       message: 'Finalizando compra...',

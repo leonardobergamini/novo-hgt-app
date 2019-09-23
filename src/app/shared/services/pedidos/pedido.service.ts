@@ -37,6 +37,69 @@ export class PedidoService{
   // }
 ]
 
+create(pedido): Promise<Pedidos>{
+  return new Promise(async (resolve, reject) => {
+    let loading = await this.loadingController.create({
+      message: 'Finalizando pedido...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+
+    loading.present()
+    .then(() => {
+      this.adicionarTicketsPedidos(pedido);
+
+      if(this.tickets.length > 0){
+        let idFormaPagamento = `\/api\/formas_pagamentos\/${pedido.formaPagamento.idFormaPg}`;
+        let obj = {
+          idFormaPg: idFormaPagamento,
+          isValido: true
+        }
+        fetch('https://hgt-events.herokuapp.com/api/pedidos', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+        .then(resp => {
+          debugger;
+          console.log(resp);
+          this.getLast()
+          .then(resp => {
+            debugger;
+            console.log(resp);
+          })
+        })
+        .catch(err => {
+          console.log(err);
+          reject(err);
+        });
+      }
+    })
+  });
+}
+
+getLast(): Promise<Pedidos>{
+  return new Promise((resolve, reject) => {
+    fetch('https://hgt-events.herokuapp.com/api/pedidos')
+    .then(resp => resp.json())
+    .then(json => {
+      debugger;
+      let qtdItens = json['hydra:totalItems'];
+      let tmp = json['hydra:member'][qtdItens - 1];
+
+      console.log(tmp);
+      // let obj: Pedidos = {
+      //   id: tmp.id,
+      //   formaPagamento: 
+      // }
+      resolve(tmp)
+    })
+  });
+}
+
   novoPedido(pedido){
     this.pedidos.push(
       {
