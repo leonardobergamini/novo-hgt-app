@@ -95,6 +95,7 @@ export class UsuarioService {
             usuario: 'berganardo'
           }
           localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+          localStorage.setItem('isUsuarioLogado', 'true');
           this.router.navigate(['menu-logado/explorar']);
           resolve();
         });
@@ -108,5 +109,8 @@ export class UsuarioService {
   sair(): void{
     console.log('saindo...');
     this.router.navigate(['menu/explorar']);
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('detalhe-evento');
+    localStorage.removeItem('isUsuarioLogado');
   }
 }

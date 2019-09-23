@@ -41,7 +41,7 @@ export class CartaoCreditoService {
   }
 
   update(id:number, cartao: CartoesCredito): Promise<string>{
-    return new Promise(async (reject, resolve) => {
+    return new Promise(async (resolve, reject) => {
       let obj = {
         bandeira: cartao.bandeira,
         codSeguranca: Number(cartao.codSeguranca),

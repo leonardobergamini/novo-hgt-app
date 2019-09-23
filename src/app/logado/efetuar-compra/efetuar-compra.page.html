@@ -86,11 +86,11 @@
                     <ion-item lines="none">
                         <ion-input hidden value="{{formaPagamentoSelecionada.id}}"></ion-input>
                         <ion-avatar slot="start">
-                            <img src="../../../../assets/icons/{{formaPagamentoSelecionada.cartao | lowercase}}.svg">
+                            <img src="../../../../assets/icons/{{formaPagamentoSelecionada.cartao.bandeira | lowercase}}.svg">
                         </ion-avatar>
                         <ion-label>
-                            <h3>**** {{formaPagamentoSelecionada.cartao}}</h3>
-                            <h4>{{formaPagamentoSelecionada.cartao | uppercase}} </h4>
+                            <h3>**** {{formaPagamentoSelecionada.cartao.cartaoFormatado}}</h3>
+                            <h4>{{formaPagamentoSelecionada.cartao.nomeTitular | uppercase}} </h4>
                         </ion-label>
                     </ion-item>
                 </div>

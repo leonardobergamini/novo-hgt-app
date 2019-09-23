@@ -46,11 +46,11 @@ export class FormasPagamentoPage implements OnInit {
       this.exibirToast('Erro ao exibir formas de pagamento. Tente novamente.', 'md-circle-check');
     });
 
-    this.itemSlide.close();
+    this.itemSlide.closeOpened();
   }
 
   ionViewDidLeave(){
-    localStorage.removeItem('efetuar-compra-back');
+    // localStorage.removeItem('efetuar-compra-back');
   }
 
   editarCartao(cartao){

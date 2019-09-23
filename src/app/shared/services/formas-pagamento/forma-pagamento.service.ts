@@ -94,20 +94,34 @@ export class FormaPagamentoService {
       .then(() => {
         fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
         .then(resp => resp.json())
-        .then(json => {
-          let array = json['hydra:member'];
-          this.formaPagamentoAtiva = null;
-          array.forEach(item => {
-            item.pagamento === true ? this.formaPagamentoAtiva = item : null
-          });
-          resolve(this.formaPagamentoAtiva);
-          loading.dismiss();
+        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
+        .then(todasFormas => todasFormas.json())
+        .then(todasFormas => {
+          let formaPagamento = todasFormas['hydra:member'][0];
+
+          fetch(`https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
+          .then(resp => resp.json())
+          .then(json => {
+            this.cartaoCredito = json;
+            let obj: FormasPagamento = {
+              idFormaPg: formaPagamento.id,
+              cartao: this.cartaoCredito,
+              carteira: null,
+              usuario: this.usuario,
+              pagamento: true
+            }
+            resolve(obj);
+            loading.dismiss();
+          })
+          .catch(err => {
+            console.log(err);
+          })          
         })
-        .catch(err => {
-          console.log(err);
-          reject('Erro ao consultar forma de pagamento ativa');
+        .catch(err =>{
           loading.dismiss();
-        });
+          reject('Erro ao consultar forma de pagamento ativa.');
+          console.log(err);
+        })
       });
     });
   }
@@ -224,56 +238,7 @@ export class FormaPagamentoService {
           })
           .catch(err => {
             console.log(err);
-          })
-
-
-          // this.formasPagamento.forEach((item:any) => {
-          //   debugger;
-          //   fetch(`https://hgt-events.herokuapp.com${item.idCartao}`)
-          //   .then(cartao => cartao.json())
-          //   .then(cartao => {         
-          //     debugger;   
-          //     let idCarteira = cartao['hydra:member'][0].idCarteira;
-          //     fetch(`https://hgt-events.herokuapp.com${idCarteira}`)
-          //     .then(resp => resp.json())
-          //     .then(json => {
-          //       this.carteira = json;
-          //       this.cartaoCredito.push(cartao);
-                
-          //       this.arrayAllFormasPagamento = [];
-          //       this.formasPagamento.forEach((forma: any) => {
-          //         debugger;
-          //         let obj: FormasPagamento = {
-          //           idFormaPg: forma.id,
-          //           cartao: this.cartaoCredito[0],
-          //           carteira: this.carteira,
-          //           usuario: this.usuario,
-          //           pagamento: false
-          //         }
-          //         this.arrayAllFormasPagamento.push(obj);
-          //       })
-          //       this.quantidadeFormasPagamento = this.formasPagamento.length;
-
-          //       resolve(this.arrayAllFormasPagamento);
-          //       loading.dismiss();
-          //     })
-          //     .catch(err => {
-          //       loading.dismiss();
-          //       console.log(err);
-          //       reject('Erro ao consultar sua carteira.');
-          //     });
-          //   })
-          //   .catch(err => {
-          //     loading.dismiss();
-          //     console.log(err);
-          //     reject('Erro ao consultar seus cartões');
-          //   })
-          // });        
-          
-          // this.quantidadeFormasPagamento = this.formasPagamento.length;
-          // this.arrayAllFormasPagamento = this.formasPagamento;
-          // resolve(this.arrayAllFormasPagamento);
-          
+          })          
         })
         .catch(err =>{
           loading.dismiss();

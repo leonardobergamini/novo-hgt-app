@@ -17,6 +17,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class EventoDetalhePage implements OnInit {
 
+  private isUsuarioLogado: boolean;
+  private rotaVoltar: string;
   private id: number = 0;
   private contador: number = 0;
   private evento: Eventos = null;
@@ -50,6 +52,8 @@ export class EventoDetalhePage implements OnInit {
   ionViewDidEnter(){ 
     this.removerValorTotalNoBotao();
     this.arraySomenteSetoresSelecionados = [];
+
+    this.isUsuarioLogado = Boolean(localStorage.getItem('isUsuarioLogado'));
   }
 
   ionViewDidLeave(){ }
@@ -59,9 +63,12 @@ export class EventoDetalhePage implements OnInit {
   }
 
   voltar(){
+    if(this.isUsuarioLogado){
+      this.navCtrl.navigateBack('menu-logado/explorar');
+    }else{
+      this.navCtrl.navigateBack('menu/explorar');
+    }
     localStorage.removeItem('evento-detalhe');
-    // this.navCtrl.navigateBack('menu-logado/explorar');
-    this.navCtrl.back();
   }
 
   validarCompra(evento){

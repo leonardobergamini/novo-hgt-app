@@ -9,6 +9,7 @@ import { Pedidos } from 'src/app/shared/models/pedidos/pedidos';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import * as $ from 'jquery';
 import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-pagamento';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -40,7 +41,7 @@ export class EfetuarCompraPage implements OnInit {
       this.formaPagamentoService.getFormaPagamentoAtiva()
       .then(resp => {
         this.formaPagamentoSelecionada = resp;
-        console.log(resp);
+        this.formaPagamentoSelecionada.cartao = Utils.escondeNroCartao(this.formaPagamentoSelecionada.cartao);
       })
       .catch(err => {
         console.log(err);
