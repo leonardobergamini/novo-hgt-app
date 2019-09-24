@@ -131,6 +131,15 @@ const routes: Routes = [
         ]
       },
       { 
+        path: 'anuncios', 
+        children: [
+          {
+            path: '',
+            loadChildren: './shared/telas/anuncios/anuncios.module#AnunciosPageModule'
+          }
+        ]
+      },
+      { 
         path: 'efetuar-compra', 
         loadChildren: './logado/efetuar-compra/efetuar-compra.module#EfetuarCompraPageModule' 
       },
@@ -163,7 +172,6 @@ const routes: Routes = [
 
     ]
   },
-  { path: 'anuncios', loadChildren: './shared/telas/anuncios/anuncios.module#AnunciosPageModule' },
 
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
 
