@@ -36,29 +36,20 @@ export class MeusIngressosPage implements OnInit {
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    this.ticketService.getTicket()
+    this.pedidoService.getTicketsPedidoByUsuarioLogado()
     .then(resp => {
-      this.tickets = resp;
-      this.qtdTickets = this.tickets.length;
-      this.ticketsPorPedido = this.pedidoService.arrayTicketsPorPedido;
-      // console.log(this.pedidoService.arrayTicketsPorPedido);
-      // console.log(this.tickets);
+      this.ticketsPorPedido = resp;
+      console.log(resp);
     })
     .catch(err => {
       console.log(err);
-    })
+    });
   }
 
   async selecionarPedido(param, i){
     if(param){
-      // const modal = await this.modalController.create({
-      //   component: DetalhePedidoPage,
-      //   componentProps: {
-      //     pedido: param.pedido,
-      //     tickets: param.tickets
-      //   }
       localStorage.setItem('detalhe-pedido', JSON.stringify(param));
-      this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${param.pedido.id}`)
+      this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${param.pedido}`)
     }
   }
 

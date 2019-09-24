@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class RevenderPage implements OnInit {
 
   private id: number = 0;
+  private pedido: number = 0;
   private ticket: Tickets = null;
   private formRevender: FormGroup;
 
@@ -37,7 +38,7 @@ export class RevenderPage implements OnInit {
     console.log(this.ticket);
   }
 
-  fecharModal(){
+  voltar(){
     localStorage.removeItem('ticket');
     this.navCtrl.navigateBack(`menu-logado/meus-ingressos/detalhe-pedido/${this.id}`);
     // this.modalController.dismiss();

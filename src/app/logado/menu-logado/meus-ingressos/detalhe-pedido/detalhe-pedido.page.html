@@ -8,14 +8,17 @@
 </ion-header>
 <ion-content padding>
     <ion-slides pager="true">
-        <ion-slide *ngFor="let ticket of objPedido.tickets; let i = index">
+        <ion-slide *ngFor="let ticket of arrayTickets.tickets; let i = index">
             <div>
                 <div>
-                    <ion-card class="ion-no-margin" button (click)="presentar(ticket, i)">
+                    <ion-card class="ion-no-margin" button (click)="acoes(ticket, i)">
                         <ion-grid class="ion-no-padding">
+                            <ion-row>
+                                ticket #000{{ticket.id}}
+                            </ion-row>
                             <ion-row class="margem-baixo10">
                                 <ion-col>
-                                    <h3>{{ticket.evento.nome}}</h3>
+                                    <h3>{{ticket.idevento.nome}}</h3>
                                 </ion-col>
                             </ion-row>
                             <ion-row>
@@ -28,10 +31,10 @@
                             </ion-row>
                             <ion-row>
                                 <ion-col size="6" class="ion-no-padding">
-                                    <ion-text class="fonte-tamanho14">{{ticket.evento.dtInicioEvento}}</ion-text>
+                                    <ion-text class="fonte-tamanho14">{{ticket.idevento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
                                 </ion-col>
                                 <ion-col size="6" class="ion-no-padding">
-                                    <ion-text class="fonte-tamanho14">{{ticket.evento.horaInicioEvento}} às {{ticket.evento.horaFimEvento}}</ion-text>
+                                    <ion-text class="fonte-tamanho14">{{ticket.idevento.horainicioevento | date: 'hh:mm'}} às {{ticket.idevento.horafimevento | date: 'hh:mm'}}</ion-text>
                                 </ion-col>
                             </ion-row>
                             <ion-row>
@@ -41,7 +44,7 @@
                             </ion-row>
                             <ion-row>
                                 <ion-col size="6" class="ion-no-padding">
-                                    <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.nome}}</ion-text>
+                                    <!-- <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.nome}}</ion-text> -->
                                 </ion-col>
                             </ion-row>
                             <ion-row>
@@ -54,7 +57,7 @@
                             </ion-row>
                             <ion-row>
                                 <ion-col size="6" class="ion-no-padding">
-                                    <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.endereco}}</ion-text>
+                                    <!-- <ion-text class="fonte-tamanho14">{{ticket.evento.setores[0].local.endereco}}</ion-text> -->
                                 </ion-col>
                                 <ion-col size="6" class="ion-no-padding">
                                     <ion-text class="fonte-tamanho14">{{ticket.setor}}</ion-text>
@@ -64,7 +67,7 @@
                     </ion-card>
                 </div>
                 <div class="qr-code">
-                    <ion-card class="ion-no-margin">
+                    <ion-card class="ion-no-margin" button (click)="acoes(ticket, i)">
                         <qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>
                     </ion-card>
                 </div>

@@ -37,7 +37,7 @@ export class PedidoService{
   // }
 ]
 
-create(pedido): Promise<Pedidos>{
+create(pedido): Promise<string>{
   return new Promise(async (resolve, reject) => {
     let loading = await this.loadingController.create({
       message: 'Finalizando pedido...',
@@ -64,61 +64,70 @@ create(pedido): Promise<Pedidos>{
           body: JSON.stringify(obj)
         })
         .then(resp => {
-          debugger;
-          console.log(resp);
           this.getLast()
           .then(resp => {
-            debugger;
-            console.log(resp);
+            let obj = {
+              pedido: resp,
+              tickets: this.tickets
+            }
+            console.log(obj);
+            this.ticketService.create(obj)
+            .then(resp => {
+              resolve('Pedido feito');
+              loading.dismiss();
+            })
+            .catch(err => {
+              console.log(err);
+              reject('Erro ao fazer pedido');
+              loading.dismiss();
+            })
           })
         })
         .catch(err => {
           console.log(err);
           reject(err);
         });
+      }else{
+        reject('Erro ao criar pedido.');
       }
     })
   });
 }
 
 getLast(): Promise<Pedidos>{
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     fetch('https://hgt-events.herokuapp.com/api/pedidos')
     .then(resp => resp.json())
     .then(json => {
-      debugger;
       let qtdItens = json['hydra:totalItems'];
       let tmp = json['hydra:member'][qtdItens - 1];
-
-      console.log(tmp);
-      // let obj: Pedidos = {
-      //   id: tmp.id,
-      //   formaPagamento: 
-      // }
       resolve(tmp)
+    })
+    .catch(err => {
+      reject(err);
     })
   });
 }
 
-  novoPedido(pedido){
-    this.pedidos.push(
-      {
-        id: this.id++,
-        formaPagamento: pedido.formaPagamento[0],
-        isValido: true
-      }
-    );    
-    this.adicionarTicketsPedidos(pedido);
-    this.getTicketsPorPedido(this.tickets);
+  // novoPedido(pedido){
+  //   this.pedidos.push(
+  //     {
+  //       id: this.id++,
+  //       formaPagamento: pedido.formaPagamento[0],
+  //       isValido: true
+  //     }
+  //   );    
+  //   this.adicionarTicketsPedidos(pedido);
+  //   this.getTicketsPorPedido(this.tickets);
 
-    if(this.tickets.length > 0){
-      this.ticketService.novoTicket(this.tickets);
-      this.navCtrl.setDirection('forward');
-      this.navCtrl.navigateForward('menu-logado/meus-ingressos');
-    }
+  //   if(this.tickets.length > 0){
+  //     this.ticketService.novoTicket(this.tickets);
+  //     this.navCtrl.setDirection('forward');
+  //     this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+  //   }
     
-    this.tickets = [];
-  }
+  //   this.tickets = [];
+  // }
 
   adicionarTicketsPedidos(pedido){
     pedido.setores.forEach((value, index) => {
@@ -139,23 +148,40 @@ getLast(): Promise<Pedidos>{
     });
   }
 
-  getTicketsPorPedido(tickets, idPedido?: number): TicketsPedido[]{ 
-    let arrayPedidosComTickets = this.arrayTicketsPorPedido;
-    if(idPedido > 0){
-      arrayPedidosComTickets.filter(value => {
-        if(value.pedido.id === idPedido){
-          this.arrayTicketsPorIdPedido.push(value);
-          return this.arrayTicketsPorIdPedido;
-        }
+  getTicketsPedidoByUsuarioLogado(): Promise<TicketsPedido[]>{ 
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Carregando seus pedidos...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
       });
-    }else{
-      let objPedido = tickets[0].pedido;
-      this.objTickesPorPedido = {
-        pedido: objPedido,
-        tickets
-      };
-      this.arrayTicketsPorPedido.push(this.objTickesPorPedido);
-      return this.arrayTicketsPorIdPedido
-    }
+  
+      loading.present()
+      .then(() => {
+        let idUsuario = 1;
+        fetch(`https://hgt-events.herokuapp.com/api/usuarios/${idUsuario}`)
+        .then(resp => resp.json())
+        .then(json => {
+          let response = json['formaspagamento'][0]['pedidos'];
+
+          let array: TicketsPedido[] = []
+          let obj: TicketsPedido;
+          response.forEach(item => {
+            obj = {
+              pedido: item.id,
+              tickets: item.tickets
+            }
+            array.push(obj);
+          });
+          resolve(array);
+          loading.dismiss();
+        })
+        .catch(err => {
+          reject(err);
+          loading.dismiss();
+        })
+      });
+    })
   }
 }

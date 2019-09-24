@@ -59,10 +59,10 @@ export class EfetuarCompraPage implements OnInit {
       qtdIngressos: this.eventoSelecionado.qtdIngressos
     };
     console.log(pedidoConfirmado);
-    // this.pedidoService.novoPedido(pedidoConfirmado)
     this.pedidoService.create(pedidoConfirmado)
     .then(resp => {
-
+      console.log(resp);
+      this.navCtrl.navigateForward('menu-logado/meus-ingressos');
     })
     .catch(err => {
       console.log(err);

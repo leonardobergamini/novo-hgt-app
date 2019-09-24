@@ -6,6 +6,7 @@ import { RevenderPage } from './revender/revender.page';
 import { ActivatedRoute } from '@angular/router';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import { TicketsPedido } from 'src/app/shared/interfaces/tickets-pedido/tickets-pedido';
+import { Tickets } from 'src/app/shared/models/tickets/tickets';
 
 @Component({
   selector: 'app-detalhe-pedido',
@@ -18,7 +19,7 @@ export class DetalhePedidoPage implements OnInit {
   private tickets;
   private objPedido;
   private id: number = 0;
-  private arrayPedidos: TicketsPedido[] = [];
+  private arrayTickets: Tickets;
 
   constructor(
     private statusBar: StatusBar,
@@ -39,24 +40,14 @@ export class DetalhePedidoPage implements OnInit {
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
     this.id = this.id = Number(this.activatedRoute.snapshot.paramMap.get('idPedido'));
-    this.pedidoService.getTicketsPorPedido([], this.id);
-    this.arrayPedidos = this.pedidoService.arrayTicketsPorIdPedido;
-    console.log(this.arrayPedidos);
-    this.arrayPedidos.forEach(item => {
-      this.objPedido = {
-        pedido: item.pedido,
-        tickets: item.tickets
-      }
-    });
-    console.log(this.objPedido);
+    this.arrayTickets = JSON.parse(localStorage.getItem('detalhe-pedido'));
   }
 
   fecharModal(){
     this.modalController.dismiss();
   }
 
-  async presentar(ticket, i){
-    console.log(ticket);
+  async acoes(ticket, i){
     const actionSheet = await this.actionSheetController.create({
       header: 'Ações',
       buttons: [ 
@@ -68,8 +59,8 @@ export class DetalhePedidoPage implements OnInit {
             const modalPresentear = await this.modalController.create({
               component: PresentearPage,
               componentProps: {
-                pedido: ticket.pedido,
-                ticket: this.objPedido.tickets[i]
+                pedido: this.arrayTickets.pedido,
+                ticket: ticket
               }
             });
             console.log(ticket);

@@ -40,6 +40,20 @@
                 </div>
             </div>
             <div class="infos-content">
+                <div class="ingressos-revenda">
+                    <p class="ion-text-center">Esse evento possui ingressos para <span class="txt-negrito">revenda.</span></p>
+                    <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap">
+                        clique e confira
+                        <ion-icon slot="end" name="md-arrow-forward"></ion-icon>
+                    </ion-button>
+                </div>
+                <divisor></divisor>
+
+                <!-- <div> -->
+                <!-- <p class="ion-text-center">
+                        ou
+                    </p> -->
+                <!-- </div> -->
                 <div class="setoresComPrecos">
                     <h4>setores e preços</h4>
                     <ion-list lines="none" class="ion-no-margin ion-no-padding">
@@ -52,9 +66,6 @@
                                 <contador-hgt max="5" (clickAdicionar)="selecionarSetor(setor, $event)" (clickSubtrair)="selecionarSetor(setor, $event)"></contador-hgt>
                             </ion-item>
                         </div>
-                        <ion-item>
-
-                        </ion-item>
                     </ion-list>
                 </div>
                 <div class="detalhes">
