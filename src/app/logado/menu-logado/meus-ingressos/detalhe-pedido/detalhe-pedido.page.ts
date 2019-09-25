@@ -43,6 +43,11 @@ export class DetalhePedidoPage implements OnInit {
     this.arrayTickets = JSON.parse(localStorage.getItem('detalhe-pedido'));
   }
 
+  ionViewWillEnter(){
+    this.statusBar.backgroundColorByHexString('#fff');
+    this.statusBar.styleDefault();
+  }
+
   fecharModal(){
     this.modalController.dismiss();
   }

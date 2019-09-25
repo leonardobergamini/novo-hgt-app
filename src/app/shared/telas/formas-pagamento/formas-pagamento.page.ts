@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { FormaPagamentoService } from '../../services/formas-pagamento/forma-pagamento.service';
 import { FormasPagamento } from '../../models/formas-pagamento/formas-pagamento';
-import { NavController, ToastController, ActionSheetController, AlertController, IonItemSliding } from '@ionic/angular';
+import { NavController, ToastController, ActionSheetController, AlertController, IonItemSliding, PopoverController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 import { Utils } from '../../utils/utils';
@@ -18,7 +18,6 @@ export class FormasPagamentoPage implements OnInit {
   public formaPagamento: FormasPagamento;
   private toast;
   public efetuarCompraLink;
-  @ViewChild('itemCartaoCredito') itemSlide: IonItemSliding;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
@@ -26,7 +25,8 @@ export class FormasPagamentoPage implements OnInit {
     private statusBar: StatusBar,
     private toastController: ToastController,
     private alertController: AlertController,
-    private cartaoCreditoService: CartaoCreditoService
+    private cartaoCreditoService: CartaoCreditoService,
+    private actionSheetController: ActionSheetController
   ) { }
 
   ngOnInit() {}
@@ -46,7 +46,6 @@ export class FormasPagamentoPage implements OnInit {
       this.exibirToast('Erro ao exibir formas de pagamento. Tente novamente.', 'md-circle-check');
     });
 
-    this.itemSlide.closeOpened();
   }
 
   ionViewDidLeave(){
@@ -137,4 +136,29 @@ export class FormasPagamentoPage implements OnInit {
       toastData.present();
     });  
   }
+
+  async acoes(cartao){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Ações',
+      buttons: [ 
+      {
+        text: 'Editar',
+        icon: 'create',
+        handler: () => {
+          this.navCtrl.navigateForward(`menu-logado/perfil/formas-pagamento/cartao-credito/${cartao.cartao.id}`);
+        }
+      }, 
+      {
+        text: 'Fechar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('fechar clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  
 }

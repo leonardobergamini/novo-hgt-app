@@ -1,29 +1,72 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar mode="md">
         <ion-title class="ion-text-center">meus anúncios</ion-title>
     </ion-toolbar>
+
+    <ion-segment class="margem-cima20" mode="md">
+        <ion-segment-button value="ativos" checked (click)="selecionar('ativos')">
+            <ion-label>
+                ativos
+                <ion-badge color="primary" slot="end">{{arrayAnunciosAtivos.length}}</ion-badge>
+            </ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="vendidos" (click)="selecionar('vendidos')">
+            <ion-label>
+                vendidos
+                <ion-badge color="primary" slot="end">{{arrayAnunciosVendidos.length}}</ion-badge>
+            </ion-label>
+        </ion-segment-button>
+    </ion-segment>
 </ion-header>
 
 <ion-content>
+    <ion-slides #formSlides>
+        <ion-slide>
+            <ion-list lines="inset" mode="ios" inset="true">
+                <div *ngIf="arrayAnunciosAtivos.length > 0; else semAtivos">
+                    <ion-item *ngFor="let anuncio of arrayAnunciosAtivos" button (click)="opcoes(anuncio)" mode="ios">
+                        <ion-label>
+                            <div>
+                                <p class="ion-text-center fonte-tamanho16">anúncio #000{{anuncio.id}}</p>
+                                <p>ticket #000{{anuncio.idticket.id}}</p>
+                            </div>
+                            <h2>{{anuncio.idticket.idevento.nome}}</h2>
+                            <h3>{{anuncio.idticket.setor}}</h3>
+                            <h2>Preço à venda: R$ {{anuncio.preco}}</h2>
+                        </ion-label>
+                    </ion-item>
+                </div>
+                <ng-template #semAtivos>
+                    <ion-list lines="inset" mode="ios" inset="true">
+                        <ion-item mode="ios">
+                            <ion-label>sem ingressos ativos...</ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ng-template>
+            </ion-list>
+        </ion-slide>
+        <ion-slide>
+            <ion-list lines="inset" mode="ios" inset="true">
+                <div *ngIf="arrayAnunciosVendidos.length > 0; else semVendidos">
+                    <ion-item *ngFor="let anuncio of arrayAnunciosVendidos" mode="ios">
+                        <ion-label>
+                            <p>anúncio #000{{anuncio.id}}</p>
+                            <h2>{{anuncio.idticket.idevento.nome}}</h2>
+                            <h3>Preço vendido: {{anuncio.preco | currency: 'BRL'}}</h3>
+                            <h3>Data da venda: 26/09/2019</h3>
+                        </ion-label>
+                    </ion-item>
+                </div>
+                <ng-template #semVendidos>
+                    <ion-list lines="inset" mode="ios" inset="true">
+                        <ion-item mode="ios">
+                            <ion-label>sem ingressos vendidos...</ion-label>
+                        </ion-item>
+                    </ion-list>
+                </ng-template>
+            </ion-list>
+        </ion-slide>
+    </ion-slides>
 
-    <ion-list lines="inset" mode="ios" inset="true">
-        <ion-item-sliding>
-            <ion-item>
-                <ion-label>Item</ion-label>
-            </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option (click)="unread(item)">Unread</ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-
-        <ion-item-sliding>
-            <ion-item>
-                <ion-label>Item</ion-label>
-            </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option (click)="unread(item)">Unread</ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
 
 </ion-content>

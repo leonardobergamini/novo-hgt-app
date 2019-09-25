@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { NavController, ActionSheetController, IonSegment, AlertController } from '@ionic/angular';
+import { AnunciosService } from '../../services/anuncios/anuncios.service';
+import { Anuncios } from '../../models/anuncios/anuncios';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-anuncios',
@@ -7,9 +12,150 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnunciosPage implements OnInit {
 
-  constructor() { }
+  private arrayAnunciosAtivos: Anuncios[] = [];
+  private arrayAnunciosVendidos: Anuncios[] = [];
+  private arrayAnuncios: Anuncios[] = [];
+  @ViewChild('formSlides') formSlides;
+
+  constructor(
+    private statusBar: StatusBar,
+    private navCtrl: NavController,
+    private anuncioService: AnunciosService,
+    private actionSheetController: ActionSheetController,
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
   }
+
+  selecionar(aba: string){
+    aba === 'vendidos' ? this.formSlides.slideNext() : this.formSlides.slidePrev();   
+  }
+
+  ionViewWillEnter(){
+    this.statusBar.backgroundColorByHexString('#fff');
+    this.statusBar.styleDefault();
+    this.carregarAnuncios();
+  }
+
+  carregarAnuncios(){
+    this.arrayAnuncios = [];
+    this.anuncioService.getAll()
+    .then(resp => {
+      console.log(resp);
+      this.arrayAnuncios = resp;
+      let copyArrayAtivos = this.arrayAnuncios;
+      this.arrayAnunciosVendidos = [];
+      this.arrayAnunciosAtivos = [];
+
+      copyArrayAtivos.filter(item => {
+        item.isvendido === false ? this.arrayAnunciosAtivos.push(item) : this.arrayAnunciosVendidos.push(item);
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+
+  async opcoes(anuncio){
+    const actionSheet = await this.actionSheetController.create({
+      header: `Ações para anúncio #000${anuncio.id}`,
+      buttons: [ 
+      {
+        text: 'Editar',
+        icon: 'create',
+        handler: async () => {
+          const alert = await this.alertController.create({
+            header: 'Editar anúncio',
+            inputs: [
+              {
+                name: 'novoValor',
+                type: 'number',
+                label: 'Novo valor',
+                placeholder: 'R$ 0,00'
+              },
+            ],
+            buttons: [
+              {
+                text: 'cancelar',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: () => {
+                  return;
+                }
+              }, {
+                text: 'editar',
+                handler: (e) => {
+                  let obj = {
+                    novoValor: e.novoValor,
+                    anuncio: anuncio
+                  }
+                  this.anuncioService.update(obj)
+                  .then(resp => {
+                    console.log(resp);
+                    this.carregarAnuncios();
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
+                }
+              }
+            ]
+          });
+      
+          await alert.present();        
+        }
+      }, 
+      {
+        text: 'Excluir',
+        icon: 'md-trash',
+        handler: () => {
+          this.alertController.create({
+            header: 'Excluir anúncio.',
+            animated: true,
+            message: 'Confirma a exclusão desse anúncio?',
+            buttons: [
+              {
+                text: 'Não',
+                cssClass: 'secondary',
+                role: 'cancel',
+                handler: () => {
+                  return;
+                }
+              },
+              {
+                text: 'Sim',
+                handler: () => {
+                  console.log(anuncio);
+                  this.anuncioService.delete(anuncio)
+                  .then(resp => {
+                    console.log(resp);
+                    this.carregarAnuncios();
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  })
+                }
+              } 
+            ]
+          }).then(alert => {
+            alert.present();
+          })        
+        }
+      }, 
+      {
+        text: 'Fechar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('fechar clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  
 
 }

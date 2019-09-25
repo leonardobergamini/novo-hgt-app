@@ -41,7 +41,7 @@
             <form id="formRevender" (ngSubmit)="onSubmitRevender()">
                 <div id="preco" class="ion-text-start input-group margem-baixo10">
                     <ion-label position="stacked">preço a ser vendido</ion-label>
-                    <ion-input inputmode="number" type="number" class="margem-baixo5"></ion-input>
+                    <ion-input inputmode="number" type="text" class="margem-baixo5" name="money" [brmasker]="{money: true, thousand: ',', decimalCaracter: '.', decimal: '3'}"></ion-input>
                     <ion-label position="stacked">você vai receber: <span class="txt-negrito">R$ 40</span></ion-label>
                     <!-- <ng-container *ngFor="let validacao of mensagensValidacao.uf">
                 <div *ngIf="formEditar.get('uf').hasError(validacao.type) && (formEditar.get('uf').dirty || formEditar.get('uf').touched)">

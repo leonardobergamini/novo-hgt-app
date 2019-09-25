@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, IonSegment } from '@ionic/angular';
 
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 import { Tickets } from 'src/app/shared/models/tickets/tickets';
@@ -20,6 +20,7 @@ export class MeusIngressosPage implements OnInit {
   private tickets: Tickets[] = [];
   private qtdTickets: number = 0;
   public ticketsPorPedido: TicketsPedido[] = [];
+  @ViewChild('formSlides') formSlides;
 
   constructor(
     private statusBar: StatusBar,
@@ -29,13 +30,16 @@ export class MeusIngressosPage implements OnInit {
     private navCtrl: NavController
   ) { }
 
-  ngOnInit() {
-    
+  ngOnInit() { }
+
+  selecionar(aba: string){
+    aba === 'presentes' ? this.formSlides.slideNext() : this.formSlides.slidePrev();   
   }
 
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
+    // this.formSlides.lockSwipeToNext();
     this.pedidoService.getTicketsPedidoByUsuarioLogado()
     .then(resp => {
       this.ticketsPorPedido = resp;

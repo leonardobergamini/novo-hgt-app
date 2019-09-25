@@ -31,23 +31,18 @@
                     cartão cadastrado
                 </ion-list-header>
                 <div id="cartoes-cadastrados" *ngIf="formaPagamento">
-                    <ion-item-sliding #itemCartaoCredito>
-                        <ion-item>
-                            <ion-input hidden value="{{formaPagamento.idFormaPg}}"></ion-input>
-                            <ion-avatar slot="start">
-                                <img src="../../../../assets/icons/{{formaPagamento.cartao.bandeira | lowercase}}.svg">
-                            </ion-avatar>
-                            <ion-label>
-                                <h3>**** {{formaPagamento.cartao.cartaoFormatado}}</h3>
-                                <h4>{{formaPagamento.cartao.nomeTitular | uppercase}} </h4>
-                            </ion-label>
-                            <!-- <ion-radio slot="end" color="secondary" name="sausage" checked (click)="selecionarForma(formaPagamento, $event, 0)"></ion-radio> -->
-                        </ion-item>
-
-                        <ion-item-options side="end">
-                            <ion-item-option color="tertiary" (click)="editarCartao(formaPagamento);">Editar</ion-item-option>
-                        </ion-item-options>
-                    </ion-item-sliding>
+                    <ion-item>
+                        <ion-input hidden value="{{formaPagamento.idFormaPg}}"></ion-input>
+                        <ion-avatar slot="start">
+                            <img src="../../../../assets/icons/{{formaPagamento.cartao.bandeira | lowercase}}.svg">
+                        </ion-avatar>
+                        <ion-label>
+                            <h3>**** {{formaPagamento.cartao.cartaoFormatado}}</h3>
+                            <h4>{{formaPagamento.cartao.nomeTitular | uppercase}} </h4>
+                        </ion-label>
+                        <!-- <ion-radio slot="end" color="secondary" name="sausage" checked (click)="selecionarForma(formaPagamento, $event, 0)"></ion-radio> -->
+                        <ion-icon name="more" slot="end" (click)="acoes(formaPagamento);"></ion-icon>
+                    </ion-item>
                 </div>
             </ion-list>
         </ion-card>

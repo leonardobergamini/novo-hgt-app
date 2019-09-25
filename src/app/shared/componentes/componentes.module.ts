@@ -12,7 +12,7 @@ import { ContadorModule } from './contador/contador.module';
     CommonModule,
     CardSlideModule,
     ListaCategoriasModule,
-    ContadorModule
+    ContadorModule,
   ],
   exports: [CardSlideModule, 
             DivisorComponent, 
