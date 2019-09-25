@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController, ActionSheetController, IonSegment, AlertController } from '@ionic/angular';
+
 import { AnunciosService } from '../../services/anuncios/anuncios.service';
 import { Anuncios } from '../../models/anuncios/anuncios';
-import { Validators } from '@angular/forms';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-anuncios',
@@ -26,16 +27,47 @@ export class AnunciosPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.carregarAnuncios();
   }
 
   selecionar(aba: string){
     aba === 'vendidos' ? this.formSlides.slideNext() : this.formSlides.slidePrev();   
   }
 
+  ativarAba(aba: string){
+    if(aba === 'vendidos'){
+      $('#vendidos').attr('checked', true);
+      $('#ativos').removeAttr('checked');
+    }else{
+      $('#vendidos').removeAttr('checked');
+      $('#ativos').attr('checked', true);
+    }
+  }
+
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    this.carregarAnuncios();
+  }
+
+  atualizarTela(event){
+    this.arrayAnuncios = [];
+    this.anuncioService.getAll()
+    .then(resp => {
+      console.log(resp);
+      this.arrayAnuncios = resp;
+      let copyArrayAtivos = this.arrayAnuncios;
+      this.arrayAnunciosVendidos = [];
+      this.arrayAnunciosAtivos = [];
+
+      copyArrayAtivos.filter(item => {
+        item.isvendido === false ? this.arrayAnunciosAtivos.push(item) : this.arrayAnunciosVendidos.push(item);
+      });
+
+      event.target.complete();
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   carregarAnuncios(){

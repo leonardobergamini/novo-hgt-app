@@ -4,13 +4,13 @@
     </ion-toolbar>
 
     <ion-segment class="margem-cima20" mode="md">
-        <ion-segment-button value="ativos" checked (click)="selecionar('ativos')">
+        <ion-segment-button value="ativos" id="ativos" checked (click)="selecionar('ativos')">
             <ion-label>
                 ativos
                 <ion-badge color="primary" slot="end">{{arrayAnunciosAtivos.length}}</ion-badge>
             </ion-label>
         </ion-segment-button>
-        <ion-segment-button value="vendidos" (click)="selecionar('vendidos')">
+        <ion-segment-button value="vendidos" id="vendidos" (click)="selecionar('vendidos')">
             <ion-label>
                 vendidos
                 <ion-badge color="primary" slot="end">{{arrayAnunciosVendidos.length}}</ion-badge>
@@ -20,7 +20,12 @@
 </ion-header>
 
 <ion-content>
-    <ion-slides #formSlides>
+    <ion-refresher slot="fixed" (ionRefresh)="atualizarTela($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar">
+
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-slides #formSlides (ionSlidePrevStart)="ativarAba('ativos')" (ionSlideNextStart)="ativarAba('vendidos')">
         <ion-slide>
             <ion-list lines="inset" mode="ios" inset="true">
                 <div *ngIf="arrayAnunciosAtivos.length > 0; else semAtivos">
