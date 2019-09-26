@@ -18,7 +18,7 @@ export class ExplorarPage implements OnInit {
 
   @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
   private eventos: Eventos[];
-  private categorias: string[] = ["show", "rock", "teatro", "palestra", "stand-up", "infantil"];
+  private categorias: string[] = ["música", "teatro", "palestra", "stand-up", "infantil"];
   private usuarioLogado: any;
 
   constructor(
@@ -55,7 +55,7 @@ export class ExplorarPage implements OnInit {
     .then(resp => {
       this.storage.remove('eventos')
       .then(() => {
-        this.listaCategoriasPage.filtrarCategorias('show');
+        this.listaCategoriasPage.filtrarCategorias('música');
         this.storage.set('eventos', resp);
         this.eventos = resp;
       })

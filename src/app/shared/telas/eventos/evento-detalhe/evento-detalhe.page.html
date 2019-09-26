@@ -40,14 +40,16 @@
                 </div>
             </div>
             <div class="infos-content">
-                <div class="ingressos-revenda">
-                    <p class="ion-text-center">Esse evento possui ingressos para <span class="txt-negrito">revenda.</span></p>
-                    <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap">
-                        clique e confira
-                        <ion-icon slot="end" name="md-arrow-forward"></ion-icon>
-                    </ion-button>
+                <div *ngIf="temAnuncio">
+                    <div class="ingressos-revenda">
+                        <p class="ion-text-center">Esse evento possui ingressos para <span class="txt-negrito">revenda.</span></p>
+                        <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap" (click)="exibeAnuncios(evento)">
+                            clique e confira
+                            <ion-icon slot="end" name="md-arrow-forward"></ion-icon>
+                        </ion-button>
+                    </div>
+                    <divisor></divisor>
                 </div>
-                <divisor></divisor>
 
                 <!-- <div> -->
                 <!-- <p class="ion-text-center">

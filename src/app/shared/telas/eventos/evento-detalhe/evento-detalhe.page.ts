@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Eventos } from '../../../models/eventos/eventos';
 import * as $ from 'jquery';
@@ -8,7 +9,8 @@ import { Setores } from 'src/app/shared/models/setores/setores';
 import { QuantidadeIngressoSetor } from 'src/app/shared/interfaces/quantidade-ingresso-setor/quantidade-ingresso-setor';
 import { Storage } from '@ionic/storage';
 import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
+import { Anuncios } from 'src/app/shared/models/anuncios/anuncios';
 
 @Component({
   selector: 'evento-detalhe',
@@ -17,6 +19,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class EventoDetalhePage implements OnInit {
 
+  public temAnuncio: boolean = false;
+  private arrayAnuncios: Anuncios[] = [];
   private isUsuarioLogado: boolean;
   private rotaVoltar: string;
   private id: number = 0;
@@ -36,16 +40,27 @@ export class EventoDetalhePage implements OnInit {
     private router: Router,
     private storage: Storage,
     private statusBar: StatusBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private anuncioService: AnunciosService
   ){ }
 
   ngOnInit() {
     this.evento = JSON.parse(localStorage.getItem('detalhe-evento'))
-    this.evento.setores.sort((a,b) => {
-      return Number(a.preco) - Number(b.preco);
-    });
-    this.evento.setores.forEach((value, i) => {
-      this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
+    this.anuncioService.getAllByEvento(this.evento.id)
+    .then((resp: Anuncios[]) => {
+      console.log(resp);
+      this.evento.setores.sort((a,b) => {
+        return Number(a.preco) - Number(b.preco);
+      });
+      this.evento.setores.forEach((value, i) => {
+        this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
+      });
+      resp.length ? this.temAnuncio = true : this.temAnuncio = false;
+      // this.arrayAnuncios = resp;
+      console.log(this.arrayAnuncios);
+    })
+    .catch(err => {
+      console.log(err);
     });
   }
 
@@ -71,6 +86,17 @@ export class EventoDetalhePage implements OnInit {
     }else{
       this.navCtrl.navigateBack('menu/explorar');
     }
+  }
+
+  exibeAnuncios(evento){
+    console.log(evento);
+    this.anuncioService.getAllByEvento(evento.id)
+    .then(resp => {
+      console.log(resp);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   validarCompra(evento){

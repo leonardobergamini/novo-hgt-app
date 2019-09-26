@@ -11,6 +11,58 @@ export class AnunciosService {
     private loadingController: LoadingController
   ) { }
 
+  getAllByEvento(idEvento: number){
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Carregando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(() => {
+        let arrayAnuncios: Anuncios[] = [];
+        fetch(`https://hgt-events.herokuapp.com/api/anuncios`)
+        .then(resp => resp.json())
+        .then(json => {
+          let allAnuncios = json['hydra:member'];
+          for(const anuncio of allAnuncios){
+            fetch(`https://hgt-events.herokuapp.com${anuncio.idTicket}`)
+            .then(resp => resp.json())
+            .then(json => {
+              let evento = json['idevento'];
+              let ticket = json;
+              if(evento.id === idEvento){
+                let obj: Anuncios = {
+                  id: anuncio.id,
+                  isvendido: anuncio.isvendido,
+                  preco: anuncio.preco,
+                  ticket: ticket,
+                  usuario: anuncio.idUsuario
+                }
+
+                arrayAnuncios.push(obj);
+                resolve(arrayAnuncios);
+                loading.dismiss();
+                return;
+              }
+              loading.dismiss();
+            })
+            .catch(err => {
+              reject(err);
+              loading.dismiss();
+            });
+          }
+        })
+        .catch(err => {
+          reject(err);
+        })
+      });
+
+    });
+  }
+
   getAll(): Promise<Anuncios[]>{
     return new Promise(async (resolve, reject) => {
       let loading = await this.loadingController.create({
