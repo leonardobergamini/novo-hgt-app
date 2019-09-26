@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { NavParams, ModalController, ActionSheetController, NavController } from '@ionic/angular';
+import { NavParams, ModalController, ActionSheetController, NavController, ToastController } from '@ionic/angular';
 import { PresentearPage } from './presentear/presentear.page';
 import { RevenderPage } from './revender/revender.page';
 import { ActivatedRoute } from '@angular/router';
@@ -27,7 +27,7 @@ export class DetalhePedidoPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private navCrtl: NavController,
     private activatedRoute: ActivatedRoute,
-    private pedidoService: PedidoService
+    private pedidoService: PedidoService,
 
   ) { }
 
@@ -46,10 +46,6 @@ export class DetalhePedidoPage implements OnInit {
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-  }
-
-  fecharModal(){
-    this.modalController.dismiss();
   }
 
   async acoes(ticket, i){
@@ -74,11 +70,10 @@ export class DetalhePedidoPage implements OnInit {
         }
       }, 
       {
-        text: 'Revender',
+        text: 'Anunciar',
         icon: 'pricetag',
         handler: () => {
           if(ticket){
-            this.fecharModal();
             localStorage.setItem('ticket', JSON.stringify(ticket));
             this.navCrtl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/revender/${ticket.id}`);
           };

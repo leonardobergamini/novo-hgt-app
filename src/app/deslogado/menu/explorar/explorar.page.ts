@@ -33,7 +33,12 @@ export class ExplorarPage implements OnInit {
       this.storage.remove('eventos')
       .then(() => {
         this.listaCategoriasPage.filtrarCategorias('show');
-        this.storage.set('eventos', resp);
+        // this.storage.set('eventos', resp);
+        console.log('limpando storage de enventos');
+        this.storage.keys()
+        .then(resp => {
+          console.log(resp);
+        })
       })
     });
   }

@@ -29,7 +29,7 @@
                         <ion-text class="fonte-tamanho14 txt-negrito" color="medium">{{ticket.setor}}</ion-text>
                     </ion-col>
                     <ion-col size="6" class="ion-text-start">
-                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">R$ {{ticket.preco}}</ion-text>
+                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">{{ticket.preco | currency: 'BRL':'symbol':'0.0-2'}}</ion-text>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -38,11 +38,11 @@
 
     <ion-card>
         <ion-card-content>
-            <form id="formRevender" (ngSubmit)="onSubmitRevender()">
+            <form id="formRevender" [formGroup]="formRevender" (ngSubmit)="onSubmitRevender()">
                 <div id="preco" class="ion-text-start input-group margem-baixo10">
                     <ion-label position="stacked">preço a ser vendido</ion-label>
-                    <ion-input inputmode="number" type="text" class="margem-baixo5" name="money" [brmasker]="{money: true, thousand: ',', decimalCaracter: '.', decimal: '3'}"></ion-input>
-                    <ion-label position="stacked">você vai receber: <span class="txt-negrito">R$ 40</span></ion-label>
+                    <ion-input formControlName="preco" inputmode="number" type="tel" class="margem-baixo5" name="money" [brmasker]="{money: true, thousand: ',', decimalCaracter: ',', decimal: '2'}"></ion-input>
+                    <ion-label position="stacked">você vai receber: <span class="txt-negrito">{{valorLiquidoVenda | currency: 'BRL':'symbol':'0.0-2'}}</span></ion-label>
                     <!-- <ng-container *ngFor="let validacao of mensagensValidacao.uf">
                 <div *ngIf="formEditar.get('uf').hasError(validacao.type) && (formEditar.get('uf').dirty || formEditar.get('uf').touched)">
                     <span>{{ validacao.message }}</span>
@@ -50,8 +50,7 @@
             </ng-container> -->
                 </div>
 
-                <ion-button (click)="exibirAlert()" expand="block">Revender</ion-button>
-
+                <ion-button expand="block" type="submit" [disabled]="!formRevender.valid">Revender</ion-button>
             </form>
         </ion-card-content>
     </ion-card>

@@ -2,7 +2,7 @@
     <ion-toolbar>
         <ion-title class="ion-text-center">detalhe pedido</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="menu-logado/meus-ingressos" (click)="fecharModal()"></ion-back-button>
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="menu-logado/meus-ingressos"></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -68,7 +68,15 @@
                 </div>
                 <div class="qr-code">
                     <ion-card class="ion-no-margin" button (click)="acoes(ticket, i)">
-                        <qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>
+                        <div>
+                            <qrcode [qrdata]="'Your QR code data string'" [size]="256" [level]="'M'"></qrcode>
+                        </div>
+
+                        <ng-template #indisponivel>
+                            <div>
+                                <ion-text class="txt-negrito">Esse ticket está indisponível</ion-text>
+                            </div>
+                        </ng-template>
                     </ion-card>
                 </div>
             </div>

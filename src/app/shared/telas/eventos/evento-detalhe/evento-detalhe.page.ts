@@ -56,7 +56,10 @@ export class EventoDetalhePage implements OnInit {
     this.isUsuarioLogado = Boolean(localStorage.getItem('isUsuarioLogado'));
   }
 
-  ionViewDidLeave(){ }
+  ionViewDidLeave(){ 
+    console.log('saindo tela evento-detalhe...')
+    localStorage.removeItem('detalhe-evento');
+  }
 
   adicionaBotaoComprar(){
     $('ion-tabs').find('ion-button').removeClass('ion-hide');
@@ -68,7 +71,6 @@ export class EventoDetalhePage implements OnInit {
     }else{
       this.navCtrl.navigateBack('menu/explorar');
     }
-    localStorage.removeItem('evento-detalhe');
   }
 
   validarCompra(evento){

@@ -111,6 +111,7 @@ export class UsuarioService {
     this.router.navigate(['menu/explorar']);
     localStorage.removeItem('usuarioLogado');
     localStorage.removeItem('detalhe-evento');
+    localStorage.removeItem('detalhe-pedido');
     localStorage.removeItem('isUsuarioLogado');
   }
 }
