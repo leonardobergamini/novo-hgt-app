@@ -33,18 +33,19 @@ export class ListaCategoriasComponent  {
   ativarItem(event){
     this.erro = '';
     this.eventos = [];
-    $('.lista-categorias').find('.desabilitado').toggleClass('desabilitado');
-    $('.lista-categorias').find('.ativo').toggleClass('ativo');
+    let idElemento = "#"+$(event.target).attr('id');
+    $('.lista-categorias ion-slide').removeClass('ativo');
+    $('.lista-categorias ion-slide').addClass('desabilitado');
+    $(idElemento).removeClass('desabilitado');
+    $(idElemento).addClass('ativo');
     
-    $(event.target).removeClass('desabilitado');
-    $(event.target).addClass('ativo');
-
     var categoria = $(event.target).text();
     $('.lds-ripple').removeClass('ion-hide');
     setTimeout(() =>{
       this.filtrarCategorias(categoria);
       $('.lds-ripple').addClass('ion-hide');
     }, 500);
+    
   }
 
   filtrarCategorias(categoria:string){

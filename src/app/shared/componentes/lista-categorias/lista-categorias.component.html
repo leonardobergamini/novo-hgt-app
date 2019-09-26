@@ -1,5 +1,5 @@
 <ion-slides class="lista-categorias" [options]="slidesOpts">
-    <ion-slide (click)="ativarItem($event)" *ngFor="let categoria of categorias" id="{{ categoria }}" [ngClass]="{'ativo': categoria === 'show'}">{{ categoria }}</ion-slide>
+    <ion-slide (click)="ativarItem($event)" *ngFor="let categoria of categorias" id="{{ categoria }}" [ngClass]="{'ativo': categoria === 'música'}">{{ categoria }}</ion-slide>
 </ion-slides>
 
 <div class="lista-filtrada">
