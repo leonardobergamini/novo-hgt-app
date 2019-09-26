@@ -1,9 +1,12 @@
+<ion-header translucent>
+    <div class="bem-vindo" padding></div>
+</ion-header>
 <ion-content>
-    <ion-row>
-        <div class="header ion-no-margin">
-            <div class="bem-vindo" padding></div>
-        </div>
-    </ion-row>
+    <ion-refresher (ionRefresh)="recarregarEventos($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar">
+
+        </ion-refresher-content>
+    </ion-refresher>
     <ion-grid>
         <ion-row>
             <h4 padding>categorias</h4>

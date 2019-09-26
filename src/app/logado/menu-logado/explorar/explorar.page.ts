@@ -17,9 +17,9 @@ import { ListaCategoriasComponent } from 'src/app/shared/componentes/lista-categ
 export class ExplorarPage implements OnInit {
 
   @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
-  eventos: Eventos[];
-  categorias: string[] = ["show", "rock", "teatro", "palestra", "stand-up", "infantil"];
-  usuarioLogado: any;
+  private eventos: Eventos[];
+  private categorias: string[] = ["show", "rock", "teatro", "palestra", "stand-up", "infantil"];
+  private usuarioLogado: any;
 
   constructor(
     private statusBar: StatusBar,
@@ -29,19 +29,16 @@ export class ExplorarPage implements OnInit {
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#FF6700');    
-    this.eventoService.getAllEventos()
-    .then(resp => {
-      this.storage.remove('eventos')
-      .then(() => {
-        this.listaCategoriasPage.filtrarCategorias('show');
-        this.storage.set('eventos', resp);
-      })
-    });
-    
+    this.carregarEventos();
+  }
+
+  async recarregarEventos(event){
+    await this.carregarEventos();
+    event.target.complete();
   }
 
   IonViewDidLeave(){
-    this.usuarioLogado = null;
+    // this.usuarioLogado = null;
   }
 
   ionViewDidEnter(){
@@ -51,6 +48,18 @@ export class ExplorarPage implements OnInit {
 
     this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     this.msgBoasVindas();
+  }
+
+  carregarEventos(){
+    this.eventoService.getAllEventos()
+    .then(resp => {
+      this.storage.remove('eventos')
+      .then(() => {
+        this.listaCategoriasPage.filtrarCategorias('show');
+        this.storage.set('eventos', resp);
+        this.eventos = resp;
+      })
+    });
   }
 
   msgBoasVindas() {
