@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
 import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
 import { Anuncios } from 'src/app/shared/models/anuncios/anuncios';
+import { AnunciosPage } from './anuncios/anuncios.page';
 
 @Component({
   selector: 'evento-detalhe',
@@ -41,7 +42,8 @@ export class EventoDetalhePage implements OnInit {
     private storage: Storage,
     private statusBar: StatusBar,
     private activatedRoute: ActivatedRoute,
-    private anuncioService: AnunciosService
+    private anuncioService: AnunciosService,
+    private modalController: ModalController
   ){ }
 
   ngOnInit() {
@@ -67,7 +69,7 @@ export class EventoDetalhePage implements OnInit {
   ionViewDidEnter(){ 
     this.removerValorTotalNoBotao();
     this.arraySomenteSetoresSelecionados = [];
-
+    // this.id = Number(this.activatedRoute.snapshot.paramMap.get('idEvento'));
     this.isUsuarioLogado = Boolean(localStorage.getItem('isUsuarioLogado'));
   }
 
@@ -89,10 +91,19 @@ export class EventoDetalhePage implements OnInit {
   }
 
   exibeAnuncios(evento){
-    console.log(evento);
     this.anuncioService.getAllByEvento(evento.id)
     .then(resp => {
       console.log(resp);
+      // const modalAnuncios = await this.modalController.create({
+      //   component: AnunciosPage,
+      //   componentProps: {
+      //     anuncios: resp,
+      //     voltar: `explorar/detalhe-evento/${evento.id}`
+      //   }
+      // });
+      // return await modalAnuncios.present();
+      localStorage.setItem('anunciosPorEvento', JSON.stringify(resp));
+      this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}/anuncios`);
     })
     .catch(err => {
       console.log(err);

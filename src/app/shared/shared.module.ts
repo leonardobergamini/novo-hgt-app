@@ -5,10 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { CardSlideModule } from './componentes/card-slide/card-slide.module';
 import { ComponentesModule } from './componentes/componentes.module';
-import { HideHeaderDirective } from './diretivas/hide-header/hide-header.directive';
 
 @NgModule({
-  declarations: [HideHeaderDirective],
+  declarations: [],
   imports: [
     CommonModule,
     IonicModule,
@@ -16,6 +15,6 @@ import { HideHeaderDirective } from './diretivas/hide-header/hide-header.directi
     CardSlideModule,
     ComponentesModule
   ],
-  exports: [ComponentesModule, HideHeaderDirective]
+  exports: [ComponentesModule]
 })
 export class SharedModule { }

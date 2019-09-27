@@ -2,16 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { NavController, ActionSheetController, IonSegment, AlertController } from '@ionic/angular';
 
-import { AnunciosService } from '../../services/anuncios/anuncios.service';
-import { Anuncios } from '../../models/anuncios/anuncios';
+import { AnunciosService } from '../../../shared/services/anuncios/anuncios.service';
+import { Anuncios } from '../../../shared/models/anuncios/anuncios';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-anuncios',
-  templateUrl: './anuncios.page.html',
-  styleUrls: ['./anuncios.page.scss'],
+  selector: 'meus-anuncios',
+  templateUrl: './meus-anuncios.page.html',
+  styleUrls: ['./meus-anuncios.page.scss'],
 })
-export class AnunciosPage implements OnInit {
+export class MeusAnunciosPage implements OnInit {
 
   private arrayAnunciosAtivos: Anuncios[] = [];
   private arrayAnunciosVendidos: Anuncios[] = [];
@@ -187,7 +187,4 @@ export class AnunciosPage implements OnInit {
     });
     await actionSheet.present();
   }
-
-  
-
 }

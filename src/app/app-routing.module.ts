@@ -115,9 +115,22 @@ const routes: Routes = [
 
           },
           {
-            path: 'detalhe-evento/:idEvento',
-            loadChildren: './shared/telas/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'                 
-
+            path: 'detalhe-evento',
+            children: [
+              {
+                path: ':idEvento',
+                children: [
+                  {
+                    path: '',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'                 
+                  },
+                  {
+                    path: 'anuncios',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/anuncios/anuncios.module#AnunciosPageModule'
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -131,11 +144,11 @@ const routes: Routes = [
         ]
       },
       { 
-        path: 'anuncios', 
+        path: 'meus-anuncios', 
         children: [
           {
             path: '',
-            loadChildren: './shared/telas/anuncios/anuncios.module#AnunciosPageModule'
+            loadChildren: './logado/menu-logado/meus-anuncios/meus-anuncios.module#MeusAnunciosPageModule'
           }
         ]
       },
@@ -172,6 +185,7 @@ const routes: Routes = [
 
     ]
   },
+
 
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
 

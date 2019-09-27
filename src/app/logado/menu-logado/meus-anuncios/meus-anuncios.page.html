@@ -7,13 +7,11 @@
         <ion-segment-button value="ativos" id="ativos" checked (click)="selecionar('ativos')">
             <ion-label>
                 ativos
-                <ion-badge color="primary" slot="end">{{arrayAnunciosAtivos.length}}</ion-badge>
             </ion-label>
         </ion-segment-button>
         <ion-segment-button value="vendidos" id="vendidos" (click)="selecionar('vendidos')">
             <ion-label>
                 vendidos
-                <ion-badge color="primary" slot="end">{{arrayAnunciosVendidos.length}}</ion-badge>
             </ion-label>
         </ion-segment-button>
     </ion-segment>

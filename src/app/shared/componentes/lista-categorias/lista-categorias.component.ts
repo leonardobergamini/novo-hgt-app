@@ -31,6 +31,7 @@ export class ListaCategoriasComponent  {
    }
 
   ativarItem(event){
+    // debugger;
     this.erro = '';
     this.eventos = [];
     let idElemento = "#"+$(event.target).attr('id');

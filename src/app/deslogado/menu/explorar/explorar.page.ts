@@ -17,7 +17,7 @@ export class ExplorarPage implements OnInit {
   
   @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
   eventos: Eventos[];
-  categorias: string[] = ["show", "rock", "teatro", "palestra", "stand-up", "infantil"];
+  categorias: string[] = ["música", "teatro", "palestra", "stand-up", "infantil"];
 
   constructor(
     private statusBar: StatusBar,

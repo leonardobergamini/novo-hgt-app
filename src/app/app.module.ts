@@ -16,6 +16,7 @@ import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { DetalhePedidoPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { PresentearPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/presentear/presentear.module';
+import { AnunciosPageModule } from './shared/telas/eventos/evento-detalhe/anuncios/anuncios.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import { PresentearPageModule } from './logado/menu-logado/meus-ingressos/detalh
     EventoDetalhePageModule,
     DetalhePedidoPageModule,
     PresentearPageModule,
+    AnunciosPageModule,
     IonicStorageModule.forRoot({
       name: '___hgtdb',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
