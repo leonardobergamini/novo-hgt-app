@@ -2,6 +2,7 @@ import { ToastController, LoadingController } from '@ionic/angular';
 
 import { Usuarios } from '../models/usuarios/usuarios';
 import { Enderecos } from '../models/enderecos/enderecos';
+import { CartoesCredito } from '../models/cartoes-credito/cartoes-credito';
 
 export class Utils {
   private static toastController: ToastController;
@@ -72,5 +73,10 @@ export class Utils {
       ]
     });    
     toast.present();
+  }
+
+  static escondeNroCartao(cartao: CartoesCredito){
+    cartao.cartaoFormatado = Number(cartao.nroCartao.toString().substr(12, 4));
+    return cartao;
   }
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 
 import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { ListaCategoriasComponent } from 'src/app/shared/componentes/lista-categorias/lista-categorias.component';
 
 @Component({
   selector: 'app-explorar',
@@ -12,18 +14,33 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./explorar.page.scss'],
 })
 export class ExplorarPage implements OnInit {
+  
+  @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
   eventos: Eventos[];
-  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
+  categorias: string[] = ["música", "teatro", "palestra", "stand-up", "infantil"];
 
   constructor(
     private statusBar: StatusBar,
-    private eventosService: EventosService,
-    private navCtrl: NavController
+    private eventoService: EventosService,
+    private navCtrl: NavController,
+    private storage: Storage
     ) { }
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#ecf0f1');
-    this.eventos = this.eventosService.getAllEventos();
+    this.eventoService.getAllEventos()
+    .then(resp => {
+      this.storage.remove('eventos')
+      .then(() => {
+        this.listaCategoriasPage.filtrarCategorias('música');
+        // this.storage.set('eventos', resp);
+        console.log('limpando storage de enventos');
+        this.storage.keys()
+        .then(resp => {
+          console.log(resp);
+        })
+      })
+    });
   }
 
   ionViewDidEnter(){

@@ -3,7 +3,7 @@
     <div class="fundo-img"></div>
     <div class="info-evento">
         <div id="nomeEvento"> <span> {{ nomeEvento }} </span></div>
-        <div id="dataEvento"> <span> {{ dataEvento }} </span></div>
+        <div id="dataEvento"> <span> {{ dataEvento | date: 'dd/MM/yyyy'}} </span></div>
         <div id="localEvento"> <span> {{ localEvento }} </span></div>
     </div>
 </div>

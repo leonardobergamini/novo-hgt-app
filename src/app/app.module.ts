@@ -1,14 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
-import { AngularFireModule  } from '@angular/fire';
-import { AngularFireAuthModule  } from '@angular/fire/auth';
-import { environment } from '../environments/environment';
-import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFireDatabaseModule } from '@angular/fire/database'
-
 import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -22,6 +15,8 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { DetalhePedidoPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module';
 import { QRCodeModule } from 'angularx-qrcode';
+import { PresentearPageModule } from './logado/menu-logado/meus-ingressos/detalhe-pedido/presentear/presentear.module';
+import { AnunciosPageModule } from './shared/telas/eventos/evento-detalhe/anuncios/anuncios.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +31,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     ReactiveFormsModule,
     EventoDetalhePageModule,
     DetalhePedidoPageModule,
+    PresentearPageModule,
+    AnunciosPageModule,
     IonicStorageModule.forRoot({
       name: '___hgtdb',
       driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
@@ -47,7 +44,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Keyboard,
-    DatePicker  
+    DatePicker
   ],
   bootstrap: [AppComponent]
 })

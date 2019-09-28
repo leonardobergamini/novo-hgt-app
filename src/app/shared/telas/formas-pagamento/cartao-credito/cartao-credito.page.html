@@ -16,7 +16,7 @@
 
 <ion-content padding>
     <div>
-        <ion-card class="cartao" padding>
+        <ion-card class="cartao">
             <ion-grid>
                 <ion-row>
                     <ion-col>
@@ -25,8 +25,8 @@
                 </ion-row>
                 <ion-row>
                     <ion-col size="8">
-                        <label for="dtValidade">val</label>
-                        <span id="txtDtValidade"></span>
+                        <label for="dtVencimento">val</label>
+                        <span id="txtDtVencimento"></span>
                     </ion-col>
                     <ion-col size="4">
                         <label for="codSeguranca">cvv</label>
@@ -42,20 +42,20 @@
         </ion-card>
     </div>
 
-    <div class="dados-cartao" padding>
+    <div class="dados-cartao">
         <ion-card>
-            <form id="formularioCadastrarFormaPg" [formGroup]="formCadastrarFormaPg" (ngSubmit)="onSubmitFormaPg()">
+            <form id="formularioCadastrarFormaPg" [formGroup]="formCadastrarFormaPg" (ngSubmit)="onSubmit()">
                 <ion-grid>
                     <ion-row>
                         <ion-col>
                             <ion-label>bandeiras</ion-label>
-                            <ion-select placeholder="selecione a bandeira" formControlName="bandeiraCartao" cancelText="cancelar" okText="ok" [ngClass]="{invalido : !formCadastrarFormaPg.get('bandeiraCartao').valid  && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)}">
+                            <ion-select placeholder="selecione a bandeira" formControlName="bandeira" cancelText="cancelar" okText="ok" [ngClass]="{invalido : !formCadastrarFormaPg.get('bandeira').valid  && (formCadastrarFormaPg.get('bandeira').dirty || formCadastrarFormaPg.get('bandeira').touched)}">
                                 <div *ngFor="let bandeira of bandeiras">
                                     <ion-select-option value="{{bandeira.nome}}">{{bandeira.nome}}</ion-select-option>
                                 </div>
                             </ion-select>
-                            <ng-container *ngFor="let validacao of mensagensValidacao.bandeiraCartao">
-                                <div *ngIf="formCadastrarFormaPg.get('bandeiraCartao').hasError(validacao.type) && (formCadastrarFormaPg.get('bandeiraCartao').dirty || formCadastrarFormaPg.get('bandeiraCartao').touched)">
+                            <ng-container *ngFor="let validacao of mensagensValidacao.bandeira">
+                                <div *ngIf="formCadastrarFormaPg.get('bandeira').hasError(validacao.type) && (formCadastrarFormaPg.get('bandeira').dirty || formCadastrarFormaPg.get('bandeira').touched)">
                                     <span class="erro">{{ validacao.message }}</span>
                                 </div>
                             </ng-container>
@@ -79,10 +79,10 @@
                         <ion-col size="6">
                             <div class="ion-text-start">
                                 <ion-label position="stacked">data de vencimento</ion-label>
-                                <ion-datetime [ngClass]="{invalido : !formCadastrarFormaPg.get('dtValidade').valid  && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)}" placeholder="MM/AAAA" formControlName="dtValidade" displayFormat="MM/YYYY"
-                                    min="2019" max="2030" cancelText="cancelar" doneText="pronto" (ionChange)="setDadosDtValidade($event)"></ion-datetime>
-                                <ng-container *ngFor="let validacao of mensagensValidacao.dtValidade">
-                                    <div *ngIf="formCadastrarFormaPg.get('dtValidade').hasError(validacao.type) && (formCadastrarFormaPg.get('dtValidade').dirty || formCadastrarFormaPg.get('dtValidade').touched)">
+                                <ion-datetime [ngClass]="{invalido : !formCadastrarFormaPg.get('dtVencimento').valid  && (formCadastrarFormaPg.get('dtVencimento').dirty || formCadastrarFormaPg.get('dtVencimento').touched)}" placeholder="MM/AAAA" formControlName="dtVencimento" displayFormat="MM/YYYY"
+                                    min="2019" max="2030" cancelText="cancelar" doneText="pronto" (ionChange)="setDadosDtVencimento($event)"></ion-datetime>
+                                <ng-container *ngFor="let validacao of mensagensValidacao.dtVencimento">
+                                    <div *ngIf="formCadastrarFormaPg.get('dtVencimento').hasError(validacao.type) && (formCadastrarFormaPg.get('dtVencimento').dirty || formCadastrarFormaPg.get('dtVencimento').touched)">
                                         <span class="erro">{{ validacao.message }}</span>
                                     </div>
                                 </ng-container>

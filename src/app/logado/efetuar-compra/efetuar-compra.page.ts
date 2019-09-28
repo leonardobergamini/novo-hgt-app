@@ -7,7 +7,9 @@ import { FormaPagamentoService } from 'src/app/shared/services/formas-pagamento/
 import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
 import { Pedidos } from 'src/app/shared/models/pedidos/pedidos';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
-import { Eventos } from 'src/app/shared/models/eventos/eventos';
+import * as $ from 'jquery';
+import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-pagamento';
+import { Utils } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -16,7 +18,7 @@ import { Eventos } from 'src/app/shared/models/eventos/eventos';
 })
 export class EfetuarCompraPage implements OnInit {
   private eventoSelecionado: EventoSetoresSelecionado = null;
-  private formaPagamento = [];
+  private formaPagamentoSelecionada: FormasPagamento;
 
   constructor(
     private storage: Storage,
@@ -26,16 +28,26 @@ export class EfetuarCompraPage implements OnInit {
     private pedidoService: PedidoService
   ) { }
 
-  ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#fff');
-    this.statusBar.styleDefault();
-  }
+  ngOnInit() { }
 
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    this.getStoragePedido();
-    this.formaPagamento = this.formaPagamentoService.formasPagamento;
+    localStorage.removeItem('efetuar-compra-back');
+    this.setBotaoConfirmar();
+    this.getStoragePedido()
+    .then(resp => {
+      this.eventoSelecionado = resp;
+      this.formaPagamentoService.getFormaPagamentoAtiva()
+      .then(resp => {
+        this.formaPagamentoSelecionada = resp;
+        this.formaPagamentoSelecionada.cartao = Utils.escondeNroCartao(this.formaPagamentoSelecionada.cartao);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      // this.formaPagamentoSelecionada = this.formaPagamentoService.formasPagamento;
+    });
   }
 
   confirmarPedido(){
@@ -43,18 +55,39 @@ export class EfetuarCompraPage implements OnInit {
       evento: this.eventoSelecionado.evento,
       setores: this.eventoSelecionado.setores,
       valorTotal: this.eventoSelecionado.valorTotal,
-      formaPagamento: this.formaPagamento,
+      formaPagamento: this.formaPagamentoSelecionada,
       qtdIngressos: this.eventoSelecionado.qtdIngressos
     };
     console.log(pedidoConfirmado);
-    this.pedidoService.novoPedido(pedidoConfirmado)
-  }
-
-  getStoragePedido(){
-    this.storage.get('eventoSelecionado')
+    this.pedidoService.create(pedidoConfirmado)
     .then(resp => {
-      this.eventoSelecionado = resp;
-    });
+      console.log(resp);
+      this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 
+  getStoragePedido(): Promise<EventoSetoresSelecionado>{
+    return new Promise((resolve, reject) => {
+      this.storage.get('eventoSelecionado')
+      .then(resp => {
+        resolve(resp);
+      });
+    })
+  }
+
+  setBotaoConfirmar(){
+    $('.btnComprar').attr('color', 'success').html(`confirmar`);
+  }
+
+  voltar(){
+    this.navCtrl.navigateBack(`menu-logado/explorar/detalhe-evento/${this.eventoSelecionado.evento.id}`);
+  }
+
+  abrirFormaPagamentoPage(){
+    localStorage.setItem('efetuar-compra-back', JSON.stringify({rota:'menu-logado/efetuar-compra'}));
+    this.navCtrl.navigateForward('menu-logado/perfil/formas-pagamento');
+  }
 }

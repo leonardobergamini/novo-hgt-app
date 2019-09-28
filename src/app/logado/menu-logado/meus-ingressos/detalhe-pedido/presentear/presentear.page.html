@@ -1,0 +1,71 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">presentear</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="" (click)="fecharModal()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <form [formGroup]="formBuscaUsuario" (ngSubmit)="onSubmit()">
+            <ion-row>
+                <ion-card mode="ios">
+                    <ion-card-header>
+                        <ion-card-subtitle>{{objPedido.ticket.idevento.nome}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row>
+                            <ion-col>setor: {{objPedido.ticket.setor}}</ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-text class="fonte-tamanho12" color="medium">data</ion-text>
+                            </ion-col>
+                            <ion-col size="6">
+                                <ion-text class="fonte-tamanho12" color="medium">horário</ion-text>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="6" class="ion-no-padding">
+                                <ion-text class="fonte-tamanho14">{{objPedido.ticket.idevento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
+                            </ion-col>
+                            <ion-col size="6" class="ion-no-padding">
+                                <ion-text class="fonte-tamanho14">{{objPedido.ticket.idevento.horainicioevento | date: 'hh:mm'}} às {{objPedido.ticket.idevento.horafimevento | date: 'hh:mm'}}</ion-text>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card>
+                </ion-card>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-text>selecione um usuário para presenteá-lo:</ion-text>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-searchbar type="email" inputmode="email" formControlName="email" placeholder="busque por e-mail"></ion-searchbar>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button type="submit" disabled="true" size="" shape="round" expand="full" id="btnBuscar" color="primary" [disabled]="!formBuscaUsuario.valid">Entrar</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="usuarioEncontrado">
+                <ion-card mode="ios" button (click)="presentear()">
+                    <ion-card-header>
+                        <ion-card-title>{{usuarioEncontrado.primeironome}} {{usuarioEncontrado.sobrenome}}</ion-card-title>
+                    </ion-card-header>
+
+                    <ion-card-content>
+                        email: {{usuarioEncontrado.email}}
+                    </ion-card-content>
+                </ion-card>
+            </ion-row>
+        </form>
+    </ion-grid>
+</ion-content>

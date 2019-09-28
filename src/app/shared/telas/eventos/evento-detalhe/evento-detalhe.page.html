@@ -1,7 +1,7 @@
 <ion-content>
     <ion-row padding>
         <div class="sair">
-            <ion-icon name="ios-arrow-back" (click)="fecharModal()" color="primary" class="fechar ion-left"></ion-icon>
+            <ion-icon name="ios-arrow-back" (click)="voltar()" color="primary" class="fechar ion-left"></ion-icon>
         </div>
     </ion-row>
     <ion-row>
@@ -14,33 +14,48 @@
             <div class="infos-header">
                 <div class="infos-header-content">
                     <div class="nome-evento">
-                        <h1 class="ion-no-padding ion-no-margin"> {{ evento.atracao.nome }} </h1>
+                        <h1 class="ion-no-padding ion-no-margin"> {{ evento.nome }} </h1>
                     </div>
-                    <ion-icon id="favorito" name="heart"></ion-icon>
                 </div>
                 <div class="infos-complementar-content">
                     <div class="data">
                         <ion-icon id="calendario" name="calendar"></ion-icon>
-                        <ion-text>{{ evento.dtInicioEventoFormatada }}</ion-text>
+                        <ion-text>{{ evento.dtinicioevento | date: 'dd/MM/yyyy' }}</ion-text>
                     </div>
                     <div class="hora">
                         <ion-icon id="relogio" name="time"></ion-icon>
-                        <ion-text>às {{ evento.horaInicioEvento }}</ion-text>
+                        <ion-text>{{ evento.horainicioevento | date: 'hh:mm'}} às {{ evento.horafimevento | date: 'hh:mm'}}</ion-text>
                     </div>
                     <divisor></divisor>
                     <div class="local">
                         <ion-icon id="gps" name="pin"></ion-icon>
-                        <ion-text>{{ evento.setores[0].local.nome }}</ion-text>
+                        <ion-text>{{ evento.setores[0].idlocal.nome }}</ion-text>
                     </div>
                     <div class="endereco">
-                        <ion-text class="ion-text-center">{{ evento.setores[0].local.endereco }}</ion-text>
+                        <ion-text class="ion-text-center">{{ evento.setores[0].idlocal.endereco }} - {{ evento.setores[0].idlocal.bairro }}</ion-text>
                     </div>
                     <div class="cidade-uf">
-                        <ion-text class="ion-text-uppercase">{{ evento.setores[0].local.cidade }}/{{ evento.setores[0].local.uf }}</ion-text>
+                        <ion-text class="ion-text-uppercase">{{ evento.setores[0].idlocal.cidade }}/{{ evento.setores[0].idlocal.uf }}</ion-text>
                     </div>
                 </div>
             </div>
             <div class="infos-content">
+                <div *ngIf="temAnuncio">
+                    <div class="ingressos-revenda">
+                        <p class="ion-text-center">Este evento possui ingressos para <span class="txt-negrito">revenda.</span></p>
+                        <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap" (click)="exibeAnuncios(evento)">
+                            clique e confira
+                            <ion-icon slot="end" name="md-arrow-forward"></ion-icon>
+                        </ion-button>
+                    </div>
+                    <divisor></divisor>
+                </div>
+
+                <!-- <div> -->
+                <!-- <p class="ion-text-center">
+                        ou
+                    </p> -->
+                <!-- </div> -->
                 <div class="setoresComPrecos">
                     <h4>setores e preços</h4>
                     <ion-list lines="none" class="ion-no-margin ion-no-padding">
@@ -53,9 +68,6 @@
                                 <contador-hgt max="5" (clickAdicionar)="selecionarSetor(setor, $event)" (clickSubtrair)="selecionarSetor(setor, $event)"></contador-hgt>
                             </ion-item>
                         </div>
-                        <ion-item>
-
-                        </ion-item>
                     </ion-list>
                 </div>
                 <div class="detalhes">

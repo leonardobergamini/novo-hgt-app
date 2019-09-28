@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
@@ -7,6 +7,7 @@ import { Eventos } from '../../../shared/models/eventos/eventos';
 import { EventosService } from 'src/app/shared/services/eventos/eventos.service';
 import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
 import { NavController } from '@ionic/angular';
+import { ListaCategoriasComponent } from 'src/app/shared/componentes/lista-categorias/lista-categorias.component';
 
 @Component({
   selector: 'app-explorar',
@@ -15,37 +16,50 @@ import { NavController } from '@ionic/angular';
 })
 export class ExplorarPage implements OnInit {
 
-  eventosService: EventosService;
-  eventos: Eventos[];
-  categorias: string[] = ["show", "teatro", "palestra", "stand-up", "infantil"];
-  usuarioLogado: any;
+  @ViewChild(ListaCategoriasComponent) listaCategoriasPage: ListaCategoriasComponent;
+  private eventos: Eventos[];
+  private categorias: string[] = ["música", "teatro", "palestra", "stand-up", "infantil"];
+  private usuarioLogado: any;
 
   constructor(
     private statusBar: StatusBar,
-    private storage: Storage
+    private storage: Storage,
+    private eventoService: EventosService
     ) { }
 
   ngOnInit() {
-    this.statusBar.backgroundColorByHexString('#FF6700');
-    this.eventosService = new EventosService();
+    this.statusBar.backgroundColorByHexString('#FF6700');    
+    this.carregarEventos();
+  }
+
+  async recarregarEventos(event){
+    await this.carregarEventos();
+    event.target.complete();
   }
 
   IonViewDidLeave(){
-    this.usuarioLogado = null;
+    // this.usuarioLogado = null;
   }
 
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#FF6700');
-    this.eventos = this.eventosService.getAllEventos();
     // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
     // console.log(this.usuarioLogado);
-
-    this.usuarioLogado = {
-      primeiroNome: 'leonardo',
-      sobrenome: 'bergamini',
-      email: 'leonardo@gmail.com'
-    }
+    
+    this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     this.msgBoasVindas();
+  }
+
+  carregarEventos(){
+    this.eventoService.getAllEventos()
+    .then(resp => {
+      this.storage.remove('eventos')
+      .then(() => {
+        this.listaCategoriasPage.filtrarCategorias('música');
+        this.storage.set('eventos', resp);
+        this.eventos = resp;
+      })
+    });
   }
 
   msgBoasVindas() {

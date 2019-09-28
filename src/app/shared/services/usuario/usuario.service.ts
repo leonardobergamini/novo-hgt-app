@@ -29,8 +29,35 @@ export class UsuarioService {
   }
   
   findUserByEmail(email: string): Promise<Usuarios>{    
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Buscando usuário...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
 
+      loading.present()
+      .then(() => {
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
+        .then(resp => resp.json())
+        .then(json => {
+          debugger;
+          let arrayUsuario = json['hydra:member'];
+          if(arrayUsuario.length > 0){
+            resolve(arrayUsuario[0]);
+            loading.dismiss();
+          }else{
+            reject('Usuário não encontrado.');
+            loading.dismiss();
+          }
+        })
+        .catch(err => {
+          debugger;
+          reject(err);
+          loading.dismiss();
+        });
+      });
     });
   }
 
@@ -76,8 +103,28 @@ export class UsuarioService {
         });
         loading.present()
         .then(() => {
+          let usuario: Usuarios = {
+            id: 1,
+            primeiroNome: 'leonardo',
+            sobrenome: 'bergamini',
+            cpf: '36980235800',
+            cep: '02326000',
+            cidade: 'são paulo',
+            complemento: '',
+            dtNascimento: '24/04/1995',
+            email: 'leonardo@gmail.com',
+            imgPerfil: '',
+            logradouro: 'rua arley gilberto de araujo',
+            numero: '04',
+            senha: 'leonardo',
+            telefone: '11940040876',
+            uf: 'sp',
+            usuario: 'berganardo'
+          }
+          localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+          localStorage.setItem('isUsuarioLogado', 'true');
           this.router.navigate(['menu-logado/explorar']);
-          resolve(`Entrou: ${email}`);
+          resolve();
         });
         loading.dismiss();
       // this.usuarioLogado.email = email;
@@ -89,5 +136,9 @@ export class UsuarioService {
   sair(): void{
     console.log('saindo...');
     this.router.navigate(['menu/explorar']);
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('detalhe-evento');
+    localStorage.removeItem('detalhe-pedido');
+    localStorage.removeItem('isUsuarioLogado');
   }
 }

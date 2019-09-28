@@ -1,14 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Eventos } from '../../../models/eventos/eventos';
 import * as $ from 'jquery';
-import { ModalController, NavParams, NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Setores } from 'src/app/shared/models/setores/setores';
 import { QuantidadeIngressoSetor } from 'src/app/shared/interfaces/quantidade-ingresso-setor/quantidade-ingresso-setor';
 import { Storage } from '@ionic/storage';
 import { EventoSetoresSelecionado } from 'src/app/shared/interfaces/evento-setor-selecionado/evento-setores-selecionado';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
+import { Anuncios } from 'src/app/shared/models/anuncios/anuncios';
+import { AnunciosPage } from './anuncios/anuncios.page';
 
 @Component({
   selector: 'evento-detalhe',
@@ -17,6 +20,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class EventoDetalhePage implements OnInit {
 
+  public temAnuncio: boolean = false;
+  private arrayAnuncios: Anuncios[] = [];
+  private isUsuarioLogado: boolean;
+  private rotaVoltar: string;
+  private id: number = 0;
   private contador: number = 0;
   private evento: Eventos = null;
   private ativarBtn: boolean = false;
@@ -28,45 +36,73 @@ export class EventoDetalhePage implements OnInit {
   @Input() eventos: Eventos;
 
   constructor(
-    private navParams: NavParams,
     private modalCtrl: ModalController,
     private navCtrl: NavController,
     private router: Router,
     private storage: Storage,
-    private statusBar: StatusBar
-  ){
-    this.evento = navParams.get('eventoSelecionado');
-  }
+    private statusBar: StatusBar,
+    private activatedRoute: ActivatedRoute,
+    private anuncioService: AnunciosService,
+    private modalController: ModalController
+  ){ }
 
   ngOnInit() {
+    this.evento = JSON.parse(localStorage.getItem('detalhe-evento'))
+    this.arrayAnuncios = [];
+    this.anuncioService.getAllByEvento(this.evento.id)
+    .then(resp => {
+      console.log(resp);
+      this.arrayAnuncios = resp;
+      this.arrayAnuncios.length ? this.temAnuncio = true : this.temAnuncio = false;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    this.evento.setores.sort((a,b) => {
+      return Number(a.preco) - Number(b.preco);
+    });
     this.evento.setores.forEach((value, i) => {
       this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
     });
-    $('#favorito').click(() => {
-      $('#favorito').toggleClass('favoritoClicado');
-    });
+    
   }
 
-  reset(){
-    $('#favorito').removeClass('favoritoClicado');
+  ionViewDidEnter(){ 
+    this.removerValorTotalNoBotao();
+    this.arraySomenteSetoresSelecionados = [];
+    // this.id = Number(this.activatedRoute.snapshot.paramMap.get('idEvento'));
+    this.isUsuarioLogado = Boolean(localStorage.getItem('isUsuarioLogado'));
+  }
+
+  ionViewDidLeave(){ 
+    console.log('saindo tela evento-detalhe...')
+    localStorage.removeItem('detalhe-evento');
   }
 
   adicionaBotaoComprar(){
     $('ion-tabs').find('ion-button').removeClass('ion-hide');
   }
 
-  fecharModal(){
-    this.modalCtrl.dismiss();
+  voltar(){
+    if(this.isUsuarioLogado){
+      this.navCtrl.navigateBack('menu-logado/explorar');
+    }else{
+      this.navCtrl.navigateBack('menu/explorar');
+    }
+  }
+
+  exibeAnuncios(evento){
+    localStorage.setItem('anunciosPorEvento', JSON.stringify(this.arrayAnuncios));
+    this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}/anuncios`);
   }
 
   validarCompra(evento){
-    if(this.arraySetoresSelecionados.length > 0){
+    if(this.arraySetoresSelecionados.length > 0 && this.contador){
       this.somenteSetoresSelecionados(this.arraySetoresSelecionados);
       this.getQuantidadeIngressos(this.arraySetoresSelecionados);
       
       this.storage.remove('eventoSelecionado')
       .then(resp => {console.log('Excluindo storage...');});
-
       let eventoComSetoresSelecionado: EventoSetoresSelecionado = {
         evento: evento,
         setores: this.arraySomenteSetoresSelecionados,
@@ -74,14 +110,16 @@ export class EventoDetalhePage implements OnInit {
         qtdIngressos: this.qtdIngressos
       }
       this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
-      this.fecharModal();
       this.router.navigate(['/menu-logado/efetuar-compra']);
+    }else{
+      console.log('Contador zerado');
     }
   }
 
   selecionarSetor(setor: Setores, contador: number){
+    this.contador = Number(contador);
     this.arraySetoresSelecionados = this.arraySetoresSemQuantidade;
-     let novoArray = this.arraySetoresSemQuantidade.map((value: QuantidadeIngressoSetor) => {
+      let novoArray = this.arraySetoresSemQuantidade.map((value: QuantidadeIngressoSetor) => {
       if(setor.nome === value.setor){
         return value = {
           setor: value.setor, 
@@ -108,7 +146,7 @@ export class EventoDetalhePage implements OnInit {
 
   calcularValorTotal(setores){
     let valorTmp: number = 0;
-    this.arraySetoresSelecionados.forEach((setor, i) => {
+    setores.forEach((setor, i) => {
       if(setor.valorTotal >= 0){
         valorTmp += setor.valorTotal;
       }

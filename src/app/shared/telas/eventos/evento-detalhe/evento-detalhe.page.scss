@@ -1,24 +1,3 @@
-@keyframes bounceIn {
-    0% {
-        transform: scale(0.1);
-        opacity: 0;
-    }
-    60% {
-        transform: scale(1.2);
-        opacity: 1;
-        color: #f00;
-    }
-    100% {
-        transform: scale(1);
-        color: #f00;
-    }
-}
-
-.favoritoClicado {
-    animation: bounceIn 1s;
-    color: #f00;
-}
-
 .imagem-evento-fixa {
     position: absolute;
     top: 0;
@@ -29,6 +8,10 @@
         position: fixed;
         top: 0;
     }
+}
+
+.infos {
+    width: 100%;
 }
 
 .infos-header {
@@ -121,4 +104,17 @@ ion-header {
     bottom: 0;
     width: 100%;
     height: 60px;
+}
+
+.ingressos-revenda {
+    // margin-top: 15px;
+    // margin-bottom: 15px;
+    // background: #f3f0f0;
+    padding: 15px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+ion-button {
+    font-size: 16px;
 }

@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">anúncios</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button color="primary" text="" icon="ios-arrow-back" defaultHref="" (click)="voltar()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <h1 class="ion-text-center">{{anuncios[0].ticket.idevento.nome}}</h1>
+    <div *ngFor="let anuncio of anuncios">
+        <ion-card button (click)="comprar(anuncio)" *ngIf="!anuncio.isvendido">
+            <ion-item lines="none" class="ion-no-margin">
+                <h3>{{anuncio.ticket.setor}}</h3>
+                <ion-label slot="end" class="ion-text-end">{{anuncio.preco | currency:'BRL'}}</ion-label>
+                <ion-icon src="../../../../../assets/menu-icons/ticket.svg" color="primary" slot="start"></ion-icon>
+            </ion-item>
+
+            <ion-card-content>
+                <div>
+                    <ion-text>Data: {{anuncio.ticket.idevento.dtinicioevento | date:'dd/MM/yyyy'}} - {{anuncio.ticket.idevento.horainicioevento | date:'hh:mm'}} às {{anuncio.ticket.idevento.horafimevento | date:'hh:mm'}}</ion-text>
+                </div>
+                <div class="margem-cima10" *ngIf="anuncio.usuario == '/api/usuarios/1'">
+                    <p>
+                        <ion-icon name="star" color="medium" slot="start"></ion-icon>
+                        Esse anúncio é seu.
+                    </p>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

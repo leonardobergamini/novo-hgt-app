@@ -79,7 +79,16 @@ const routes: Routes = [
               },
               {
                 path: 'cartao-credito', 
-                loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                children: [
+                  {
+                    path: '',
+                    loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                  },
+                  {
+                    path: ':idCartao',
+                    loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
+                  }
+                ]
               }
             ]
           },
@@ -104,6 +113,24 @@ const routes: Routes = [
             path: '',
             loadChildren: './logado/menu-logado/explorar/explorar.module#ExplorarPageModule',
 
+          },
+          {
+            path: 'detalhe-evento',
+            children: [
+              {
+                path: ':idEvento',
+                children: [
+                  {
+                    path: '',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'                 
+                  },
+                  {
+                    path: 'anuncios',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/anuncios/anuncios.module#AnunciosPageModule'
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -113,6 +140,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './logado/menu-logado/pesquisar/pesquisar.module#PesquisarPageModule',
+          }
+        ]
+      },
+      { 
+        path: 'meus-anuncios', 
+        children: [
+          {
+            path: '',
+            loadChildren: './logado/menu-logado/meus-anuncios/meus-anuncios.module#MeusAnunciosPageModule'
           }
         ]
       },
@@ -129,13 +165,27 @@ const routes: Routes = [
           },
           { 
             path: 'detalhe-pedido', 
-            loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module#DetalhePedidoPageModule' 
+            children: [
+              {
+                path: ':idPedido',
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/detalhe-pedido.module#DetalhePedidoPageModule' 
+              },
+              {
+                path: 'presentear', 
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/presentear/presentear.module#PresentearPageModule'
+              },
+              { 
+                path: 'revender/:idPedido', 
+                loadChildren: './logado/menu-logado/meus-ingressos/detalhe-pedido/revender/revender.module#RevenderPageModule' 
+              },
+            ]
           },
         ]
       },
 
     ]
   },
+
 
   // { path: 'editar-perfil', loadChildren: './logado/menu-logado/perfil/itens-perfil/editar-perfil/editar-perfil.module#EditarPerfilPageModule' },
 

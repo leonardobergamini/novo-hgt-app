@@ -1,0 +1,57 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">revender</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="ios-arrow-back" color="primary" defaultHref="" (click)="voltar()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>{{ticket.idevento.nome}}</ion-card-title>
+            <ion-card-subtitle>ticket #000{{id}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14" color="medium">setor</ion-text>
+                    </ion-col>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14" color="medium">preço comprado</ion-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">{{ticket.setor}}</ion-text>
+                    </ion-col>
+                    <ion-col size="6" class="ion-text-start">
+                        <ion-text class="fonte-tamanho14 txt-negrito" color="medium">{{ticket.preco | currency: 'BRL':'symbol':'0.0-2'}}</ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-content>
+            <form id="formRevender" [formGroup]="formRevender" (ngSubmit)="onSubmitRevender()">
+                <div id="preco" class="ion-text-start input-group margem-baixo10">
+                    <ion-label position="stacked">preço a ser vendido</ion-label>
+                    <ion-input formControlName="preco" inputmode="number" type="tel" class="margem-baixo5" name="money" [brmasker]="{money: true, thousand: ',', decimalCaracter: ',', decimal: '2'}"></ion-input>
+                    <ion-label position="stacked">você vai receber: <span class="txt-negrito">{{valorLiquidoVenda | currency: 'BRL':'symbol':'0.0-2'}}</span></ion-label>
+                    <!-- <ng-container *ngFor="let validacao of mensagensValidacao.uf">
+                <div *ngIf="formEditar.get('uf').hasError(validacao.type) && (formEditar.get('uf').dirty || formEditar.get('uf').touched)">
+                    <span>{{ validacao.message }}</span>
+                </div>
+            </ng-container> -->
+                </div>
+
+                <ion-button expand="block" type="submit" [disabled]="!formRevender.valid">Revender</ion-button>
+            </form>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
