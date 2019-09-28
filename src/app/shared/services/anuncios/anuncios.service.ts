@@ -7,11 +7,13 @@ import { LoadingController } from '@ionic/angular';
 })
 export class AnunciosService {
 
+  public arrayAnuncios: Anuncios[] = [];
+
   constructor(
     private loadingController: LoadingController
   ) { }
 
-  getAllByEvento(idEvento: number){
+  getAllByEvento(idEvento: number): Promise<Anuncios[]>{
     return new Promise(async (resolve, reject) => {
       let loading = await this.loadingController.create({
         message: 'Carregando...',
@@ -22,42 +24,46 @@ export class AnunciosService {
 
       loading.present()
       .then(() => {
-        let arrayAnuncios: Anuncios[] = [];
+        this.arrayAnuncios = [];
         fetch(`https://hgt-events.herokuapp.com/api/anuncios`)
         .then(resp => resp.json())
-        .then(json => {
+        .then(async json => {
           let allAnuncios = json['hydra:member'];
-          for(const anuncio of allAnuncios){
-            fetch(`https://hgt-events.herokuapp.com${anuncio.idTicket}`)
-            .then(resp => resp.json())
-            .then(json => {
-              let evento = json['idevento'];
-              let ticket = json;
-              if(evento.id === idEvento){
-                let obj: Anuncios = {
-                  id: anuncio.id,
-                  isvendido: anuncio.isvendido,
-                  preco: anuncio.preco,
-                  ticket: ticket,
-                  usuario: anuncio.idUsuario
-                }
 
-                arrayAnuncios.push(obj);
-                resolve(arrayAnuncios);
+          try{
+
+            for(const anuncio of allAnuncios){
+              await fetch(`https://hgt-events.herokuapp.com${anuncio.idTicket}`)
+              .then(resp => resp.json())
+              .then(json => {
+                let evento = json['idevento'];
+                let ticket = json;
+                if(evento.id === idEvento){
+                  let obj: Anuncios = {
+                    id: anuncio.id,
+                    isvendido: anuncio.isvendido,
+                    preco: anuncio.preco,
+                    ticket: ticket,
+                    usuario: anuncio.idUsuario
+                  }
+                  this.arrayAnuncios.push(obj);
+                }
+              })
+              .catch(err => {
+                reject(err);
                 loading.dismiss();
-                return;
-              }
-              loading.dismiss();
-            })
-            .catch(err => {
-              reject(err);
-              loading.dismiss();
-            });
+              });
+            }
+            loading.dismiss();
+            resolve(this.arrayAnuncios);
+          }
+          catch(err){
+            reject(err);
           }
         })
         .catch(err => {
           reject(err);
-        })
+        });
       });
 
     });

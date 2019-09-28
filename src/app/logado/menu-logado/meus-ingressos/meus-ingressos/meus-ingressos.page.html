@@ -9,63 +9,68 @@
         </ng-template>
     </ion-toolbar>
     <ion-segment class="margem-cima20" mode="md">
-        <ion-segment-button value="minhas-compras" checked (click)="selecionar('minhas-compras')">
+        <ion-segment-button value="minhas-compras" id="minhas-compras" checked (click)="selecionar('minhas-compras')">
             <ion-label>minhas compras</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="presentes" (click)="selecionar('presentes')">
+        <ion-segment-button value="presentes" id="presentes" (click)="selecionar('presentes')">
             <ion-label>presentes</ion-label>
         </ion-segment-button>
     </ion-segment>
 </ion-header>
 
 <ion-content padding>
-    <!-- <ion-slides #formSlides> -->
-    <section *ngIf="ticketsPorPedido.length > 0; else semTickets">
-        <!-- <ion-slide> -->
-        <div *ngFor="let pedido of ticketsPorPedido; let i = index;">
-            <ion-card button="true" (click)="selecionarPedido(pedido, i)">
-                <div class="fundo"></div>
-                <div class="infos">
-                    <div class="flex margem-baixo20">
-                        <ion-text>pedido #000{{pedido.pedido}}</ion-text>
-                        <ion-text>{{pedido.tickets?.length}} ingressos</ion-text>
-                    </div>
-                    <div class="fonte-tamanho26 ion-text-center margem-baixo10">
-                        <ion-text>
-                            {{pedido.tickets[0].idevento.nome}}
-                        </ion-text>
-                    </div>
+    <ion-refresher slot="fixed" (ionRefresh)="atualizarTela($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar">
 
-                    <div class="flex fonte-tamanho14 margem-baixo10 txt-negrito">
-                        <ion-text>Data: {{pedido.tickets[0].idevento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
-                        <ion-text>Hora: {{pedido.tickets[0].idevento.horainicioevento | date: 'hh:mm'}} às {{pedido.tickets[0].idevento.horafimevento | date: 'hh:mm'}}</ion-text>
-                    </div>
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-slides #formSlides (ionSlidePrevStart)="ativarAba('minhas-compras')" (ionSlideNextStart)="ativarAba('presentes')">
+        <ion-slide>
+            <section *ngIf="ticketsPorPedido.length > 0; else semTickets">
+                <div *ngFor="let pedido of ticketsPorPedido; let i = index;">
+                    <ion-card button="true" (click)="selecionarPedido(pedido, i)">
+                        <div class="fundo"></div>
+                        <div class="infos">
+                            <div class="flex margem-baixo20">
+                                <ion-text>pedido #000{{pedido.pedido}}</ion-text>
+                                <ion-text>{{pedido.tickets?.length}} ingressos</ion-text>
+                            </div>
+                            <div class="fonte-tamanho26 ion-text-center margem-baixo10">
+                                <ion-text>
+                                    {{pedido.tickets[0].idevento.nome}}
+                                </ion-text>
+                            </div>
 
-                    <div class="fonte-tamanho14 margem-baixo20">
-                        <!-- <ion-text>{{pedido.tickets[0].idevento.setores[0].idlocal.nome}} - {{pedido.tickets[0].evento.setores[0].idlocal.cidade}} / {{pedido.tickets[0].idevento.setores[0].idlocal.uf}}</ion-text> -->
-                    </div>
+                            <div class="flex fonte-tamanho14 margem-baixo10 txt-negrito">
+                                <ion-text>Data: {{pedido.tickets[0].idevento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
+                                <ion-text>Hora: {{pedido.tickets[0].idevento.horainicioevento | date: 'hh:mm'}} às {{pedido.tickets[0].idevento.horafimevento | date: 'hh:mm'}}</ion-text>
+                            </div>
 
+                            <div class="fonte-tamanho14 margem-baixo20">
+                                <!-- <ion-text>{{pedido.tickets[0].idevento.setores[0].idlocal.nome}} - {{pedido.tickets[0].evento.setores[0].idlocal.cidade}} / {{pedido.tickets[0].idevento.setores[0].idlocal.uf}}</ion-text> -->
+                            </div>
+
+                        </div>
+                        <div class="imagem-evento">
+                            <ion-img src="{{pedido.tickets[0].idevento.imagem}}"></ion-img>
+                        </div>
+                    </ion-card>
                 </div>
-                <div class="imagem-evento">
-                    <ion-img src="{{pedido.tickets[0].idevento.imagem}}"></ion-img>
+            </section>
+        </ion-slide>
+        <section>
+            <ng-template #semTickets>
+                <div class="ion-text-center">
+                    <ion-text color="medium">sem ingressos... =/</ion-text>
                 </div>
-            </ion-card>
-        </div>
-        <!-- </ion-slide> -->
-    </section>
-    <section>
-        <ng-template #semTickets>
+            </ng-template>
+        </section>
+
+        <ion-slide>
             <div class="ion-text-center">
-                <ion-text color="medium">sem ingressos... =/</ion-text>
+                <ion-text color="medium">sem presentes... =/</ion-text>
             </div>
-        </ng-template>
-    </section>
-
-    <!-- <ion-slide> -->
-    <!-- <div class="ion-text-center"> -->
-    <!-- <ion-text color="medium">sem presentes... =/</ion-text> -->
-    <!-- </div> -->
-    <!-- </ion-slide> -->
-    <!-- </ion-slides> -->
+        </ion-slide>
+    </ion-slides>
 
 </ion-content>

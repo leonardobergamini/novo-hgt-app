@@ -48,22 +48,23 @@ export class EventoDetalhePage implements OnInit {
 
   ngOnInit() {
     this.evento = JSON.parse(localStorage.getItem('detalhe-evento'))
+    this.arrayAnuncios = [];
     this.anuncioService.getAllByEvento(this.evento.id)
-    .then((resp: Anuncios[]) => {
+    .then(resp => {
       console.log(resp);
-      this.evento.setores.sort((a,b) => {
-        return Number(a.preco) - Number(b.preco);
-      });
-      this.evento.setores.forEach((value, i) => {
-        this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
-      });
-      resp.length ? this.temAnuncio = true : this.temAnuncio = false;
-      // this.arrayAnuncios = resp;
-      console.log(this.arrayAnuncios);
+      this.arrayAnuncios = resp;
+      this.arrayAnuncios.length ? this.temAnuncio = true : this.temAnuncio = false;
     })
     .catch(err => {
       console.log(err);
+    })
+    this.evento.setores.sort((a,b) => {
+      return Number(a.preco) - Number(b.preco);
     });
+    this.evento.setores.forEach((value, i) => {
+      this.arraySetoresSemQuantidade.push({setor: value.nome, contador: 0});
+    });
+    
   }
 
   ionViewDidEnter(){ 
@@ -91,23 +92,8 @@ export class EventoDetalhePage implements OnInit {
   }
 
   exibeAnuncios(evento){
-    this.anuncioService.getAllByEvento(evento.id)
-    .then(resp => {
-      console.log(resp);
-      // const modalAnuncios = await this.modalController.create({
-      //   component: AnunciosPage,
-      //   componentProps: {
-      //     anuncios: resp,
-      //     voltar: `explorar/detalhe-evento/${evento.id}`
-      //   }
-      // });
-      // return await modalAnuncios.present();
-      localStorage.setItem('anunciosPorEvento', JSON.stringify(resp));
-      this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}/anuncios`);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    localStorage.setItem('anunciosPorEvento', JSON.stringify(this.arrayAnuncios));
+    this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}/anuncios`);
   }
 
   validarCompra(evento){

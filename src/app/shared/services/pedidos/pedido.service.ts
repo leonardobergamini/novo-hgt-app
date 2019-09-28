@@ -109,6 +109,46 @@ getLast(): Promise<Pedidos>{
   });
 }
 
+getTicketsByPedido(idPedido: number): Promise<Tickets[]>{
+  return new Promise(async (resolve, reject) => {
+    let loading = await this.loadingController.create({
+      message: 'Atualizando...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+
+    loading.present()
+    .then(() => {
+      fetch(`https://hgt-events.herokuapp.com/api/pedidos/${idPedido}`)
+      .then(resp => resp.json())
+      .then(async json => {
+        let arrayTickets = [];
+        let tickets = json['tickets'];
+        
+        try{
+          for(const item of tickets){
+            await fetch(`https://hgt-events.herokuapp.com${item}`)
+            .then(resp => resp.json())
+            .then(json => {
+              arrayTickets.push(json);
+            })
+          }
+          resolve(arrayTickets);
+          loading.dismiss();
+        }
+        catch(err){
+          reject(err);
+        }
+      })
+      .catch(err => {
+        reject(err);
+        loading.dismiss();
+      })
+    })
+  })
+}
+
   // novoPedido(pedido){
   //   this.pedidos.push(
   //     {

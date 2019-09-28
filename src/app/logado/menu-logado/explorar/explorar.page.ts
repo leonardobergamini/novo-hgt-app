@@ -45,7 +45,7 @@ export class ExplorarPage implements OnInit {
     this.statusBar.backgroundColorByHexString('#FF6700');
     // this.storage.get('usuario').then(resp => this.usuarioLogado = resp)
     // console.log(this.usuarioLogado);
-
+    
     this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
     this.msgBoasVindas();
   }

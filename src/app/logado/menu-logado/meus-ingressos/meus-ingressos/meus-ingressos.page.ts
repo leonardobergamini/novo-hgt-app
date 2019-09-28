@@ -30,16 +30,7 @@ export class MeusIngressosPage implements OnInit {
     private navCtrl: NavController
   ) { }
 
-  ngOnInit() { }
-
-  selecionar(aba: string){
-    aba === 'presentes' ? this.formSlides.slideNext() : this.formSlides.slidePrev();   
-  }
-
-  ionViewWillEnter(){
-    this.statusBar.backgroundColorByHexString('#fff');
-    this.statusBar.styleDefault();
-    // this.formSlides.lockSwipeToNext();
+  ngOnInit() { 
     this.pedidoService.getTicketsPedidoByUsuarioLogado()
     .then(resp => {
       this.ticketsPorPedido = resp;
@@ -50,6 +41,39 @@ export class MeusIngressosPage implements OnInit {
     });
   }
 
+  selecionar(aba: string){
+    aba === 'presentes' ? this.formSlides.slideNext() : this.formSlides.slidePrev();   
+  }
+
+  ativarAba(aba: string){
+    if(aba === 'presentes'){
+      $('#presentes').attr('checked', true);
+      $('#minhas-compras').removeAttr('checked');
+    }else{
+      $('#minhas-compras').attr('checked', true);
+      $('#presentes').removeAttr('checked');
+    }
+  }
+
+
+  ionViewWillEnter(){
+    this.statusBar.backgroundColorByHexString('#fff');
+    this.statusBar.styleDefault();
+    // this.formSlides.lockSwipeToNext();
+  }
+  
+  atualizarTela(event){
+    this.pedidoService.getTicketsPedidoByUsuarioLogado()
+    .then(resp => {
+      this.ticketsPorPedido = resp;
+      console.log(resp);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    event.target.complete();
+  }
   async selecionarPedido(param, i){
     if(param){
       localStorage.setItem('detalhe-pedido', JSON.stringify(param));

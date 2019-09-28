@@ -29,8 +29,35 @@ export class UsuarioService {
   }
   
   findUserByEmail(email: string): Promise<Usuarios>{    
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+      let loading = await this.loadingController.create({
+        message: 'Buscando usuário...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
 
+      loading.present()
+      .then(() => {
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
+        .then(resp => resp.json())
+        .then(json => {
+          debugger;
+          let arrayUsuario = json['hydra:member'];
+          if(arrayUsuario.length > 0){
+            resolve(arrayUsuario[0]);
+            loading.dismiss();
+          }else{
+            reject('Usuário não encontrado.');
+            loading.dismiss();
+          }
+        })
+        .catch(err => {
+          debugger;
+          reject(err);
+          loading.dismiss();
+        });
+      });
     });
   }
 

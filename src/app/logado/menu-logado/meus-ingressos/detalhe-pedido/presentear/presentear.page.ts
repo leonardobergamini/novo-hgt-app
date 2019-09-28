@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, NavController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import * as $ from 'jquery';
+import { UsuarioService } from 'src/app/shared/services/usuario/usuario.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { EmailValidator } from 'src/app/shared/validators/email-validator/email-validator';
+import { Usuarios } from 'src/app/shared/models/usuarios/usuarios';
+import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 
 @Component({
   selector: 'app-presentear',
@@ -14,14 +19,23 @@ export class PresentearPage implements OnInit {
   private objPedido;
   private pedido;
   private ticket;
-  private itens = [];
-  private listaUsuarioFiltrado = [];
+  private usuarioEncontrado;
+  private formBuscaUsuario: FormGroup;
 
   constructor(
     private modalController: ModalController,
     private statusBar: StatusBar,
-    private alertController: AlertController
-  ) { }
+    private alertController: AlertController,
+    private usuarioService: UsuarioService,
+    private toastController: ToastController,
+    private formBuilder: FormBuilder,
+    private ticketService: TicketsService,
+    private navCtrl: NavController
+  ) { 
+    this.formBuscaUsuario = formBuilder.group({
+      email: ['', Validators.required, EmailValidator.verificarEmail]
+    });
+  }
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#fff');
@@ -30,98 +44,81 @@ export class PresentearPage implements OnInit {
       pedido: this.pedido,
       ticket: this.ticket
     }
-    console.log(this.objPedido);
-
-    this.itens = [
-      {
-        usuario: 'alan',
-        email: 'alan@gmail.com'
-      },
-      {
-        usuario: 'vitor',
-        email: 'vitor@gmail.com'
-      },
-      {
-        usuario: 'pedro',
-        email: 'pedro@gmail.com'
-      }
-
-    ];
   }
 
-  pesquisarUsuario(event){
-    let query = event.target.value.toLowerCase();
-    this.itens.filter(item => {
-        query === item.usuario ? this.listaUsuarioFiltrado.push(item) : null;
-    });
-  }
-
- async presentear(item){
-      const alert = await this.alertController.create({
-        header: 'Prompt!',
-        inputs: [
-          {
-            name: 'name1',
-            type: 'text',
-            placeholder: 'Placeholder 1'
-          },
-          {
-            name: 'name2',
-            type: 'text',
-            id: 'name2-id',
-            value: 'hello',
-            placeholder: 'Placeholder 2'
-          },
-          {
-            name: 'name3',
-            value: 'http://ionicframework.com',
-            type: 'url',
-            placeholder: 'Favorite site ever'
-          },
-          // input date with min & max
-          {
-            name: 'name4',
-            type: 'date',
-            min: '2017-03-01',
-            max: '2018-01-12'
-          },
-          // input date without min nor max
-          {
-            name: 'name5',
-            type: 'date'
-          },
-          {
-            name: 'name6',
-            type: 'number',
-            min: -5,
-            max: 10
-          },
-          {
-            name: 'name7',
-            type: 'number'
-          }
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
-          }, {
-            text: 'Ok',
-            handler: () => {
-              console.log('Confirm Ok');
-            }
-          }
-        ]
+  onSubmit(){
+    if(this.formBuscaUsuario.valid){
+      let email = this.formBuscaUsuario.get('email').value;
+      this.usuarioService.findUserByEmail(email)
+      .then(resp => {
+        console.log(resp);
+        this.usuarioEncontrado = resp;
+        // this.exibirToast('Usuário encontrado.', 'md-checkmark');
+      })
+      .catch(err => {
+        this.exibirToast('Usuário não encontrado.', 'md-close-circle');
       });
-      await alert.present();
     }
+  }
+
+  async presentear(){
+    this.alertController.create({
+      header: 'Envio de presente',
+      animated: true,
+      message: `Confirma o envio do ingresso para o ${this.usuarioEncontrado.primeironome} ${this.usuarioEncontrado.sobrenome}?`,
+      buttons: [
+        {
+          text: 'Não',
+          cssClass: 'secondary',
+          role: 'cancel',
+          handler: () => {
+            return false;
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.ticketService.updateTitular(this.usuarioEncontrado['@id'], this.objPedido.ticket['@id'])
+            .then(() => {
+              this.exibirToast('Presente enviado com sucesso.', 'md-checkmark');
+              this.fecharModal();
+            })
+            .catch(err => {
+              console.log(err);
+              this.exibirToast('Erro ao presentear. Tente novamente.', 'md-close-circle');
+            })
+          }
+        } 
+      ]
+    })
+    .then(alert => {
+      alert.present();
+    })
+    .catch(err => {
+      console.log(err);
+    });    
+  }
 
   fecharModal(){
     this.modalController.dismiss();
+  }
+
+  exibirToast(msg: string, icone: string){
+    const toast = this.toastController.create({
+      color: 'dark',
+      duration: 3000,
+      message: msg,
+      closeButtonText: 'fechar',
+      showCloseButton: true,
+      buttons: [
+        {
+          side: 'start',
+          icon: icone
+        }
+      ]
+    }).then(toastData => {
+      toastData.present();
+    });  
   }
 
 }

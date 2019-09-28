@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import { TicketsPedido } from 'src/app/shared/interfaces/tickets-pedido/tickets-pedido';
 import { Tickets } from 'src/app/shared/models/tickets/tickets';
+import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 
 @Component({
   selector: 'app-detalhe-pedido',
@@ -19,7 +20,7 @@ export class DetalhePedidoPage implements OnInit {
   private tickets;
   private objPedido;
   private id: number = 0;
-  private arrayTickets: Tickets;
+  private arrayTickets;
 
   constructor(
     private statusBar: StatusBar,
@@ -28,6 +29,7 @@ export class DetalhePedidoPage implements OnInit {
     private navCrtl: NavController,
     private activatedRoute: ActivatedRoute,
     private pedidoService: PedidoService,
+    private ticketService: TicketsService
 
   ) { }
 
@@ -40,12 +42,24 @@ export class DetalhePedidoPage implements OnInit {
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
     this.id = this.id = Number(this.activatedRoute.snapshot.paramMap.get('idPedido'));
-    this.arrayTickets = JSON.parse(localStorage.getItem('detalhe-pedido'));
   }
 
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
+    console.log('entrou');
+    this.pedidoService.getTicketsByPedido(this.id)
+    .then(resp => {
+      let obj = {
+        pedido: this.id,
+        tickets: resp
+      }
+      this.arrayTickets = obj;
+      console.log(this.arrayTickets);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   async acoes(ticket, i){
@@ -75,7 +89,7 @@ export class DetalhePedidoPage implements OnInit {
         handler: () => {
           if(ticket){
             localStorage.setItem('ticket', JSON.stringify(ticket));
-            this.navCrtl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/revender/${ticket.id}`);
+            this.navCrtl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/revender/${this.arrayTickets.pedido}`);
           };
         }
       }, 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Tickets } from '../../models/tickets/tickets';
 import { LoadingController } from '@ionic/angular';
+import { resolvePtr } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,84 @@ export class TicketsService {
           return new Error('Erro ao inserir tickets junto ao pedido');
         }
       }
+  }
+
+  updateTitular(idNovoTitular: string, idTicket: string): Promise<string>{
+    return new Promise(async (resolve, reject) => {
+      let obj = {idTitular: idNovoTitular, ispresente: true}
+      let loading = await this.loadingController.create({
+        message: 'Presenteando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(() => {
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idTicket}`, 
+        {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+        .then(resp => {
+          if(resp.status == 200 || resp.status == 201 || resp.status == 204){
+            resolve('Presente enviado com sucesso.');
+            loading.dismiss();
+          }else{
+            reject('Erro ao presentear.');
+            loading.dismiss();
+          }
+        })
+        .catch(err => {
+          reject(err);
+          loading.dismiss();
+        })
+      });
+    });
+  }
+
+  verificaPresente(tickets: Tickets[]): Promise<Tickets[]>{
+    return new Promise(async (resolve, reject) => {
+      debugger;
+      let loading = await this.loadingController.create({
+        message: 'Atualizando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(async () => {
+        let arrayTickets = [] = [];
+        for(const ticket of tickets){
+          debugger;
+          fetch(`https://hgt-events.herokuapp.com${ticket['@id']}`)
+          .then(resp => resp.json())
+          .then(json => {
+            debugger;
+            let ingresso = json;
+            console.log(ingresso);
+            if(ingresso.ispresente == true){
+              arrayTickets.push(ingresso);
+            }else{
+              arrayTickets.push(ingresso);
+            }
+            debugger;
+            return arrayTickets;
+            loading.dismiss();
+          })
+          .catch(err => {
+            reject(err);
+            console.log(err);
+            loading.dismiss();
+          })
+          return;
+        }
+      });
+    })
   }
 
   // getTicketByUser(idUsuario: number): Promise<Tickets[]>{
