@@ -8,10 +8,36 @@ import { LoadingController } from '@ionic/angular';
 export class AnunciosService {
 
   public arrayAnuncios: Anuncios[] = [];
+  private arrayAllAnuncios = [];
 
   constructor(
     private loadingController: LoadingController
   ) { }
+
+  // temAnuncios(idTicket): Promise<boolean>{
+  //   return new Promise((resolve, reject) => {
+      
+  //     fetch('https://hgt-events.herokuapp.com/api/anuncios')
+  //     .then(resp => resp.json())
+  //     .then(json => {
+  //       debugger;
+  //       let arrayAllAnuncios = [];
+  //       arrayAllAnuncios = json['hydra:member'];
+
+  //       for(const anuncio of arrayAllAnuncios){
+  //         debugger;
+  //         if(anuncio.idTicket === idTicket){
+  //           resolve(true)
+  //         }
+  //       }
+  //     })
+  //     .catch(err => {
+  //       debugger;
+  //       reject(err);
+  //     })
+
+  //   });
+  // }
 
   getAllByEvento(idEvento: number): Promise<Anuncios[]>{
     return new Promise(async (resolve, reject) => {
@@ -84,8 +110,9 @@ export class AnunciosService {
         fetch(`https://hgt-events.herokuapp.com/api/usuarios/${idUsuario}`)
         .then(resp => resp.json())
         .then(json => {
-  
           let response = json['anuncios'];
+          this.arrayAllAnuncios = [];
+          this.arrayAllAnuncios = response;
           resolve(response);
           loading.dismiss();
         })

@@ -28,12 +28,12 @@
         <ion-slide>
             <section *ngIf="ticketsPorPedido.length > 0; else semTickets">
                 <div *ngFor="let pedido of ticketsPorPedido; let i = index;">
-                    <ion-card button="true" (click)="selecionarPedido(pedido, i)">
+                    <ion-card button="true" (click)="selecionarPedido(pedido, i)" (press)="onPress(pedido)">
                         <div class="fundo"></div>
                         <div class="infos">
                             <div class="flex margem-baixo20">
                                 <ion-text>pedido #000{{pedido.pedido}}</ion-text>
-                                <ion-text>{{pedido.tickets?.length}} ingressos</ion-text>
+                                <ion-text>{{pedido.tickets?.length}} ingresso(s)</ion-text>
                             </div>
                             <div class="fonte-tamanho26 ion-text-center margem-baixo10">
                                 <ion-text>

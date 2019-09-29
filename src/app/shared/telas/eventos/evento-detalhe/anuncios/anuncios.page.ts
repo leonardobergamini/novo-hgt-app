@@ -16,6 +16,7 @@ export class AnunciosPage implements OnInit {
 
   private anuncios: Anuncios[] = [];
   private id: number;
+  private usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   constructor(
     private modalController: ModalController,
@@ -43,7 +44,7 @@ export class AnunciosPage implements OnInit {
   }
 
   comprar(anuncio){
-    if(anuncio.usuario === '/api/usuarios/1'){
+    if(anuncio.usuario === this.usuarioLogado['@id']){
       this.exibirToast('Esse ingresso já é seu.', null);
     }else{
       console.log(anuncio);

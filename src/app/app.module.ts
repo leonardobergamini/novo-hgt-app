@@ -1,5 +1,5 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
@@ -43,6 +43,7 @@ import { AnunciosPageModule } from './shared/telas/eventos/evento-detalhe/anunci
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig},
     Keyboard,
     DatePicker
   ],

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { NavController, ModalController, IonSegment } from '@ionic/angular';
+import { NavController, ModalController, IonSegment, ActionSheetController, AlertController } from '@ionic/angular';
 
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 import { Tickets } from 'src/app/shared/models/tickets/tickets';
@@ -27,7 +27,9 @@ export class MeusIngressosPage implements OnInit {
     private ticketService: TicketsService,
     private pedidoService: PedidoService,
     private modalController: ModalController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private actionSheetController: ActionSheetController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() { 
@@ -61,6 +63,68 @@ export class MeusIngressosPage implements OnInit {
     this.statusBar.styleDefault();
     // this.formSlides.lockSwipeToNext();
   }
+
+  async onPress(pedido){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Ações',
+      buttons: [ 
+      {
+        text: 'Cancelar pedido',
+        handler: () => {
+          if(pedido){
+            // localStorage.setItem('ticket', JSON.stringify(ticket));
+            // this.navCrtl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/revender/${this.arrayTickets.pedido}`);
+            this.alertController.create({
+              header: 'Cancelamento de pedido.',
+              animated: true,
+              message: 'Confirma o cancelamento do pedido?',
+              buttons: [
+                {
+                  text: 'Não',
+                  cssClass: 'secondary',
+                  role: 'cancel',
+                  handler: () => {
+                    return false;
+                  }
+                },
+                {
+                  text: 'Sim',
+                  handler: () => {
+                    // return true;
+                    this.pedidoService.cancelarPedido(pedido)
+                    .then(resp => {
+                      if(resp){
+                        console.log('cancelou');
+                        this.atualizarTela(null);
+                      }else{
+                        console.log('não cancelou');
+                      }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    })
+                  }
+                } 
+              ]
+            }).then(alert => {
+              alert.present();
+            }).catch(err => {
+              console.log(err);
+            });
+          };
+        }
+      }, 
+      {
+        text: 'Fechar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('fechar clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
   
   atualizarTela(event){
     this.pedidoService.getTicketsPedidoByUsuarioLogado()
@@ -74,6 +138,7 @@ export class MeusIngressosPage implements OnInit {
 
     event.target.complete();
   }
+  
   async selecionarPedido(param, i){
     if(param){
       localStorage.setItem('detalhe-pedido', JSON.stringify(param));

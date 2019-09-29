@@ -92,7 +92,7 @@ export class UsuarioService {
     });
   }
 
-  async login(email: string, senha: string): Promise<any>{
+  async login(email: string, senha: string): Promise<Usuarios>{
     return new Promise(async (resolve, reject) => {
         let loading = await this.loadingController.create({
           message: 'Entrando...',
@@ -102,31 +102,24 @@ export class UsuarioService {
           duration: 2000
         });
         loading.present()
-        .then(() => {
-          let usuario: Usuarios = {
-            id: 1,
-            primeiroNome: 'leonardo',
-            sobrenome: 'bergamini',
-            cpf: '36980235800',
-            cep: '02326000',
-            cidade: 'são paulo',
-            complemento: '',
-            dtNascimento: '24/04/1995',
-            email: 'leonardo@gmail.com',
-            imgPerfil: '',
-            logradouro: 'rua arley gilberto de araujo',
-            numero: '04',
-            senha: 'leonardo',
-            telefone: '11940040876',
-            uf: 'sp',
-            usuario: 'berganardo'
-          }
-          localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-          localStorage.setItem('isUsuarioLogado', 'true');
-          this.router.navigate(['menu-logado/explorar']);
-          resolve();
+        .then(() => {    
+          fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
+          .then(resp => resp.json())
+          .then(json => {
+            let usuario = json['hydra:member'][0];
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+            localStorage.setItem('isUsuarioLogado', 'true');
+            this.router.navigate(['menu-logado/explorar']);
+            resolve(usuario)
+            loading.dismiss();
+
+          })
+          .catch(err => {
+            console.log(err);
+            reject('Erro ao efetuar login. Tente novamente.');
+            loading.dismiss();
+          })
         });
-        loading.dismiss();
       // this.usuarioLogado.email = email;
       // this.usuarioLogado.senha = senha;
       // this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.usuarioLogado)));
@@ -140,5 +133,6 @@ export class UsuarioService {
     localStorage.removeItem('detalhe-evento');
     localStorage.removeItem('detalhe-pedido');
     localStorage.removeItem('isUsuarioLogado');
+    localStorage.removeItem('anunciosPorEvento');
   }
 }

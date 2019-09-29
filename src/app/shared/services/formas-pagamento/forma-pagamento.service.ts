@@ -27,25 +27,26 @@ export class FormaPagamentoService {
   // private formasPagamento: FormasPagamento[] = [];
   private formaPagamentoAtiva: FormasPagamento;
   public quantidadeFormasPagamento: number = 0;
+  private usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
   
-  private usuario: Usuarios = {
-    id: 1,
-    primeiroNome: 'leonardo',
-    sobrenome: 'bergamini',
-    cpf: '36980235800',
-    cep: '02326000',
-    cidade: 'são paulo',
-    complemento: '',
-    dtNascimento: '24/04/1995',
-    email: 'leonardo@gmail.com',
-    imgPerfil: '',
-    logradouro: 'rua arley gilberto de araujo',
-    numero: '04',
-    senha: 'leonardo',
-    telefone: '11940040876',
-    uf: 'sp',
-    usuario: 'berganardo'
-  }
+  // private usuario: Usuarios = {
+  //   id: 1,
+  //   primeiroNome: 'leonardo',
+  //   sobrenome: 'bergamini',
+  //   cpf: '36980235800',
+  //   cep: '02326000',
+  //   cidade: 'são paulo',
+  //   complemento: '',
+  //   dtNascimento: '24/04/1995',
+  //   email: 'leonardo@gmail.com',
+  //   imgPerfil: '',
+  //   logradouro: 'rua arley gilberto de araujo',
+  //   numero: '04',
+  //   senha: 'leonardo',
+  //   telefone: '11940040876',
+  //   uf: 'sp',
+  //   usuario: 'berganardo'
+  // }
   
   private cartoes: CartoesCredito[] = [
     {
@@ -54,7 +55,7 @@ export class FormaPagamentoService {
       codSeguranca: 456,
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       bandeira: 'VISA',
       cartaoFormatado: 8765
     }
@@ -65,7 +66,7 @@ export class FormaPagamentoService {
       cartao: this.cartoes[0],
       carteira: null,
       idFormaPg: this.id++,
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       pagamento: true
     },
     {
@@ -73,10 +74,10 @@ export class FormaPagamentoService {
       carteira: {
         idCarteira: 1,
         saldo: 300,
-        usuario: this.usuario
+        usuario: this.usuarioLogado
       },
       idFormaPg: this.id++,
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       pagamento: false
     }
   ];
@@ -107,7 +108,7 @@ export class FormaPagamentoService {
               idFormaPg: formaPagamento.id,
               cartao: this.cartaoCredito,
               carteira: null,
-              usuario: this.usuario,
+              usuario: this.usuarioLogado,
               pagamento: true
             }
             resolve(obj);
@@ -135,7 +136,7 @@ export class FormaPagamentoService {
         dtVencimento: cartao.dtVencimento,
         nomeTitular: cartao.nomeTitular,
         nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
+        idUsuario: this.usuarioLogado['@id']
       }
 
       let loading = await this.loadingController.create({
@@ -161,7 +162,7 @@ export class FormaPagamentoService {
         dtVencimento: cartao.dtVencimento,
         nomeTitular: cartao.nomeTitular,
         nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
+        idUsuario: this.usuarioLogado['@id']
       }
       let loading = await this.loadingController.create({
         message: 'Cadastrando forma de pagamento...',
@@ -175,7 +176,7 @@ export class FormaPagamentoService {
         let obj = {
           "idCartao": 'api/cartoes_creditos/2',
           "idCarteira": 'api/carteiras/1',
-          "idUsuario": 'api/usuarios/1'
+          "idUsuario": this.usuarioLogado['@id']
         }
         console.log(resp);
         fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos', {
@@ -228,7 +229,7 @@ export class FormaPagamentoService {
               idFormaPg: formaPagamento.id,
               cartao: this.cartaoCredito,
               carteira: null,
-              usuario: this.usuario,
+              usuario: this.usuarioLogado,
               pagamento: true
             }
             // this.arrayAllFormasPagamento = [];
@@ -266,10 +267,10 @@ export class FormaPagamentoService {
               carteira: {
                 idCarteira: 1,
                 saldo: 300,
-                usuario: this.usuario
+                usuario: this.usuarioLogado
               },
               idFormaPg: this.id++,
-              usuario: this.usuario,
+              usuario: this.usuarioLogado,
               pagamento: false
             });
             resolve(this.formasPagamento)

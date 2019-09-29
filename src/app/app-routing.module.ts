@@ -24,6 +24,24 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: './deslogado/menu/explorar/explorar.module#ExplorarPageModule',
+          },
+          {
+            path: 'detalhe-evento',
+            children: [
+              {
+                path: ':idEvento',
+                children: [
+                  {
+                    path: '',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/evento-detalhe.module#EventoDetalhePageModule'                 
+                  },
+                  {
+                    path: 'anuncios',
+                    loadChildren: './shared/telas/eventos/evento-detalhe/anuncios/anuncios.module#AnunciosPageModule'
+                  }
+                ]
+              }
+            ]
           }
         ]
       },

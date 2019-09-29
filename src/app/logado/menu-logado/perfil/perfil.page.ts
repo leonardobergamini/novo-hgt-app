@@ -15,9 +15,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class PerfilPage implements OnInit {
 
-  temFoto: boolean = false;
-  // user = JSON.parse(localStorage.getItem('usuarioLogado'));
-  usuarioLogado: any;
+  private temFoto: boolean = false;
+  private usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
   itens =[
     {
       titulo: 'formas de pagamento',
@@ -59,12 +58,7 @@ export class PerfilPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.usuarioLogado = {
-      primeiroNome: 'leonardo',
-      sobrenome: 'bergamini',
-      email: 'leonardo@gmail.com',
-      imgPerfil: 'null'
-    };
+
     this.temFoto = this.usuarioLogado.imgPerfil == undefined || 
     this.usuarioLogado.imgPerfil == null || 
     this.usuarioLogado.imgPerfil == '' ||

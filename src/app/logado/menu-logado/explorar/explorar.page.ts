@@ -66,15 +66,15 @@ export class ExplorarPage implements OnInit {
     var data = new Date();
     if(data.getHours() < 12 ){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>bom dia, ${this.usuarioLogado.primeiroNome.toLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>bom dia, ${this.usuarioLogado.primeironome.toLowerCase()}</h2>`);
     }
     if (data.getHours() >= 12){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>boa tarde, ${this.usuarioLogado.primeiroNome.toLocaleLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>boa tarde, ${this.usuarioLogado.primeironome.toLocaleLowerCase()}</h2>`);
     }
     if(data.getHours() >= 18 ){
       $('.bem-vindo').find('h2').remove();
-      $('.bem-vindo').append(`<h2>boa noite, ${this.usuarioLogado.primeiroNome.toLocaleLowerCase()}</h2>`);
+      $('.bem-vindo').append(`<h2>boa noite, ${this.usuarioLogado.primeironome.toLocaleLowerCase()}</h2>`);
     }
   }
 

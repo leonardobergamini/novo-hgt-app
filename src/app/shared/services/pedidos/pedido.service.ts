@@ -149,6 +149,47 @@ getTicketsByPedido(idPedido: number): Promise<Tickets[]>{
   })
 }
 
+cancelarPedido(pedido): Promise<boolean>{
+  return new Promise(async (resolve, reject) => {
+    let loading = await this.loadingController.create({
+      message: 'Cancelando pedido...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+
+    loading.present()
+    .then(async () => {
+      let tickets = pedido.tickets;
+      for(const ticket of tickets){
+        await fetch(`https://hgt-events.herokuapp.com${ticket['@id']}`, {method: 'delete'})
+        .then(async resp => {
+          if(resp.status == 200 || resp.status == 204){
+            await fetch(`https://hgt-events.herokuapp.com/api/pedidos/${pedido.pedido}}`, {method: 'delete'})
+            .then(resp => {
+              if(resp.status == 200 || resp.status == 204){
+                resolve(true);
+              }else{
+                resolve(false);
+              }
+              loading.dismiss();
+            })
+          }else{
+            reject('Erro ao cancelar os ingressos do pedido. Veriquei e tente novamente.')
+            loading.dismiss();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          reject('Erro ao cancelar o pedido. Tente novamente.')
+          loading.dismiss();
+        })
+  
+      }
+    });
+  });
+}
+
   // novoPedido(pedido){
   //   this.pedidos.push(
   //     {

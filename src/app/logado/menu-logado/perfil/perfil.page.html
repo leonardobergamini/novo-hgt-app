@@ -10,13 +10,13 @@
             </div>
         </ng-template>
 
-        <div class="link ion-text-center">
+        <!-- <div class="link ion-text-center">
             <a href="#">Altenar foto</a>
-        </div>
+        </div> -->
 
         <div class="dados-perfil">
             <div class="nome-completo" class="ion-text-center">
-                <p class="ion-no-margin" *ngIf="usuarioLogado.primeiroNome else semNome">{{ usuarioLogado.primeiroNome + ' ' + usuarioLogado.sobrenome }}</p>
+                <p class="ion-no-margin" *ngIf="usuarioLogado.primeironome else semNome">{{ usuarioLogado.primeironome + ' ' + usuarioLogado.sobrenome }}</p>
                 <ng-template #semNome>
                     <p class="ion-no-margin">sem nome</p>
                 </ng-template>

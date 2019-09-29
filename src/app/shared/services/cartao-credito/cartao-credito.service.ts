@@ -9,7 +9,7 @@ export class CartaoCreditoService {
 
   public quantidadeCartoesCredito: number = 0;
   public arrayCartoesCredito: CartoesCredito[] = [];
-
+  private usuarioLogado = JSON.parse(localStorage.get('usuarioLogado'));
   constructor(
     private loadingController: LoadingController,
   ) { }
@@ -22,7 +22,7 @@ export class CartaoCreditoService {
         dtVencimento: cartao.dtVencimento,
         nomeTitular: cartao.nomeTitular,
         nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
+        idUsuario: this.usuarioLogado['@id']
       }
       console.log(obj);
       fetch('https://hgt-events.herokuapp.com/api/cartoes_creditos', {
@@ -48,7 +48,7 @@ export class CartaoCreditoService {
         dtVencimento: cartao.dtVencimento,
         nomeTitular: cartao.nomeTitular,
         nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
+        idUsuario: this.usuarioLogado['@id']
       }
       fetch(`https://hgt-events.herokuapp.com/api/cartoes_creditos/${id}` ,{
         method: 'put',

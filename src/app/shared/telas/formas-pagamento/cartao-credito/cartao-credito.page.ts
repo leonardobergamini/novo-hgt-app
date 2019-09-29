@@ -150,7 +150,7 @@ export class CartaoCreditoPage implements OnInit {
   onSubmit(){
     if(!this.formCadastrarFormaPg.valid){                      
       console.log(this.formCadastrarFormaPg.value);         
-      this.exibirToast('Há erros no formulários. Tente novamente', 'close-circle');
+      this.exibirToast('Há erros no formulários. Tente novamente', 'md-close-circle');
     }else{
       let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
       console.log(cartao);
@@ -158,7 +158,7 @@ export class CartaoCreditoPage implements OnInit {
       this.cartaoCreditoService.update(this.paramId, cartao)
       .then(resp => {
         console.log(resp);
-        this.exibirToast('Cartão alterado com sucesso!', 'checkmark-circle');
+        this.exibirToast('Cartão alterado com sucesso!', 'md-checkmark');
       })
       .catch(err => {
         console.log(err);

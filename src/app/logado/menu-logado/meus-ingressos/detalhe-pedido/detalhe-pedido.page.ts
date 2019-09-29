@@ -8,6 +8,7 @@ import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import { TicketsPedido } from 'src/app/shared/interfaces/tickets-pedido/tickets-pedido';
 import { Tickets } from 'src/app/shared/models/tickets/tickets';
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
+import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
 
 @Component({
   selector: 'app-detalhe-pedido',
@@ -29,7 +30,8 @@ export class DetalhePedidoPage implements OnInit {
     private navCrtl: NavController,
     private activatedRoute: ActivatedRoute,
     private pedidoService: PedidoService,
-    private ticketService: TicketsService
+    private ticketService: TicketsService,
+    private anuncioService: AnunciosService
 
   ) { }
 
@@ -44,7 +46,7 @@ export class DetalhePedidoPage implements OnInit {
     this.id = this.id = Number(this.activatedRoute.snapshot.paramMap.get('idPedido'));
   }
 
-  ionViewWillEnter(){
+  ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
     console.log('entrou');
@@ -56,6 +58,19 @@ export class DetalhePedidoPage implements OnInit {
       }
       this.arrayTickets = obj;
       console.log(this.arrayTickets);
+
+      // for(const ticket of this.arrayTickets.tickets){
+      //   debugger;
+      //   this.anuncioService.temAnuncios(ticket['@id'])
+      //   .then(resp => {
+      //     debugger;
+      //   })
+      //   .catch(err => {
+      //     debugger;
+      //     console.log(err);
+      //   })
+      // }
+
     })
     .catch(err => {
       console.log(err);

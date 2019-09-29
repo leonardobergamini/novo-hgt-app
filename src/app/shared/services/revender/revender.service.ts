@@ -7,6 +7,8 @@ import { LoadingController } from '@ionic/angular';
 })
 export class RevenderService {
 
+  private usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
   constructor(
     private loadingController: LoadingController
   ) { }
@@ -25,7 +27,7 @@ export class RevenderService {
       .then(() => {
         let obj = {
             preco: anuncio.preco,
-            idUsuario: "api/usuarios/1",
+            idUsuario: this.usuarioLogado,
             idTicket: `api/tickets/${anuncio.ticket.id}`,
             isVendido: false
         }

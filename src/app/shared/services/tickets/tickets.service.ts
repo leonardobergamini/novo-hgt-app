@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tickets } from '../../models/tickets/tickets';
 import { LoadingController } from '@ionic/angular';
-import { resolvePtr } from 'dns';
 
 @Injectable({
   providedIn: 'root'

@@ -23,24 +23,15 @@ export class ExplorarPage implements OnInit {
     private statusBar: StatusBar,
     private eventoService: EventosService,
     private navCtrl: NavController,
-    private storage: Storage
     ) { }
 
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#ecf0f1');
-    this.eventoService.getAllEventos()
-    .then(resp => {
-      this.storage.remove('eventos')
-      .then(() => {
-        this.listaCategoriasPage.filtrarCategorias('música');
-        // this.storage.set('eventos', resp);
-        console.log('limpando storage de enventos');
-        this.storage.keys()
-        .then(resp => {
-          console.log(resp);
-        })
-      })
-    });
+    // this.listaCategoriasPage.filtrarCategorias('música');
+    // this.eventoService.getAllEventos()
+    // .then(resp => {
+    //   console.log(resp);
+    // });
   }
 
   ionViewDidEnter(){
