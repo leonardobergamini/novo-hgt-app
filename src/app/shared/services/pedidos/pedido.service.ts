@@ -224,6 +224,8 @@ getTicketsByPedido(idPedido: number): Promise<Tickets[]>{
   
       loading.present()
       .then(() => {
+        this.usuarioLogado = null;
+        this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
         let idUsuario = this.usuarioLogado['@id'];
         fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idUsuario}`)
         .then(resp => resp.json())
