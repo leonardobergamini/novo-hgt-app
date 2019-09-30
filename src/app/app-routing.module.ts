@@ -105,7 +105,11 @@ const routes: Routes = [
                   {
                     path: ':idCartao',
                     loadChildren: './shared/telas/formas-pagamento/cartao-credito/cartao-credito.module#CartaoCreditoPageModule'                 
-                  }
+                  },
+                  // { 
+                  //   path: 'editar-cartao-credito', 
+                  //   loadChildren: './shared/telas/formas-pagamento/cartao-credito/editar-cartao-credito/editar-cartao-credito.module#EditarCartaoCreditoPageModule' 
+                  // },
                 ]
               }
             ]

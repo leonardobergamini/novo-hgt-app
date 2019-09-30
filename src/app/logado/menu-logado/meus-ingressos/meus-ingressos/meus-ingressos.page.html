@@ -67,10 +67,44 @@
         </section>
 
         <ion-slide>
-            <div class="ion-text-center">
-                <ion-text color="medium">sem presentes... =/</ion-text>
-            </div>
+            <section *ngIf="ticketsPresente.length > 0; else semPresentes">
+                <div *ngFor="let ticket of ticketsPresente; let i = index;">
+                    <ion-card button="true">
+                        <div class="fundo"></div>
+                        <div class="infos">
+                            <div class="flex margem-baixo20">
+                                <ion-text>ticket #000{{ticket.id}}</ion-text>
+                            </div>
+                            <div class="fonte-tamanho26 ion-text-center margem-baixo10">
+                                <ion-text>
+                                    {{ticket.idevento.nome}}
+                                </ion-text>
+                            </div>
+
+                            <div class="flex fonte-tamanho14 margem-baixo10 txt-negrito">
+                                <ion-text>Data: {{ticket.idevento.dtinicioevento | date: 'dd/MM/yyyy'}}</ion-text>
+                                <ion-text>Hora: {{ticket.idevento.horainicioevento | date: 'hh:mm'}} às {{ticket.idevento.horafimevento | date: 'hh:mm'}}</ion-text>
+                            </div>
+
+                            <div class="fonte-tamanho14 margem-baixo20">
+                                <!-- <ion-text>{{pedido.tickets[0].idevento.setores[0].idlocal.nome}} - {{pedido.tickets[0].evento.setores[0].idlocal.cidade}} / {{pedido.tickets[0].idevento.setores[0].idlocal.uf}}</ion-text> -->
+                            </div>
+
+                        </div>
+                        <div class="imagem-evento">
+                            <ion-img src="{{ticket.idevento.imagem}}"></ion-img>
+                        </div>
+                    </ion-card>
+                </div>
+            </section>
         </ion-slide>
+        <section>
+            <ng-template #semPresentes>
+                <div class="ion-text-center">
+                    <ion-text color="medium">sem ingressos... =/</ion-text>
+                </div>
+            </ng-template>
+        </section>
     </ion-slides>
 
 </ion-content>

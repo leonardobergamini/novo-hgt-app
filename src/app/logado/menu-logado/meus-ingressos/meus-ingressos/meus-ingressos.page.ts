@@ -20,6 +20,7 @@ export class MeusIngressosPage implements OnInit {
   private tickets: Tickets[] = [];
   private qtdTickets: number = 0;
   public ticketsPorPedido: TicketsPedido[] = [];
+  public ticketsPresente = [];
   @ViewChild('formSlides') formSlides;
 
   constructor(
@@ -33,14 +34,7 @@ export class MeusIngressosPage implements OnInit {
   ) { }
 
   ngOnInit() { 
-    this.pedidoService.getTicketsPedidoByUsuarioLogado()
-    .then(resp => {
-      this.ticketsPorPedido = resp;
-      console.log(resp);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    this.atualizarTela(null);
   }
 
   selecionar(aba: string){
@@ -56,7 +50,6 @@ export class MeusIngressosPage implements OnInit {
       $('#presentes').removeAttr('checked');
     }
   }
-
 
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
@@ -131,6 +124,14 @@ export class MeusIngressosPage implements OnInit {
     .then(resp => {
       this.ticketsPorPedido = resp;
       console.log(resp);
+      this.ticketService.verificaPresente()
+      .then(resp => {
+        this.ticketsPresente = resp;
+        console.log(resp);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     })
     .catch(err => {
       console.log(err);
@@ -139,10 +140,19 @@ export class MeusIngressosPage implements OnInit {
     event.target.complete();
   }
   
-  async selecionarPedido(param, i){
+  selecionarPedido(param, i){
     if(param){
+      localStorage.removeItem('detalhe-pedido');
       localStorage.setItem('detalhe-pedido', JSON.stringify(param));
       this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${param.pedido}`)
+    }
+  }
+  
+  selecionarTicket(ticket){
+    if(ticket){
+      localStorage.removeItem('detalhe-pedido');
+      localStorage.setItem('detalhe-pedido', JSON.stringify(ticket));
+      this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${ticket.id}`);
     }
   }
 

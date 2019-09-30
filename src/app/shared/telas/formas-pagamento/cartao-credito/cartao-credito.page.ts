@@ -152,20 +152,35 @@ export class CartaoCreditoPage implements OnInit {
       console.log(this.formCadastrarFormaPg.value);         
       this.exibirToast('Há erros no formulários. Tente novamente', 'md-close-circle');
     }else{
-      let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
-      console.log(cartao);
-      this.keyboard.hide();
-      this.cartaoCreditoService.update(this.paramId, cartao)
-      .then(resp => {
-        console.log(resp);
-        this.exibirToast('Cartão alterado com sucesso!', 'md-checkmark');
-      })
-      .catch(err => {
-        console.log(err);
-        this.exibirToast(err, 'close-circle');  
-      })
-      this.navCtrl.navigateBack('menu-logado/perfil/formas-pagamento');
-      
+      if(this.paramId == 0 || this.paramId == undefined || this.paramId == null){
+        let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
+        console.log(cartao);
+        this.keyboard.hide();
+        this.formaPagamentoService.create(cartao)
+        .then(resp => {
+          console.log(resp);
+          this.exibirToast('Cartão de crédito adicionado com sucesso!', 'md-checkmark');
+          this.navCtrl.navigateBack('menu-logado/perfil/formas-pagamento');
+        })
+        .catch(err => {
+          console.log(err);
+          this.exibirToast(err, 'close-circle');  
+        })
+      }else{
+        let cartao: CartoesCredito = this.formCadastrarFormaPg.value;
+        console.log(cartao);
+        this.keyboard.hide();
+        this.cartaoCreditoService.update(this.paramId, cartao)
+        .then(resp => {
+          console.log(resp);
+          this.exibirToast('Cartão alterado com sucesso!', 'md-checkmark');
+          this.navCtrl.navigateBack('menu-logado/perfil/formas-pagamento');
+        })
+        .catch(err => {
+          console.log(err);
+          this.exibirToast(err, 'close-circle');  
+        })
+      }
     }
   }
 

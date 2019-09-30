@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Anuncios } from '../../models/anuncios/anuncios';
 import { LoadingController } from '@ionic/angular';
+import { Usuarios } from '../../models/usuarios/usuarios';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class AnunciosService {
 
   public arrayAnuncios: Anuncios[] = [];
   private arrayAllAnuncios = [];
+  private usuarioLogado: Usuarios = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   constructor(
     private loadingController: LoadingController
@@ -51,7 +53,7 @@ export class AnunciosService {
       loading.present()
       .then(() => {
         this.arrayAnuncios = [];
-        fetch(`https://hgt-events.herokuapp.com/api/anuncios`)
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/anuncios`)
         .then(resp => resp.json())
         .then(async json => {
           let allAnuncios = json['hydra:member'];
@@ -59,7 +61,7 @@ export class AnunciosService {
           try{
 
             for(const anuncio of allAnuncios){
-              await fetch(`https://hgt-events.herokuapp.com${anuncio.idTicket}`)
+              await fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${anuncio.idTicket}`)
               .then(resp => resp.json())
               .then(json => {
                 let evento = json['idevento'];
@@ -106,8 +108,8 @@ export class AnunciosService {
 
       loading.present()
       .then(() => {
-        let idUsuario = 1;
-        fetch(`https://hgt-events.herokuapp.com/api/usuarios/${idUsuario}`)
+        let idUsuario = this.usuarioLogado['@id'];
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idUsuario}`)
         .then(resp => resp.json())
         .then(json => {
           let response = json['anuncios'];
@@ -135,7 +137,7 @@ export class AnunciosService {
 
       loading.present()
       .then(() => {
-        fetch(`https://hgt-events.herokuapp.com/api/anuncios/${anuncio.id}`, {method: 'delete'})
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/anuncios/${anuncio.id}`, {method: 'delete'})
         .then(resp => {
           resp.status == 204 || resp.status == 200 ? resolve(resp) : reject('Erro ao excluir anúncio.');
           loading.dismiss();
@@ -162,7 +164,7 @@ export class AnunciosService {
         let obj = {
           preco: Number(novoAnuncio.novoValor)
         }
-        fetch(`https://hgt-events.herokuapp.com/api/anuncios/${novoAnuncio.anuncio.id}`, {
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/anuncios/${novoAnuncio.anuncio.id}`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json'

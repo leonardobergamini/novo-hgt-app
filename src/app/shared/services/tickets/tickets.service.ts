@@ -15,30 +15,30 @@ export class TicketsService {
   ) { }
 
   async create(objeto){
-      for(const ticket of objeto.tickets){
-        console.log(ticket);
+    for(const ticket of objeto.tickets){
+      console.log(ticket);
 
-        let obj = {
-          isMeiaEntrada: ticket.isMeiaEntrada,
-          setor: ticket.setor,
-          preco: ticket.preco,
-          idTitular: `api/usuarios/${ticket.titular.id}`,
-          idPedido: `api/pedidos/${objeto.pedido.id}`,
-          idEvento: `api/eventos/${ticket.evento.id}`
-        }
-        console.log(obj);
-        try{
-          const postTicketsPedido = await fetch(`https://hgt-events.herokuapp.com/api/tickets`, 
-                            {method: 'post', 
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(obj)
-                          });
-        }catch(err){
-          return new Error('Erro ao inserir tickets junto ao pedido');
-        }
+      let obj = {
+        isMeiaEntrada: ticket.isMeiaEntrada,
+        setor: ticket.setor,
+        preco: ticket.preco,
+        idTitular: ticket.titular['@id'],
+        idPedido: `/api/pedidos/${objeto.pedido.id}`,
+        idEvento: `/api/eventos/${ticket.evento.id}`
       }
+      console.log(obj);
+      try{
+        const postTicketsPedido = await fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/tickets`, 
+                          {method: 'post', 
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(obj)
+                        });
+      }catch(err){
+        return new Error('Erro ao inserir tickets junto ao pedido');
+      }
+    }
   }
 
   updateTitular(idNovoTitular: string, idTicket: string): Promise<string>{
@@ -78,45 +78,26 @@ export class TicketsService {
     });
   }
 
-  verificaPresente(tickets: Tickets[]): Promise<Tickets[]>{
+  verificaPresente(): Promise<any>{
     return new Promise(async (resolve, reject) => {
-      debugger;
-      let loading = await this.loadingController.create({
-        message: 'Atualizando...',
-        keyboardClose: true,
-        showBackdrop: true,
-        animated: true
-      });
-
-      loading.present()
-      .then(async () => {
-        let arrayTickets = [] = [];
-        for(const ticket of tickets){
-          debugger;
-          fetch(`https://hgt-events.herokuapp.com${ticket['@id']}`)
-          .then(resp => resp.json())
-          .then(json => {
-            debugger;
-            let ingresso = json;
-            console.log(ingresso);
-            if(ingresso.ispresente == true){
-              arrayTickets.push(ingresso);
-            }else{
-              arrayTickets.push(ingresso);
-            }
-            debugger;
-            return arrayTickets;
-            loading.dismiss();
-          })
-          .catch(err => {
-            reject(err);
-            console.log(err);
-            loading.dismiss();
-          })
-          return;
+      let arrayTicketsPresentes = [] = [];
+      let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      await fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${usuarioLogado['@id']}`)
+      .then(resp => resp.json())
+      .then(json => {
+        let ingressos = json['tickets'];
+        for(const ticket of ingressos){
+          if(ticket.ispresente == true){
+            arrayTicketsPresentes.push(ticket);
+          }
         }
-      });
-    })
+        })
+        .catch(err => {
+          console.log(err);
+          reject(err);
+        })
+      resolve(arrayTicketsPresentes);
+    });
   }
 
   // getTicketByUser(idUsuario: number): Promise<Tickets[]>{

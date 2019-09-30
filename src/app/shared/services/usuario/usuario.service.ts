@@ -42,7 +42,6 @@ export class UsuarioService {
         fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
         .then(resp => resp.json())
         .then(json => {
-          debugger;
           let arrayUsuario = json['hydra:member'];
           if(arrayUsuario.length > 0){
             resolve(arrayUsuario[0]);
@@ -53,7 +52,6 @@ export class UsuarioService {
           }
         })
         .catch(err => {
-          debugger;
           reject(err);
           loading.dismiss();
         });
@@ -92,7 +90,7 @@ export class UsuarioService {
     });
   }
 
-  async login(email: string, senha: string): Promise<Usuarios>{
+  login(email: string, senha: string): Promise<Usuarios>{
     return new Promise(async (resolve, reject) => {
         let loading = await this.loadingController.create({
           message: 'Entrando...',
@@ -107,11 +105,15 @@ export class UsuarioService {
           .then(resp => resp.json())
           .then(json => {
             let usuario = json['hydra:member'][0];
-            localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-            localStorage.setItem('isUsuarioLogado', 'true');
-            this.router.navigate(['menu-logado/explorar']);
-            resolve(usuario)
-            loading.dismiss();
+            if(usuario){
+              localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+              localStorage.setItem('isUsuarioLogado', 'true');
+              this.router.navigate(['menu-logado/explorar']);
+              resolve(usuario)
+              loading.dismiss();
+            }else{
+              reject('Usuário não encontrado.');
+            }
 
           })
           .catch(err => {

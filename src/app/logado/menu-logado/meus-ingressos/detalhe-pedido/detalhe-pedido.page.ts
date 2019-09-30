@@ -29,9 +29,7 @@ export class DetalhePedidoPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private navCrtl: NavController,
     private activatedRoute: ActivatedRoute,
-    private pedidoService: PedidoService,
-    private ticketService: TicketsService,
-    private anuncioService: AnunciosService
+    private pedidoService: PedidoService
 
   ) { }
 
@@ -43,34 +41,21 @@ export class DetalhePedidoPage implements OnInit {
   ngOnInit() {
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    this.id = this.id = Number(this.activatedRoute.snapshot.paramMap.get('idPedido'));
   }
-
-  ionViewDidEnter(){
+  
+  ionViewWillEnter(){
+    this.id = this.id = Number(this.activatedRoute.snapshot.paramMap.get('idPedido'));
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
-    console.log('entrou');
     this.pedidoService.getTicketsByPedido(this.id)
     .then(resp => {
+      debugger;
       let obj = {
         pedido: this.id,
         tickets: resp
       }
       this.arrayTickets = obj;
       console.log(this.arrayTickets);
-
-      // for(const ticket of this.arrayTickets.tickets){
-      //   debugger;
-      //   this.anuncioService.temAnuncios(ticket['@id'])
-      //   .then(resp => {
-      //     debugger;
-      //   })
-      //   .catch(err => {
-      //     debugger;
-      //     console.log(err);
-      //   })
-      // }
-
     })
     .catch(err => {
       console.log(err);
