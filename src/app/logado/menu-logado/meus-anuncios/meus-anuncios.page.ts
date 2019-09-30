@@ -60,6 +60,7 @@ export class MeusAnunciosPage implements OnInit {
       this.arrayAnunciosAtivos = [];
 
       copyArrayAtivos.filter(item => {
+        debugger;
         item.isvendido === false ? this.arrayAnunciosAtivos.push(item) : this.arrayAnunciosVendidos.push(item);
       });
 

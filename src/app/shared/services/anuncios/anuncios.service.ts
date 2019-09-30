@@ -69,7 +69,7 @@ export class AnunciosService {
                 if(evento.id === idEvento){
                   let obj: Anuncios = {
                     id: anuncio.id,
-                    isvendido: anuncio.isvendido,
+                    isvendido: anuncio.isVendido,
                     preco: anuncio.preco,
                     ticket: ticket,
                     usuario: anuncio.idUsuario
@@ -108,6 +108,8 @@ export class AnunciosService {
 
       loading.present()
       .then(() => {
+        this.usuarioLogado = null;
+        this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
         let idUsuario = this.usuarioLogado['@id'];
         fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idUsuario}`)
         .then(resp => resp.json())
@@ -147,6 +149,36 @@ export class AnunciosService {
           loading.dismiss();
         })
       });
+    });
+  }
+
+  finalizarAnuncio(idAnuncio: number): Promise<string>{
+    return new Promise((resolve, reject) => {
+      let obj = {
+        isVendido: true,
+      }
+      fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/anuncios/${idAnuncio}`, 
+      {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+      })
+      .then(resp => {
+        debugger;
+        if(resp.status == 200){
+          resolve('Anúncio finalizado com sucesso.');
+        }
+        else{
+          reject('Erro ao finalizar anúncio.');
+        }
+      })
+      .catch(err => {
+        debugger;
+        reject(err);
+        console.log(err);
+      })
     });
   }
 
