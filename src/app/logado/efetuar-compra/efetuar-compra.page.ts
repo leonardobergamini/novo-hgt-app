@@ -10,6 +10,7 @@ import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import * as $ from 'jquery';
 import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-pagamento';
 import { Utils } from 'src/app/shared/utils/utils';
+import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -25,7 +26,8 @@ export class EfetuarCompraPage implements OnInit {
     private navCtrl: NavController,
     private statusBar: StatusBar,
     private formaPagamentoService: FormaPagamentoService,
-    private pedidoService: PedidoService
+    private pedidoService: PedidoService,
+    private anuncioService: AnunciosService
   ) { }
 
   ngOnInit() { }
@@ -55,15 +57,23 @@ export class EfetuarCompraPage implements OnInit {
         setores: this.eventoSelecionado.setores,
         valorTotal: this.eventoSelecionado.valorTotal,
         formaPagamento: this.formaPagamentoSelecionada,
-        qtdIngressos: this.eventoSelecionado.qtdIngressos
+        qtdIngressos: this.eventoSelecionado.qtdIngressos,
+        anuncio: this.eventoSelecionado.anuncio
       };
       console.log(pedidoConfirmado);
       this.pedidoService.create(pedidoConfirmado)
       .then(resp => {
         debugger;
         console.log(resp);
-        this.navCtrl.navigateForward('menu-logado/meus-ingressos');
-        
+
+        this.anuncioService.finalizarAnuncio(this.eventoSelecionado.anuncio)
+        .then(() => {
+          debugger;
+          this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+        })
+        .catch(err => {
+          console.log(err);
+        });
       })
       .catch(err => {
         console.log(err);
