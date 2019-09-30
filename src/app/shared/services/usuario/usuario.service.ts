@@ -113,8 +113,8 @@ export class UsuarioService {
               loading.dismiss();
             }else{
               reject('Usuário não encontrado.');
+              loading.dismiss();
             }
-
           })
           .catch(err => {
             console.log(err);
@@ -136,5 +136,6 @@ export class UsuarioService {
     localStorage.removeItem('detalhe-pedido');
     localStorage.removeItem('isUsuarioLogado');
     localStorage.removeItem('anunciosPorEvento');
+    localStorage.removeItem('eventoSelecionado');
   }
 }
