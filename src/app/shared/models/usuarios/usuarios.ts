@@ -7,8 +7,7 @@ export class Usuarios {
     email: string;
     telefone: string;
     imgPerfil: string;
-    usuario: string;
-    senha: string;
+    password: string;
     logradouro: string;
     numero: string;
     complemento: string;
@@ -16,3 +15,4 @@ export class Usuarios {
     cidade: string;
     uf: string;
 }
+

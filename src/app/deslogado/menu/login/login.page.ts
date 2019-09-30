@@ -132,7 +132,7 @@ export class LoginPage implements OnInit {
       .then(resp => {
         if(resp.status == 200 || resp.status == 201){
           this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.formCadastro.value)));
-          this.exibirErro('Cadastro feito com sucesso!', 'md-mark-circle');
+          this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark');
           $('#formularioCadastro').trigger('reset');
           this.prev();
         }else{

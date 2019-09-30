@@ -65,27 +65,35 @@ export class UsuarioService {
     });
   }
 
-  async createUser(usuario: any): Promise<any>{
-    return new Promise(async (resolve, reject) => {
-      let loading = await this.loadingController.create({
-        message: 'Cadastrando...',
-        keyboardClose: true,
-        showBackdrop: true,
-        animated: true
-      });
-      loading.present()
-      .then(() => {
-        fetch('https://hgt-events.herokuapp.com/api/usuarios', {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(usuario)
-        })
-        .then(response => resolve(response))
-        .catch(err => reject(err))
-        .finally(() => loading.dismiss());
+createUser(usuario: any): Promise<any>{
+  return new Promise(async (resolve, reject) => {
+    debugger;
+    console.log(usuario);
+    let loading = await this.loadingController.create({
+      message: 'Cadastrando...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+    loading.present()
+    .then(() => {
+      fetch('https://hgt-events.herokuapp.com/api/usuarios', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(usuario)
+      })
+      .then(response => {
+        debugger;
+        resolve(response);
+      })
+      .catch(err => {
+        debugger;
+        reject(err);
+      })
+      .finally(() => loading.dismiss());
       }); 
     });
   }
