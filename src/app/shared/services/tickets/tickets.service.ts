@@ -17,7 +17,7 @@ export class TicketsService {
   async create(objeto){
     for(const ticket of objeto.tickets){
       console.log(ticket);
-
+      debugger;
       let obj = {
         isMeiaEntrada: ticket.isMeiaEntrada,
         setor: ticket.setor,
@@ -80,23 +80,35 @@ export class TicketsService {
 
   verificaPresente(): Promise<any>{
     return new Promise(async (resolve, reject) => {
-      let arrayTicketsPresentes = [] = [];
-      let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-      await fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${usuarioLogado['@id']}`)
-      .then(resp => resp.json())
-      .then(json => {
-        let ingressos = json['tickets'];
-        for(const ticket of ingressos){
-          if(ticket.ispresente == true){
-            arrayTicketsPresentes.push(ticket);
+      let loading = await this.loadingController.create({
+        message: 'Atualizando...',
+        keyboardClose: true,
+        showBackdrop: true,
+        animated: true
+      });
+
+      loading.present()
+      .then(async () => {
+        let arrayTicketsPresentes = [] = [];
+        let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        await fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${usuarioLogado['@id']}`)
+        .then(resp => resp.json())
+        .then(json => {
+          let ingressos = json['tickets'];
+          for(const ticket of ingressos){
+            if(ticket.ispresente == true){
+              arrayTicketsPresentes.push(ticket);
+            }
+            loading.dismiss();
           }
-        }
-        })
-        .catch(err => {
-          console.log(err);
-          reject(err);
-        })
-      resolve(arrayTicketsPresentes);
+          })
+          .catch(err => {
+            console.log(err);
+            reject(err);
+            loading.dismiss();
+          })
+        resolve(arrayTicketsPresentes);
+      });
     });
   }
 
