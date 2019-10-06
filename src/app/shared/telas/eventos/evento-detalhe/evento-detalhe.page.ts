@@ -100,17 +100,16 @@ export class EventoDetalhePage implements OnInit {
     if(this.arraySetoresSelecionados.length > 0 && this.contador){
       this.somenteSetoresSelecionados(this.arraySetoresSelecionados);
       this.getQuantidadeIngressos(this.arraySetoresSelecionados);
-      
-      this.storage.remove('eventoSelecionado')
-      .then(resp => {console.log('Excluindo storage...');});
       let eventoComSetoresSelecionado: EventoSetoresSelecionado = {
         evento: evento,
         setores: this.arraySomenteSetoresSelecionados,
         valorTotal: this.valorTotal,
         qtdIngressos: this.qtdIngressos
       }
-      this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
+      
+      localStorage.setItem('eventoSelecionado', JSON.stringify(eventoComSetoresSelecionado));
       this.router.navigate(['/menu-logado/efetuar-compra']);
+      
     }else{
       console.log('Contador zerado');
     }

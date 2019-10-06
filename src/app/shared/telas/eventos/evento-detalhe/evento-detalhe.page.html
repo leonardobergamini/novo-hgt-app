@@ -43,7 +43,7 @@
                 <div *ngIf="temAnuncio">
                     <div class="ingressos-revenda">
                         <p class="ion-text-center">Este evento possui ingressos para <span class="txt-negrito">revenda.</span></p>
-                        <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap" (click)="exibeAnuncios(evento)">
+                        <ion-button expand="block" size="large" color="secondary" fill="outline" class="ion-text-wrap" (click)="exibeAnuncios(evento)" [disabled]="!isUsuarioLogado">
                             clique e confira
                             <ion-icon slot="end" name="md-arrow-forward"></ion-icon>
                         </ion-button>
@@ -65,7 +65,9 @@
                                     <h2>{{ setor.nome }}</h2>
                                     <h3>inteira: R$ {{ setor.preco }}</h3>
                                 </ion-label>
-                                <contador-hgt max="5" (clickAdicionar)="selecionarSetor(setor, $event)" (clickSubtrair)="selecionarSetor(setor, $event)"></contador-hgt>
+                                <div *ngIf="isUsuarioLogado">
+                                    <contador-hgt max="5" (clickAdicionar)="selecionarSetor(setor, $event)" (clickSubtrair)="selecionarSetor(setor, $event)"></contador-hgt>
+                                </div>
                             </ion-item>
                         </div>
                     </ion-list>
@@ -81,6 +83,12 @@
     </ion-row>
 
     <ion-row>
-        <ion-button class="btnComprar ion-no-margin" expand="full" (click)="validarCompra(evento)">garanta seu ingresso</ion-button>
+        <div *ngIf="isUsuarioLogado == true; else facaLogin">
+            <ion-button class="btnComprar ion-no-margin" expand="full" (click)="validarCompra(evento)">garanta seu ingresso</ion-button>
+        </div>
+
+        <ng-template #facaLogin>
+            <ion-button class="btnLogar ion-no-margin" routerLink="menu/login" color="secondary" expand="full">faça seu login</ion-button>
+        </ng-template>
     </ion-row>
 </ion-content>

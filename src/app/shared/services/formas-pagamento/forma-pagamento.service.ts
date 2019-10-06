@@ -15,11 +15,6 @@ import { Utils } from '../../utils/utils';
 })
 export class FormaPagamentoService {
 
-  constructor(
-    private loadingController: LoadingController,
-    private cartaoCreditoService: CartaoCreditoService
-  ) { }
-
   private id: number = 1;
   private arrayAllFormasPagamento: FormasPagamento[] = [];
   private cartaoCredito: CartoesCredito;
@@ -27,25 +22,31 @@ export class FormaPagamentoService {
   // private formasPagamento: FormasPagamento[] = [];
   private formaPagamentoAtiva: FormasPagamento;
   public quantidadeFormasPagamento: number = 0;
+  private usuarioLogado;
   
-  private usuario: Usuarios = {
-    id: 1,
-    primeiroNome: 'leonardo',
-    sobrenome: 'bergamini',
-    cpf: '36980235800',
-    cep: '02326000',
-    cidade: 'são paulo',
-    complemento: '',
-    dtNascimento: '24/04/1995',
-    email: 'leonardo@gmail.com',
-    imgPerfil: '',
-    logradouro: 'rua arley gilberto de araujo',
-    numero: '04',
-    senha: 'leonardo',
-    telefone: '11940040876',
-    uf: 'sp',
-    usuario: 'berganardo'
-  }
+  constructor(
+    private loadingController: LoadingController,
+    private cartaoCreditoService: CartaoCreditoService
+  ) { }
+
+  // private usuario: Usuarios = {
+  //   id: 1,
+  //   primeiroNome: 'leonardo',
+  //   sobrenome: 'bergamini',
+  //   cpf: '36980235800',
+  //   cep: '02326000',
+  //   cidade: 'são paulo',
+  //   complemento: '',
+  //   dtNascimento: '24/04/1995',
+  //   email: 'leonardo@gmail.com',
+  //   imgPerfil: '',
+  //   logradouro: 'rua arley gilberto de araujo',
+  //   numero: '04',
+  //   senha: 'leonardo',
+  //   telefone: '11940040876',
+  //   uf: 'sp',
+  //   usuario: 'berganardo'
+  // }
   
   private cartoes: CartoesCredito[] = [
     {
@@ -54,7 +55,7 @@ export class FormaPagamentoService {
       codSeguranca: 456,
       dtVencimento: '09/23',
       nomeTitular: 'leonardo bergamini',
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       bandeira: 'VISA',
       cartaoFormatado: 8765
     }
@@ -65,7 +66,7 @@ export class FormaPagamentoService {
       cartao: this.cartoes[0],
       carteira: null,
       idFormaPg: this.id++,
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       pagamento: true
     },
     {
@@ -73,18 +74,62 @@ export class FormaPagamentoService {
       carteira: {
         idCarteira: 1,
         saldo: 300,
-        usuario: this.usuario
+        usuario: this.usuarioLogado
       },
       idFormaPg: this.id++,
-      usuario: this.usuario,
+      usuario: this.usuarioLogado,
       pagamento: false
     }
   ];
 
-  getFormaPagamentoAtiva(): Promise<FormasPagamento>{
+  // getFormaPagamentoAtiva(): Promise<FormasPagamento>{
+  //   return new Promise(async (resolve, reject) => {
+  //     let loading = await this.loadingController.create({
+  //       message: 'Carregando...',
+  //       keyboardClose: true,
+  //       showBackdrop: true,
+  //       animated: true
+  //     });
+
+  //     loading.present()
+  //     .then(() => {
+  //       let idUsuario = this.usuarioLogado['@id'];
+  //       fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idUsuario}`)
+  //       .then(resp => resp.json())
+  //       .then(todasFormas => {
+  //         let formaPagamento = todasFormas['hydra:member'][0];
+
+  //         fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
+  //         .then(resp => resp.json())
+  //         .then(json => {
+  //           this.cartaoCredito = json;
+  //           let obj: FormasPagamento = {
+  //             idFormaPg: formaPagamento.id,
+  //             cartao: this.cartaoCredito,
+  //             carteira: null,
+  //             usuario: this.usuarioLogado,
+  //             pagamento: true
+  //           }
+  //           resolve(obj);
+  //           loading.dismiss();
+  //         })
+  //         .catch(err => {
+  //           console.log(err);
+  //         })          
+  //       })
+  //       .catch(err =>{
+  //         loading.dismiss();
+  //         reject('Erro ao consultar forma de pagamento ativa.');
+  //         console.log(err);
+  //       })
+  //     });
+  //   });
+  // }
+
+  update(cartao: CartoesCredito): Promise<string>{
     return new Promise(async (resolve, reject) => {
       let loading = await this.loadingController.create({
-        message: 'Carregando...',
+        message: 'Alterando forma de pagamento...',
         keyboardClose: true,
         showBackdrop: true,
         animated: true
@@ -92,77 +137,55 @@ export class FormaPagamentoService {
 
       loading.present()
       .then(() => {
-        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
-        .then(resp => resp.json())
-        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
-        .then(todasFormas => todasFormas.json())
-        .then(todasFormas => {
-          let formaPagamento = todasFormas['hydra:member'][0];
-
-          fetch(`https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
-          .then(resp => resp.json())
-          .then(json => {
-            this.cartaoCredito = json;
-            let obj: FormasPagamento = {
-              idFormaPg: formaPagamento.id,
-              cartao: this.cartaoCredito,
-              carteira: null,
-              usuario: this.usuario,
-              pagamento: true
-            }
-            resolve(obj);
+        let obj = {
+          bandeira: cartao.bandeira,
+          codSeguranca: Number(cartao.codSeguranca),
+          dtVencimento: cartao.dtVencimento,
+          nomeTitular: cartao.nomeTitular.toLocaleLowerCase(),
+          nroCartao: cartao.nroCartao,
+          idUsuario: this.usuarioLogado['@id']
+        }
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${cartao['@id']}`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(obj)
+        })
+        .then(resp => {
+          if(resp.status == 200){
+            debugger;
+            resolve('Cartão de crédito alterado com sucesso.');
             loading.dismiss();
-          })
-          .catch(err => {
-            console.log(err);
-          })          
+
+          }else{
+            debugger;
+            reject('Não foi possível alterar cartão de crédito.');
+            loading.dismiss();
+
+          }
         })
-        .catch(err =>{
-          loading.dismiss();
-          reject('Erro ao consultar forma de pagamento ativa.');
+        .catch(err => {
+          reject(err);
           console.log(err);
+          loading.dismiss();
         })
-      });
-    });
-  }
-
-  update(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<string>{
-    return new Promise(async (resolve, reject) => {
-      let obj = {
-        bandeira: cartao.bandeira,
-        cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
-        codSegurancao: cartao.codSeguranca,
-        dtVencimento: cartao.dtVencimento,
-        nomeTitular: cartao.nomeTitular,
-        nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
-      }
-
-      let loading = await this.loadingController.create({
-        message: 'Cadastrando forma de pagamento...',
-        keyboardClose: true,
-        showBackdrop: true,
-        animated: true
-      });
-
-      loading.present()
-      .then(() => {
         
       });
     });
   }
 
-  create(cartao: CartoesCredito, idUsuario: string, idCarteira: string): Promise<string>{
+  create(cartao: any): Promise<string>{
     return new Promise(async (resolve, reject) => {
-      let obj = {
-        bandeira: cartao.bandeira,
-        cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
-        codSegurancao: cartao.codSeguranca,
-        dtVencimento: cartao.dtVencimento,
-        nomeTitular: cartao.nomeTitular,
-        nroCartao: cartao.nroCartao,
-        idUsuario: 'api/usuarios/1'
-      }
+      // let obj = {
+      //   bandeira: cartao.bandeira,
+      //   cartaoFormatado: Number(Utils.escondeNroCartao(cartao)),
+      //   codSegurancao: cartao.codSeguranca,
+      //   dtVencimento: cartao.dtVencimento,
+      //   nomeTitular: cartao.nomeTitular,
+      //   nroCartao: cartao.nroCartao,
+      //   idUsuario: this.usuarioLogado['@id']
+      // }
       let loading = await this.loadingController.create({
         message: 'Cadastrando forma de pagamento...',
         keyboardClose: true,
@@ -170,41 +193,44 @@ export class FormaPagamentoService {
         animated: true
       });
 
-      this.cartaoCreditoService.create(cartao)
-      .then(resp => {
-        let obj = {
-          "idCartao": 'api/cartoes_creditos/2',
-          "idCarteira": 'api/carteiras/1',
-          "idUsuario": 'api/usuarios/1'
-        }
-        console.log(resp);
-        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos', {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-          body: JSON.stringify(obj)
-        })
-        .then(response => {
-          console.log(response);
-          loading.dismiss()
-          resolve('Forma de pagamento cadastrada com sucesso');
+      loading.present()
+      .then(() => {
+        this.cartaoCreditoService.create(cartao)
+        .then(resp => {
+          let obj = {
+            idCartao: resp['@id'],
+            idCarteira: 'api/carteiras/1',
+            idUsuario: this.usuarioLogado['@id']
+          }
+          console.log(resp);
+          fetch('https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/formas_pagamentos', {
+            method: 'post',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+            body: JSON.stringify(obj)
+          })
+          .then(response => {
+            console.log(response);
+            resolve('Forma de pagamento cadastrada com sucesso');
+            loading.dismiss();
+          })
+          .catch(err => {
+            reject(err);
+            loading.dismiss();
+          })
         })
         .catch(err => {
-          reject(err);
-        })
-      })
-      .catch(err => {
-        console.log(err);
-        loading.dismiss()
+          console.log(err);
+          loading.dismiss()
+        });
       });
     });
   }
 
-  getAll(): Promise<FormasPagamento>{
+  getAll(): Promise<any>{
     return new Promise(async (resolve, reject) => {
-      
       let loading = await this.loadingController.create({
         message: 'Buscando suas formas de pagamento...',
         keyboardClose: true,
@@ -214,36 +240,73 @@ export class FormaPagamentoService {
 
       loading.present()
       .then(() => {
-        fetch('https://hgt-events.herokuapp.com/api/formas_pagamentos')
-        .then(todasFormas => todasFormas.json())
-        .then(todasFormas => {
-          // this.formasPagamento = todasFormas['hydra:member'];
-          let formaPagamento = todasFormas['hydra:member'][0];
+        this.usuarioLogado = null;
+        this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        let idUsuario = this.usuarioLogado['@id'];
+        fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idUsuario}`)
+        .then(resp => resp.json())
+        .then(json => {
+          let formasPagamento = json['formaspagamento'];
 
-          fetch(`https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
-          .then(resp => resp.json())
-          .then(json => {
-            this.cartaoCredito = json;
-            let obj: FormasPagamento = {
-              idFormaPg: formaPagamento.id,
-              cartao: this.cartaoCredito,
-              carteira: null,
-              usuario: this.usuario,
-              pagamento: true
-            }
-            // this.arrayAllFormasPagamento = [];
-            // this.arrayAllFormasPagamento.push(obj);
-            resolve(obj);
+          if(formasPagamento.length > 0){
+            let idForma = formasPagamento[0]['@id'];
+            fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idForma}`)
+            .then(resp => resp.json())
+            .then(json => {
+              let idCartao = json['idCartao'];
+
+              fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com${idCartao}`)
+              .then(resp => resp.json())
+              .then(json => {
+                let cartao = json;
+                let obj = {
+                  usuario: this.usuarioLogado,
+                  id: idForma,
+                  cartao: cartao,
+                  carteira: null,
+                  pagamento: true
+                }
+                resolve(obj);
+                loading.dismiss();
+              })
+            })
+            .catch(err => {
+              console.log(err);
+              loading.dismiss();
+            })
+          }else{
+            let formaPagamentoVazia;
+            resolve(formaPagamentoVazia);
             loading.dismiss();
-          })
-          .catch(err => {
-            console.log(err);
-          })          
+          }
+
+          // this.formasPagamento = todasFormas['hydra:member'];
+          // let formaPagamento = todasFormas['hydra:member'][0];
+
+          // fetch(`https://hgt-events.herokuapp.com${formaPagamento.idCartao}`)
+          // .then(resp => resp.json())
+          // .then(json => {
+          //   this.cartaoCredito = json;
+          //   let obj: FormasPagamento = {
+          //     idFormaPg: formaPagamento.id,
+          //     cartao: this.cartaoCredito,
+          //     carteira: null,
+          //     usuario: this.usuarioLogado,
+          //     pagamento: true
+          //   }
+          //   // this.arrayAllFormasPagamento = [];
+          //   // this.arrayAllFormasPagamento.push(obj);
+          //   resolve(obj);
+          //   loading.dismiss();
+          // })
+          // .catch(err => {
+          //   console.log(err);
+          // })          
         })
         .catch(err =>{
-          loading.dismiss();
-          reject('Erro ao consultar formas de pagamento');
           console.log(err);
+          reject('Erro ao consultar formas de pagamento');
+          loading.dismiss();
         })
       });
     });
@@ -266,10 +329,10 @@ export class FormaPagamentoService {
               carteira: {
                 idCarteira: 1,
                 saldo: 300,
-                usuario: this.usuario
+                usuario: this.usuarioLogado
               },
               idFormaPg: this.id++,
-              usuario: this.usuario,
+              usuario: this.usuarioLogado,
               pagamento: false
             });
             resolve(this.formasPagamento)

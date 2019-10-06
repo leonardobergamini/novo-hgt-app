@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import { Utils } from '../../utils/utils';
 import { CartaoCreditoService } from '../../services/cartao-credito/cartao-credito.service';
 import { CartoesCredito } from '../../models/cartoes-credito/cartoes-credito';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-formas-pagamento',
@@ -18,6 +19,8 @@ export class FormasPagamentoPage implements OnInit {
   public formaPagamento: FormasPagamento;
   private toast;
   public efetuarCompraLink;
+  private isSemFormaPagamento: boolean = false;
+  private id: number;
 
   constructor(
     private formaPagamentoService: FormaPagamentoService,
@@ -34,11 +37,18 @@ export class FormasPagamentoPage implements OnInit {
   ionViewDidEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
+    console.log(this.id);
     this.efetuarCompraLink = JSON.parse(localStorage.getItem('efetuar-compra-back'));
     this.formaPagamentoService.getAll()
     .then(resp => {
       this.formaPagamento = resp;
-      this.formaPagamento.cartao = Utils.escondeNroCartao(this.formaPagamento.cartao);
+
+      if(this.formaPagamento){
+        this.isSemFormaPagamento = false;
+        this.formaPagamento.cartao = Utils.escondeNroCartao(this.formaPagamento.cartao);
+      }else{
+        this.isSemFormaPagamento = true;
+      }
       console.log(this.formaPagamento);
     })
     .catch(err => {
@@ -93,31 +103,31 @@ export class FormasPagamentoPage implements OnInit {
     // });
   }
 
-  selecionarForma(forma: FormasPagamento, event, index: number){
+  // selecionarForma(forma: FormasPagamento, event, index: number){
     // let copyFormas: FormasPagamento[] = [];
     // this.formasPagamento = [];
     // this.formasPagamento = copyFormas;
     // console.log(this.formasPagamento)
-    let elemento = event.target;
-    let elementos = $('ion-radio');
+    // let elemento = event.target;
+    // let elementos = $('ion-radio');
 
 
-    if($(elemento).attr('aria-checked', 'true')){
-      if(index === 0){
-        //cartão
-        forma.pagamento = true;
-        elementos.forEach(item => {
-          $(item).hasClass('radio-checked') ? $(item).removeClass('radio-checked') : $(item).addClass('radio-checked');
-        })
-      }else if(index === 1){
-        //carteira
+  //   if($(elemento).attr('aria-checked', 'true')){
+  //     if(index === 0){
+  //       //cartão
+  //       forma.pagamento = true;
+  //       elementos.forEach(item => {
+  //         $(item).hasClass('radio-checked') ? $(item).removeClass('radio-checked') : $(item).addClass('radio-checked');
+  //       })
+  //     }else if(index === 1){
+  //       //carteira
 
-      }
-      this.exibirToast('Forma de pagamento alterada com sucesso!', 'md-checkmark')
-      forma.pagamento = true;
-    }
+  //     }
+  //     this.exibirToast('Forma de pagamento alterada com sucesso!', 'md-checkmark')
+  //     forma.pagamento = true;
+  //   }
 
-  }
+  // }
 
   exibirToast(msg: string, icone: string){
     this.toast = this.toastController.create({

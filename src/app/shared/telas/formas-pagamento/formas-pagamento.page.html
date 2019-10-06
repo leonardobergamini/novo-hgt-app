@@ -30,7 +30,7 @@
                 <ion-list-header>
                     cartão cadastrado
                 </ion-list-header>
-                <div id="cartoes-cadastrados" *ngIf="formaPagamento">
+                <div id="cartoes-cadastrados" *ngIf="formaPagamento; else semCartao">
                     <ion-item>
                         <ion-input hidden value="{{formaPagamento.idFormaPg}}"></ion-input>
                         <ion-avatar slot="start">
@@ -44,13 +44,21 @@
                         <ion-icon name="more" slot="end" (click)="acoes(formaPagamento);"></ion-icon>
                     </ion-item>
                 </div>
+
+                <ng-template #semCartao>
+                    <ion-item>
+                        <ion-label>
+                            sem cartão cadastrado.
+                        </ion-label>
+                    </ion-item>
+                </ng-template>
             </ion-list>
         </ion-card>
 
     </ion-radio-group>
-    <!-- <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-        <ion-fab-button color="success" routerLink="cartao-credito" [disabled]="!formasPagamento" routerDirection="forward">
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button color="success" routerLink="cartao-credito" [disabled]="!isSemFormaPagamento" routerDirection="forward">
             <ion-icon name="add-circle-outline"></ion-icon>
         </ion-fab-button>
-    </ion-fab> -->
+    </ion-fab>
 </ion-content>

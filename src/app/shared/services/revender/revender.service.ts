@@ -7,6 +7,8 @@ import { LoadingController } from '@ionic/angular';
 })
 export class RevenderService {
 
+  private usuarioLogado;
+
   constructor(
     private loadingController: LoadingController
   ) { }
@@ -23,14 +25,17 @@ export class RevenderService {
 
       loading.present()
       .then(() => {
+        debugger;
+        this.usuarioLogado = null;
+        this.usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
         let obj = {
             preco: anuncio.preco,
-            idUsuario: "api/usuarios/1",
+            idUsuario: this.usuarioLogado['@id'],
             idTicket: `api/tickets/${anuncio.ticket.id}`,
-            isVendido: false
+            isVendido: false,
         }
 
-        fetch('https://hgt-events.herokuapp.com/api/anuncios',
+        fetch('https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/anuncios',
         {
           method: 'post',
           headers: {
@@ -40,8 +45,30 @@ export class RevenderService {
         })
         .then(resp => {
           if(resp.status == 201 || resp.status == 200 || resp.status == 204){
-            resolve('Anúncio criado com sucesso.');
-            loading.dismiss();
+            let obj = {
+              isanunciado: true
+            }
+            fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/tickets/${anuncio.ticket.id}`, 
+            {
+              method: 'put',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(obj)
+            })
+            .then(resp => {
+              if(resp.status == 200){
+                resolve('Anúncio criado com sucesso.');
+                loading.dismiss();
+              }else{
+                reject('Não conseguimos criar seu anúncio.');
+                loading.dismiss();
+              }
+            })
+            .catch(err => {
+              reject(err);
+              loading.dismiss();
+            })
           }else{
             reject('Não foi possível criar o anúncio.');
             loading.dismiss();

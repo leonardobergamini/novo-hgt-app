@@ -22,72 +22,72 @@ export class EventosService {
     private loadingController: LoadingController
   ){ }
   
-  setores: Setores[] = [
-    {
-      id: this.id++,
-      capacidadeMax: 200,
-      local: {
-        id: 1,
-        nome: 'Teatro Riachuelo',
-        uf: 'RN',
-        cidade: 'Natal',
-        endereco: 'Av. Arnaldo Antunes, 905',
-        bairro: 'Centro',
-        cep: '09876-900',
-        capacidade_max: 10000
-      },
-      nome: 'SETOR A',
-      preco: 20
-    },
-    {
-      id: this.id++,
-      capacidadeMax: 400,
-      local: {
-        id: 1,
-        nome: 'Teatro Riachuelo',
-        uf: 'RN',
-        cidade: 'Natal',
-        endereco: 'Av. Arnaldo Antunes, 905',
-        bairro: 'Centro',
-        cep: '09876-900',
-        capacidade_max: 10000
-      },
-      nome: 'SETOR B',
-      preco: 50
-    },
-    {
-      id: this.id++,
-      capacidadeMax: 300,
-      local: {
-        id: 1,
-        nome: 'Teatro Riachuelo',
-        uf: 'RN',
-        cidade: 'Natal',
-        endereco: 'Av. Arnaldo Antunes, 905',
-        bairro: 'Centro',
-        cep: '09876-900',
-        capacidade_max: 10000
-      },
-      nome: 'SETOR C',
-      preco: 60
-    },
-    {
-      id: this.id++,
-      capacidadeMax: 100,
-      local: {
-        id: 1,
-        nome: 'Teatro Riachuelo',
-        uf: 'RN',
-        cidade: 'Natal',
-        endereco: 'Av. Arnaldo Antunes, 905',
-        bairro: 'Centro',
-        cep: '09876-900',
-        capacidade_max: 10000
-      },
-      nome: 'SETOR D',
-      preco: 100
-    }    
-  ];
+  // setores: Setores[] = [
+  //   {
+  //     id: this.id++,
+  //     capacidadeMax: 200,
+  //     local: {
+  //       id: 1,
+  //       nome: 'Teatro Riachuelo',
+  //       uf: 'RN',
+  //       cidade: 'Natal',
+  //       endereco: 'Av. Arnaldo Antunes, 905',
+  //       bairro: 'Centro',
+  //       cep: '09876-900',
+  //       capacidade_max: 10000
+  //     },
+  //     nome: 'SETOR A',
+  //     preco: 20
+  //   },
+  //   {
+  //     id: this.id++,
+  //     capacidadeMax: 400,
+  //     local: {
+  //       id: 1,
+  //       nome: 'Teatro Riachuelo',
+  //       uf: 'RN',
+  //       cidade: 'Natal',
+  //       endereco: 'Av. Arnaldo Antunes, 905',
+  //       bairro: 'Centro',
+  //       cep: '09876-900',
+  //       capacidade_max: 10000
+  //     },
+  //     nome: 'SETOR B',
+  //     preco: 50
+  //   },
+  //   {
+  //     id: this.id++,
+  //     capacidadeMax: 300,
+  //     local: {
+  //       id: 1,
+  //       nome: 'Teatro Riachuelo',
+  //       uf: 'RN',
+  //       cidade: 'Natal',
+  //       endereco: 'Av. Arnaldo Antunes, 905',
+  //       bairro: 'Centro',
+  //       cep: '09876-900',
+  //       capacidade_max: 10000
+  //     },
+  //     nome: 'SETOR C',
+  //     preco: 60
+  //   },
+  //   {
+  //     id: this.id++,
+  //     capacidadeMax: 100,
+  //     local: {
+  //       id: 1,
+  //       nome: 'Teatro Riachuelo',
+  //       uf: 'RN',
+  //       cidade: 'Natal',
+  //       endereco: 'Av. Arnaldo Antunes, 905',
+  //       bairro: 'Centro',
+  //       cep: '09876-900',
+  //       capacidade_max: 10000
+  //     },
+  //     nome: 'SETOR D',
+  //     preco: 100
+  //   }    
+  // ];
 
   // getEventoByArtista(artista: string){
   //   this.eventos = this.getAllEventos();
@@ -149,7 +149,7 @@ export class EventosService {
 
       loading.present()
       .then(() => {
-        fetch('https://hgt-events.herokuapp.com/api/eventos')
+        fetch('https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/eventos')
         .then(resp => resp.json())
         .then(json => {
           loading.dismiss();

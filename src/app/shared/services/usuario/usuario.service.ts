@@ -42,7 +42,6 @@ export class UsuarioService {
         fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
         .then(resp => resp.json())
         .then(json => {
-          debugger;
           let arrayUsuario = json['hydra:member'];
           if(arrayUsuario.length > 0){
             resolve(arrayUsuario[0]);
@@ -53,7 +52,6 @@ export class UsuarioService {
           }
         })
         .catch(err => {
-          debugger;
           reject(err);
           loading.dismiss();
         });
@@ -67,32 +65,40 @@ export class UsuarioService {
     });
   }
 
-  async createUser(usuario: any): Promise<any>{
-    return new Promise(async (resolve, reject) => {
-      let loading = await this.loadingController.create({
-        message: 'Cadastrando...',
-        keyboardClose: true,
-        showBackdrop: true,
-        animated: true
-      });
-      loading.present()
-      .then(() => {
-        fetch('https://hgt-events.herokuapp.com/api/usuarios', {
-          method: 'post',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(usuario)
-        })
-        .then(response => resolve(response))
-        .catch(err => reject(err))
-        .finally(() => loading.dismiss());
+createUser(usuario: any): Promise<any>{
+  return new Promise(async (resolve, reject) => {
+    debugger;
+    console.log(usuario);
+    let loading = await this.loadingController.create({
+      message: 'Cadastrando...',
+      keyboardClose: true,
+      showBackdrop: true,
+      animated: true
+    });
+    loading.present()
+    .then(() => {
+      fetch('https://hgt-events.herokuapp.com/api/usuarios', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(usuario)
+      })
+      .then(response => {
+        debugger;
+        resolve(response);
+      })
+      .catch(err => {
+        debugger;
+        reject(err);
+      })
+      .finally(() => loading.dismiss());
       }); 
     });
   }
 
-  async login(email: string, senha: string): Promise<any>{
+  login(email: string, senha: string): Promise<Usuarios>{
     return new Promise(async (resolve, reject) => {
         let loading = await this.loadingController.create({
           message: 'Entrando...',
@@ -102,31 +108,28 @@ export class UsuarioService {
           duration: 2000
         });
         loading.present()
-        .then(() => {
-          let usuario: Usuarios = {
-            id: 1,
-            primeiroNome: 'leonardo',
-            sobrenome: 'bergamini',
-            cpf: '36980235800',
-            cep: '02326000',
-            cidade: 'são paulo',
-            complemento: '',
-            dtNascimento: '24/04/1995',
-            email: 'leonardo@gmail.com',
-            imgPerfil: '',
-            logradouro: 'rua arley gilberto de araujo',
-            numero: '04',
-            senha: 'leonardo',
-            telefone: '11940040876',
-            uf: 'sp',
-            usuario: 'berganardo'
-          }
-          localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-          localStorage.setItem('isUsuarioLogado', 'true');
-          this.router.navigate(['menu-logado/explorar']);
-          resolve();
+        .then(() => {    
+          fetch(`https://cors-anywhere.herokuapp.com/https://hgt-events.herokuapp.com/api/usuarios/?email=${email}`)
+          .then(resp => resp.json())
+          .then(json => {
+            let usuario = json['hydra:member'][0];
+            if(usuario){
+              localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+              localStorage.setItem('isUsuarioLogado', 'true');
+              this.router.navigate(['menu-logado/explorar']);
+              resolve(usuario)
+              loading.dismiss();
+            }else{
+              reject('Usuário não encontrado.');
+              loading.dismiss();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            reject('Erro ao efetuar login. Tente novamente.');
+            loading.dismiss();
+          })
         });
-        loading.dismiss();
       // this.usuarioLogado.email = email;
       // this.usuarioLogado.senha = senha;
       // this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.usuarioLogado)));
@@ -140,5 +143,7 @@ export class UsuarioService {
     localStorage.removeItem('detalhe-evento');
     localStorage.removeItem('detalhe-pedido');
     localStorage.removeItem('isUsuarioLogado');
+    localStorage.removeItem('anunciosPorEvento');
+    localStorage.removeItem('eventoSelecionado');
   }
 }

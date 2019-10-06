@@ -1,10 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import * as $ from 'jquery';
 import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
 import { ModalController, NavController } from '@ionic/angular';
-import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
@@ -12,7 +11,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
   templateUrl: './lista-categorias.component.html',
   styleUrls: ['./lista-categorias.component.scss'],
 })
-export class ListaCategoriasComponent  {
+export class ListaCategoriasComponent implements OnInit  {
   
   @Input() categorias: string[];
   eventos: Eventos[];
@@ -21,14 +20,16 @@ export class ListaCategoriasComponent  {
   slidesOpts = {
     slidesPerView: 4, 
   }
-
+  
   constructor(
     private eventoService: EventosService,
     private keyboard: Keyboard,
     private navCtrl: NavController
-    ) {
-    // this.filtrarCategorias('show');
-   }
+    ) { }
+    
+  ngOnInit(){
+    // this.filtrarCategorias('música');
+  }
 
   ativarItem(event){
     // debugger;
@@ -63,7 +64,11 @@ export class ListaCategoriasComponent  {
   async exibirDetalhes(evento){
     this.keyboard.hide();
     localStorage.setItem('detalhe-evento', JSON.stringify(evento));
-    this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}`);
+    if(!Boolean(localStorage.getItem('isUsuarioLogado'))){
+      this.navCtrl.navigateForward(`menu/explorar/detalhe-evento/${evento.id}`);
+    }else{
+      this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}`);
+    }
     // const modal = await this.modalController.create({
     //   component: EventoDetalhePage,
     //   componentProps: {

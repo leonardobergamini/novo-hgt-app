@@ -16,6 +16,7 @@ export class AnunciosPage implements OnInit {
 
   private anuncios: Anuncios[] = [];
   private id: number;
+  private usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   constructor(
     private modalController: ModalController,
@@ -43,21 +44,24 @@ export class AnunciosPage implements OnInit {
   }
 
   comprar(anuncio){
-    if(anuncio.usuario === '/api/usuarios/1'){
+    if(anuncio.usuario === this.usuarioLogado['@id']){
       this.exibirToast('Esse ingresso já é seu.', null);
     }else{
       console.log(anuncio);
-      this.storage.remove('eventoSelecionado')
-      .then(resp => {console.log('Excluindo storage...');});
-      let eventoComSetoresSelecionado: EventoSetoresSelecionado = {
+      let eventoComSetoresSelecionado = {
+        anuncio: anuncio.id,
         evento: anuncio.ticket.idevento,
-        qtdIngressos: 1,
-        setores: anuncio.setor,
-        valorTotal: anuncio.preco
+        setores: [{setor: anuncio.ticket. setor, preco: anuncio.preco, contador: 1}],
+        valorTotal: anuncio.preco,
+        qtdIngressos: 1
       }
-      this.storage.set('eventoSelecionado', eventoComSetoresSelecionado);
+      localStorage.removeItem('eventoSelecionado');
+      localStorage.setItem('eventoSelecionado', JSON.stringify(eventoComSetoresSelecionado));
       this.router.navigate(['/menu-logado/efetuar-compra']);
       // this.exibirToast('Ingresso comprado com sucesso.', 'md-checkmark');
+      // console.log(anuncio);
+      // this.storage.remove('eventoSelecionado')
+      // .then(resp => {console.log('Excluindo storage...');});
     }
   }
 

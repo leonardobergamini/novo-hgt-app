@@ -5,10 +5,8 @@ import { Eventos } from '../../models/eventos/eventos';
 import { EventosService } from '../../services/eventos/eventos.service';
 import { EventEmitter } from 'events';
 import { ModalController, NavController } from '@ionic/angular';
-import { EventoDetalhePage } from '../../../shared/telas/eventos/evento-detalhe/evento-detalhe.page';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
-import { Storage } from '@ionic/storage';
-import { ListaCategoriasComponent } from '../lista-categorias/lista-categorias.component';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'card-slide',
@@ -68,8 +66,7 @@ export class CardSlideComponent implements OnInit{
   constructor(
     private eventoService: EventosService,
     private keyboard: Keyboard,
-    private navCtrl: NavController,
-    private storage: Storage
+    private navCtrl: NavController
   ) {}
 
   ngOnInit(){
@@ -81,38 +78,22 @@ export class CardSlideComponent implements OnInit{
       this.getNovosEventos();
     }
   }
-  
-  // eventoClick(evento){
-  //   this.eventoClicado.emit(evento);
-  //   this.exibirDetalhes(evento);
-  // }
 
   carregarEventos(){
-    this.storage.get('eventos')
+    this.eventoService.getAllEventos()
     .then(resp => {
       this.eventos = resp;
+      $('#música').click();
     })
-    // this.eventoService.getAllEventos()
-    // .then(resp => {
-    //   this.eventos = resp;
-    //   this.storage.set('eventos', this.eventos);
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    // });
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   async exibirDetalhes(evento){
     this.keyboard.hide();
     localStorage.setItem('detalhe-evento', JSON.stringify(evento));
     this.navCtrl.navigateForward(`menu-logado/explorar/detalhe-evento/${evento.id}`);
-    // const modal = await this.modalController.create({
-    //   component: EventoDetalhePage,
-    //   componentProps: {
-    //     'eventoSelecionado': evento
-    //   }
-    // });
-    // return await modal.present();
   }
 
   getNovosEventos(){

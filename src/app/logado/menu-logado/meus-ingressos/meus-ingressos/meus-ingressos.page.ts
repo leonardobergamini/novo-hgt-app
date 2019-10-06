@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { NavController, ModalController, IonSegment } from '@ionic/angular';
+import { NavController, ModalController, IonSegment, ActionSheetController, AlertController } from '@ionic/angular';
 
 import { TicketsService } from 'src/app/shared/services/tickets/tickets.service';
 import { Tickets } from 'src/app/shared/models/tickets/tickets';
@@ -20,6 +20,7 @@ export class MeusIngressosPage implements OnInit {
   private tickets: Tickets[] = [];
   private qtdTickets: number = 0;
   public ticketsPorPedido: TicketsPedido[] = [];
+  public ticketsPresente = [];
   @ViewChild('formSlides') formSlides;
 
   constructor(
@@ -27,18 +28,13 @@ export class MeusIngressosPage implements OnInit {
     private ticketService: TicketsService,
     private pedidoService: PedidoService,
     private modalController: ModalController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private actionSheetController: ActionSheetController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() { 
-    this.pedidoService.getTicketsPedidoByUsuarioLogado()
-    .then(resp => {
-      this.ticketsPorPedido = resp;
-      console.log(resp);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    this.atualizarTela(null);
   }
 
   selecionar(aba: string){
@@ -55,11 +51,72 @@ export class MeusIngressosPage implements OnInit {
     }
   }
 
-
   ionViewWillEnter(){
     this.statusBar.backgroundColorByHexString('#fff');
     this.statusBar.styleDefault();
     // this.formSlides.lockSwipeToNext();
+  }
+
+  async onPress(pedido){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Ações',
+      buttons: [ 
+      {
+        text: 'Cancelar pedido',
+        handler: () => {
+          if(pedido){
+            // localStorage.setItem('ticket', JSON.stringify(ticket));
+            // this.navCrtl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/revender/${this.arrayTickets.pedido}`);
+            this.alertController.create({
+              header: 'Cancelamento de pedido.',
+              animated: true,
+              message: 'Confirma o cancelamento do pedido?',
+              buttons: [
+                {
+                  text: 'Não',
+                  cssClass: 'secondary',
+                  role: 'cancel',
+                  handler: () => {
+                    return false;
+                  }
+                },
+                {
+                  text: 'Sim',
+                  handler: () => {
+                    // return true;
+                    this.pedidoService.cancelarPedido(pedido)
+                    .then(resp => {
+                      if(resp){
+                        console.log('cancelou');
+                        this.atualizarTela(null);
+                      }else{
+                        console.log('não cancelou');
+                      }
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    })
+                  }
+                } 
+              ]
+            }).then(alert => {
+              alert.present();
+            }).catch(err => {
+              console.log(err);
+            });
+          };
+        }
+      }, 
+      {
+        text: 'Fechar',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('fechar clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
   
   atualizarTela(event){
@@ -67,6 +124,14 @@ export class MeusIngressosPage implements OnInit {
     .then(resp => {
       this.ticketsPorPedido = resp;
       console.log(resp);
+      this.ticketService.verificaPresente()
+      .then(resp => {
+        this.ticketsPresente = resp;
+        console.log(resp);
+      })
+      .catch(err => {
+        console.log(err);
+      })
     })
     .catch(err => {
       console.log(err);
@@ -74,10 +139,20 @@ export class MeusIngressosPage implements OnInit {
 
     event.target.complete();
   }
-  async selecionarPedido(param, i){
+  
+  selecionarPedido(param, i){
     if(param){
+      localStorage.removeItem('detalhe-pedido');
       localStorage.setItem('detalhe-pedido', JSON.stringify(param));
       this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${param.pedido}`)
+    }
+  }
+  
+  selecionarTicket(ticket){
+    if(ticket){
+      localStorage.removeItem('detalhe-pedido');
+      localStorage.setItem('detalhe-pedido', JSON.stringify(ticket));
+      this.navCtrl.navigateForward(`menu-logado/meus-ingressos/detalhe-pedido/${ticket.id}`);
     }
   }
 

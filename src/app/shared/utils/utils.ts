@@ -23,24 +23,22 @@ export class Utils {
   }
 
   static inicializaUsuario(user: any){
+    debugger;
     let usuarioFormatado: any;
     return usuarioFormatado = {
-      id: 0,
-      primeiroNome: user.primeiro_nome,
-      sobrenome: user.sobrenome,
-      email: user.email,
-      senha: user.senha,
-      cep: 'null',
-      cidade: 'null',
-      complemento: 'null',
-      cpf: 'null',
-      dtNascimento: '1900-01-01',
-      imgPerfil: 'null',
-      logradouro: 'null',
-      numero: 'null',
-      telefone: 'null',
-      uf: 'null',
-      usuario: 'null'
+      primeiroNome: user.primeiro_nome.toLowerCase(),
+      sobrenome: user.sobrenome.toLowerCase(),
+      email: user.email.toLowerCase(),
+      password: user.senha,
+      dtNascimento: "1994-12-15",
+      cpf: "00000000000",
+      telefone: "00000000000",
+      logradouro: "null",
+      numero: "0",
+      complemento: "null",
+      cep: "00000000",
+      cidade: "null",
+      uf: "null"
     }
   }
 

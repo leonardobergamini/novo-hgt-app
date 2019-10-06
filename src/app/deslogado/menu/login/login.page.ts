@@ -104,17 +104,20 @@ export class LoginPage implements OnInit {
 
   async onSubmitLogin(){
     if(!this.formLogin.valid){
-      console.log('Há erros no form de login');
       this.exibirErro('Há erros no formulário. Verique-o e tente novamente.', 'md-close-circle');
       this.formSlides.slideTo(0);
     }else{
       this.usuarioService.login(this.formLogin.get('email').value, this.formLogin.get('senha').value)
       .then(resp => {
-        console.log(resp);     
+        if(resp){
+          console.log(resp);     
+        }else{
+          this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
+        }
       })
       .catch(err => {
         console.log(err);
-        if(err.code) this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
+        this.exibirErro('Usuário ou senha inválidos. Tente novamente.', 'md-close-circle');
       });
     }
   }
@@ -129,7 +132,7 @@ export class LoginPage implements OnInit {
       .then(resp => {
         if(resp.status == 200 || resp.status == 201){
           this.storage.set('usuario', JSON.stringify(Utils.inicializaUsuario(this.formCadastro.value)));
-          this.exibirErro('Cadastro feito com sucesso!', 'md-mark-circle');
+          this.exibirErro('Cadastro feito com sucesso!', 'md-checkmark');
           $('#formularioCadastro').trigger('reset');
           this.prev();
         }else{

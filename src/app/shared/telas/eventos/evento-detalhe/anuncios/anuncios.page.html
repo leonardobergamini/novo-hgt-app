@@ -21,7 +21,7 @@
                 <div>
                     <ion-text>Data: {{anuncio.ticket.idevento.dtinicioevento | date:'dd/MM/yyyy'}} - {{anuncio.ticket.idevento.horainicioevento | date:'hh:mm'}} às {{anuncio.ticket.idevento.horafimevento | date:'hh:mm'}}</ion-text>
                 </div>
-                <div class="margem-cima10" *ngIf="anuncio.usuario == '/api/usuarios/1'">
+                <div class="margem-cima10" *ngIf="anuncio.usuario == usuarioLogado['@id']">
                     <p>
                         <ion-icon name="star" color="medium" slot="start"></ion-icon>
                         Esse anúncio é seu.

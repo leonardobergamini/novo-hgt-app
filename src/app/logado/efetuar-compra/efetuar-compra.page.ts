@@ -10,6 +10,7 @@ import { PedidoService } from 'src/app/shared/services/pedidos/pedido.service';
 import * as $ from 'jquery';
 import { FormasPagamento } from 'src/app/shared/models/formas-pagamento/formas-pagamento';
 import { Utils } from 'src/app/shared/utils/utils';
+import { AnunciosService } from 'src/app/shared/services/anuncios/anuncios.service';
 
 @Component({
   selector: 'app-efetuar-compra',
@@ -17,7 +18,7 @@ import { Utils } from 'src/app/shared/utils/utils';
   styleUrls: ['./efetuar-compra.page.scss'],
 })
 export class EfetuarCompraPage implements OnInit {
-  private eventoSelecionado: EventoSetoresSelecionado = null;
+  private eventoSelecionado = null;
   private formaPagamentoSelecionada: FormasPagamento;
 
   constructor(
@@ -25,7 +26,8 @@ export class EfetuarCompraPage implements OnInit {
     private navCtrl: NavController,
     private statusBar: StatusBar,
     private formaPagamentoService: FormaPagamentoService,
-    private pedidoService: PedidoService
+    private pedidoService: PedidoService,
+    private anuncioService: AnunciosService
   ) { }
 
   ngOnInit() { }
@@ -35,47 +37,68 @@ export class EfetuarCompraPage implements OnInit {
     this.statusBar.styleDefault();
     localStorage.removeItem('efetuar-compra-back');
     this.setBotaoConfirmar();
-    this.getStoragePedido()
+    
+    this.eventoSelecionado = JSON.parse(localStorage.getItem('eventoSelecionado'));
+    this.formaPagamentoService.getAll()
     .then(resp => {
-      this.eventoSelecionado = resp;
-      this.formaPagamentoService.getFormaPagamentoAtiva()
-      .then(resp => {
-        this.formaPagamentoSelecionada = resp;
-        this.formaPagamentoSelecionada.cartao = Utils.escondeNroCartao(this.formaPagamentoSelecionada.cartao);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-      // this.formaPagamentoSelecionada = this.formaPagamentoService.formasPagamento;
+      this.formaPagamentoSelecionada = resp;
+      this.formaPagamentoSelecionada.cartao = Utils.escondeNroCartao(this.formaPagamentoSelecionada.cartao);
+    })
+    .catch(err => {
+      console.log(err);
     });
   }
 
   confirmarPedido(){
-    let pedidoConfirmado = {
-      evento: this.eventoSelecionado.evento,
-      setores: this.eventoSelecionado.setores,
-      valorTotal: this.eventoSelecionado.valorTotal,
-      formaPagamento: this.formaPagamentoSelecionada,
-      qtdIngressos: this.eventoSelecionado.qtdIngressos
-    };
-    console.log(pedidoConfirmado);
-    this.pedidoService.create(pedidoConfirmado)
-    .then(resp => {
-      console.log(resp);
-      this.navCtrl.navigateForward('menu-logado/meus-ingressos');
-    })
-    .catch(err => {
-      console.log(err);
-    })
-  }
-
-  getStoragePedido(): Promise<EventoSetoresSelecionado>{
-    return new Promise((resolve, reject) => {
-      this.storage.get('eventoSelecionado')
+    debugger;
+    if(this.eventoSelecionado.anuncio){
+      let pedidoConfirmado = {
+        evento: this.eventoSelecionado.evento,
+        setores: this.eventoSelecionado.setores,
+        valorTotal: this.eventoSelecionado.valorTotal,
+        formaPagamento: this.formaPagamentoSelecionada,
+        qtdIngressos: this.eventoSelecionado.qtdIngressos,
+        anuncio: this.eventoSelecionado.anuncio
+      };
+      console.log(pedidoConfirmado);
+      this.pedidoService.create(pedidoConfirmado)
       .then(resp => {
-        resolve(resp);
-      });
-    })
+        debugger;
+        console.log(resp);
+
+        this.anuncioService.finalizarAnuncio(this.eventoSelecionado.anuncio)
+        .then(() => {
+          debugger;
+          this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+    }else{
+      let pedidoConfirmado = {
+        evento: this.eventoSelecionado.evento,
+        setores: this.eventoSelecionado.setores,
+        valorTotal: this.eventoSelecionado.valorTotal,
+        formaPagamento: this.formaPagamentoSelecionada,
+        qtdIngressos: this.eventoSelecionado.qtdIngressos
+      };
+      console.log(pedidoConfirmado);
+      this.pedidoService.create(pedidoConfirmado)
+      .then(resp => {
+        debugger;
+        console.log(resp);
+        this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    }
   }
 
   setBotaoConfirmar(){
@@ -84,6 +107,7 @@ export class EfetuarCompraPage implements OnInit {
 
   voltar(){
     this.navCtrl.navigateBack(`menu-logado/explorar/detalhe-evento/${this.eventoSelecionado.evento.id}`);
+    localStorage.removeItem('eventoSelecionado');
   }
 
   abrirFormaPagamentoPage(){

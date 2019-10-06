@@ -42,7 +42,7 @@
                 <ng-template #semAtivos>
                     <ion-list lines="inset" mode="ios" inset="true">
                         <ion-item mode="ios">
-                            <ion-label>sem ingressos ativos...</ion-label>
+                            <ion-label>sem anúncios ativos...</ion-label>
                         </ion-item>
                     </ion-list>
                 </ng-template>
@@ -53,10 +53,13 @@
                 <div *ngIf="arrayAnunciosVendidos.length > 0; else semVendidos">
                     <ion-item *ngFor="let anuncio of arrayAnunciosVendidos" mode="ios">
                         <ion-label>
-                            <p>anúncio #000{{anuncio.id}}</p>
+                            <div>
+                                <p class="ion-text-center fonte-tamanho16">anúncio #000{{anuncio.id}}</p>
+                                <p>ticket #000{{anuncio.idticket.id}}</p>
+                            </div>
                             <h2>{{anuncio.idticket.idevento.nome}}</h2>
                             <h3>Preço vendido: {{anuncio.preco | currency: 'BRL'}}</h3>
-                            <h3>Data da venda: 26/09/2019</h3>
+                            <!-- <h3>Data da venda: 26/09/2019</h3> -->
                         </ion-label>
                     </ion-item>
                 </div>
