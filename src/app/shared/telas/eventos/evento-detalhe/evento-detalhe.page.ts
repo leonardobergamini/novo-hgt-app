@@ -36,10 +36,8 @@ export class EventoDetalhePage implements OnInit {
   @Input() eventos: Eventos;
 
   constructor(
-    private modalCtrl: ModalController,
     private navCtrl: NavController,
     private router: Router,
-    private storage: Storage,
     private statusBar: StatusBar,
     private activatedRoute: ActivatedRoute,
     private anuncioService: AnunciosService,
@@ -53,7 +51,10 @@ export class EventoDetalhePage implements OnInit {
     .then(resp => {
       console.log(resp);
       this.arrayAnuncios = resp;
-      this.arrayAnuncios.length ? this.temAnuncio = true : this.temAnuncio = false;
+
+      this.arrayAnuncios.forEach(anuncio => {
+        anuncio.isvendido == false ? this.temAnuncio = true : null;
+      });
     })
     .catch(err => {
       console.log(err);
@@ -68,6 +69,7 @@ export class EventoDetalhePage implements OnInit {
   }
 
   ionViewDidEnter(){ 
+    this.statusBar.styleBlackTranslucent();
     this.removerValorTotalNoBotao();
     this.arraySomenteSetoresSelecionados = [];
     // this.id = Number(this.activatedRoute.snapshot.paramMap.get('idEvento'));
