@@ -45,6 +45,8 @@ export class EventoDetalhePage implements OnInit {
   ){ }
 
   ngOnInit() {
+    this.removerValorTotalNoBotao();
+    
     this.evento = JSON.parse(localStorage.getItem('detalhe-evento'))
     this.arrayAnuncios = [];
     this.anuncioService.getAllByEvento(this.evento.id)
@@ -181,5 +183,8 @@ export class EventoDetalhePage implements OnInit {
     $('.btnComprar').attr('color', 'primary').text('garanta seu ingresso');
   }
 
+  redirecionaLogin(){
+    this.navCtrl.navigateForward('menu/login');
+  }
 
 }

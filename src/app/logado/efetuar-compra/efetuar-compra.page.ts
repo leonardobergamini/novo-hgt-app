@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { QuantidadeIngressoSetor } from 'src/app/shared/interfaces/quantidade-ingresso-setor/quantidade-ingresso-setor';
 import { FormaPagamentoService } from 'src/app/shared/services/formas-pagamento/forma-pagamento.service';
@@ -27,7 +27,8 @@ export class EfetuarCompraPage implements OnInit {
     private statusBar: StatusBar,
     private formaPagamentoService: FormaPagamentoService,
     private pedidoService: PedidoService,
-    private anuncioService: AnunciosService
+    private anuncioService: AnunciosService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() { }
@@ -51,53 +52,57 @@ export class EfetuarCompraPage implements OnInit {
 
   confirmarPedido(){
     debugger;
-    if(this.eventoSelecionado.anuncio){
-      let pedidoConfirmado = {
-        evento: this.eventoSelecionado.evento,
-        setores: this.eventoSelecionado.setores,
-        valorTotal: this.eventoSelecionado.valorTotal,
-        formaPagamento: this.formaPagamentoSelecionada,
-        qtdIngressos: this.eventoSelecionado.qtdIngressos,
-        anuncio: this.eventoSelecionado.anuncio
-      };
-      console.log(pedidoConfirmado);
-      this.pedidoService.create(pedidoConfirmado)
-      .then(resp => {
-        debugger;
-        console.log(resp);
-
-        this.anuncioService.finalizarAnuncio(this.eventoSelecionado.anuncio)
-        .then(() => {
+    if(this.formaPagamentoSelecionada != null || this.formaPagamentoSelecionada != undefined){
+      if(this.eventoSelecionado.anuncio){
+        let pedidoConfirmado = {
+          evento: this.eventoSelecionado.evento,
+          setores: this.eventoSelecionado.setores,
+          valorTotal: this.eventoSelecionado.valorTotal,
+          formaPagamento: this.formaPagamentoSelecionada,
+          qtdIngressos: this.eventoSelecionado.qtdIngressos,
+          anuncio: this.eventoSelecionado.anuncio
+        };
+        console.log(pedidoConfirmado);
+        this.pedidoService.create(pedidoConfirmado)
+        .then(resp => {
           debugger;
-          this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+          console.log(resp);
+  
+          this.anuncioService.finalizarAnuncio(this.eventoSelecionado.anuncio)
+          .then(() => {
+            debugger;
+            this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+          })
+          .catch(err => {
+            console.log(err);
+          });
         })
         .catch(err => {
           console.log(err);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      })
-
+        })
+  
+      }else{
+        let pedidoConfirmado = {
+          evento: this.eventoSelecionado.evento,
+          setores: this.eventoSelecionado.setores,
+          valorTotal: this.eventoSelecionado.valorTotal,
+          formaPagamento: this.formaPagamentoSelecionada,
+          qtdIngressos: this.eventoSelecionado.qtdIngressos
+        };
+        console.log(pedidoConfirmado);
+        this.pedidoService.create(pedidoConfirmado)
+        .then(resp => {
+          debugger;
+          console.log(resp);
+          this.navCtrl.navigateForward('menu-logado/meus-ingressos');
+          
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      }
     }else{
-      let pedidoConfirmado = {
-        evento: this.eventoSelecionado.evento,
-        setores: this.eventoSelecionado.setores,
-        valorTotal: this.eventoSelecionado.valorTotal,
-        formaPagamento: this.formaPagamentoSelecionada,
-        qtdIngressos: this.eventoSelecionado.qtdIngressos
-      };
-      console.log(pedidoConfirmado);
-      this.pedidoService.create(pedidoConfirmado)
-      .then(resp => {
-        debugger;
-        console.log(resp);
-        this.navCtrl.navigateForward('menu-logado/meus-ingressos');
-        
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      this.exibirToast('Sem forma de pagamento selecionada.', 'md-close-circle');
     }
   }
 
@@ -113,5 +118,23 @@ export class EfetuarCompraPage implements OnInit {
   abrirFormaPagamentoPage(){
     localStorage.setItem('efetuar-compra-back', JSON.stringify({rota:'menu-logado/efetuar-compra'}));
     this.navCtrl.navigateForward('menu-logado/perfil/formas-pagamento');
+  }
+
+  exibirToast(msg: string, icone: string){
+    const toast = this.toastController.create({
+      color: 'dark',
+      duration: 3000,
+      message: msg,
+      closeButtonText: 'fechar',
+      showCloseButton: true,
+      buttons: [
+        {
+          side: 'start',
+          icon: icone
+        }
+      ]
+    }).then(toastData => {
+      toastData.present();
+    });  
   }
 }
