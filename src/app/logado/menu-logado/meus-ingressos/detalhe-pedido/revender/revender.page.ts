@@ -45,6 +45,13 @@ export class RevenderPage implements OnInit {
     console.log(this.ticket);
   }
 
+  calculaValorLiquido(event){
+    let valorRevenda: number = event.target.value
+    console.log(valorRevenda);
+    valorRevenda == 0 ? this.valorLiquidoVenda = 0.00 : this.valorLiquidoVenda = valorRevenda - (valorRevenda * 0.1);
+    
+  }
+
   onSubmitRevender(){
     if(this.formRevender.valid){
       this.alertController.create({

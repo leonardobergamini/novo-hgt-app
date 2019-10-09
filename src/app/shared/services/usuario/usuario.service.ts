@@ -114,6 +114,15 @@ createUser(usuario: any): Promise<any>{
           .then(json => {
             let usuario = json['hydra:member'][0];
             if(usuario){
+              //limpa cache
+              localStorage.removeItem('usuarioLogado');
+              localStorage.removeItem('detalhe-evento');
+              localStorage.removeItem('detalhe-pedido');
+              localStorage.removeItem('isUsuarioLogado');
+              localStorage.removeItem('anunciosPorEvento');
+              localStorage.removeItem('eventoSelecionado');
+
+              
               localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
               localStorage.setItem('isUsuarioLogado', 'true');
               this.router.navigate(['menu-logado/explorar']);
